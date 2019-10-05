@@ -1,0 +1,48 @@
+doctype html
+html(lang="es", dir="ltr")
+    head
+        meta(name="viewport", content="width=device-width, user-scalable=yes, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.0")
+        meta(charset="utf-8")
+        <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+        link(rel="stylesheet", type="text/css", href="main.css")
+    body
+        div.main
+            div.bar 
+                img.bar__icon(src="a.svg")
+                img.bar__icon(src="b.svg")
+
+            div.menu
+                div.menu__item#0-0 
+                    img.menu__icon(src="1.svg")
+                    div.menu__content
+                        span.menu__span HOME
+                        span.menu__span HOME
+                div.menu__item#1-0
+                    img.menu__icon(src="2.svg")
+                    div.menu__content
+                        span.menu__span LIKES
+                        span.menu__span LIKES
+                div.menu__item#0-1
+                    img.menu__icon(src="3.svg")
+                    div.menu__content
+                        span.menu__span STATS
+                        span.menu__span STATS
+                div.menu__item#1-1
+                    img.menu__icon(src="4.svg")
+                    div.menu__content
+                        span.menu__span PICTURES
+                        span.menu__span PICTURES
+                div.menu__item#0-2
+                    img.menu__icon(src="5.svg")
+                    div.menu__content
+                        span.menu__span SHARE
+                        span.menu__span SHARE
+                div.menu__item#1-2
+                    img.menu__icon(src="6.svg")
+                    div.menu__content
+                        span.menu__span SETTINGS
+                        span.menu__span SETTINGS
+                
+                div.is-active#current
+                    
+        script(src="main.js")
