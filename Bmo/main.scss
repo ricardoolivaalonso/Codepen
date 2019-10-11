@@ -1,0 +1,381 @@
+/* variables */
+$bg: #FF4E94;
+$black: #001D31;
+$white-1: #FFFFFF;
+$white-2: #88D3E3;
+
+$red-1: #D20066;
+$red-2: #AE0061;
+$red-3: #760A56;
+$red-4: #5F0146;
+
+$yellow-1: #FFC359;
+$yellow-2: #FF813C;
+
+$blue: #00A3D1;
+
+$radius: 20px;
+
+/* Reset */
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+/* Generic */
+body{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $blue;
+    overflow: hidden;
+    font-family: 'Titillium Web', sans-serif;
+    font-size: 48px;
+}
+.pattern{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    &__score{
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        color: darken($blue, 10);
+        line-height: 0;
+    }
+}
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    height: 400px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center 40%;
+
+    animation: bmo .2s linear alternate infinite;
+}
+.bmo{
+    position: relative;
+    width: 61%;
+    height: 55%;
+    border-radius: $radius;
+    background-color: $red-3;
+    &::before{
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 80%;
+        border-radius: $radius;
+        background-color: $red-2;
+    }
+}
+.face{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 8%;
+    left: 10%;
+    width: 61%;
+    height: 49%;
+    border-radius: $radius;
+    background-color: $red-4;
+
+    &::before,
+    &::after{
+        content: '';
+        position: absolute;
+        left: 12%;
+        width: 88%;
+        height: 100%;
+        border-radius: $radius;
+        background-color: $yellow-2;
+    }
+    &::after{
+        left: 20%;
+        bottom: 0;
+        width: 80%;
+        height: 90%;
+        background-color: $yellow-1;
+    }
+    &__eye{
+        width: 8%;
+        height: 23%;
+        background-color: $black;
+        z-index: 1000;
+        animation: eye 4s infinite;
+    }
+    &__mouth{
+        width: 23%;
+        height: 8%;
+        margin: 0 7%;
+        background-color: $black;
+        z-index: 1000;
+    }
+    &__l{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 2000;
+        border-radius: $radius;
+        background-position: 0;
+        background-size: 110%;
+        background-image:
+            linear-gradient(
+                135deg,
+                transparent 15%,
+                rgba($white-1, .5) 15%,
+                rgba($white-1, .5) 40%,
+                transparent 40%,
+                transparent 60%,
+                rgba($white-1, .5) 60%,
+                rgba($white-1, .5) 75%,
+                transparent 75%
+            );
+        animation: light .1s infinite alternate;
+    }
+}
+.control{
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    width: 80%;
+    height: 45%;
+    &__plus{
+        position: absolute;
+        left: 23%;
+        width: 12%;
+        height: 45%;
+        border-radius: 3px;
+        background-color: $white-1;
+        box-shadow:  5px 0px 0 $white-2,
+            8px 2px 0 $red-4,
+            8px -2px 0 $red-4
+        ;
+        &:nth-of-type(2){
+            transform: rotate(90deg);
+            width: 12%;
+            height: 50%;
+            box-shadow:
+                0px -5px 0 $white-2,
+                0px -8px 0 $red-4
+                ;
+        }
+    }
+    &__button{
+        position: absolute;
+        height: 20%;
+        width: 20%;
+        right: 13%;
+        bottom: 53%;
+        border-radius: $radius;
+        background-color: $white-1;
+        box-shadow:
+            inset -5px 0px 0 $white-2,
+            4px 2px 0 $red-4,
+            4px -2px 0 $red-4
+        ;
+        &:nth-of-type(4){
+            bottom: 30%;
+            right: 28%;
+        }
+    }
+}
+.arm{
+    position: absolute;
+    top: 60%;
+    right: -15%;
+    width: 31%;
+    height: 13%;
+    border-radius: $radius;
+    background-color: $black;
+    animation: arm-r .1s ease infinite alternate;
+
+    &::before{
+        content: '';
+        position: absolute;
+        right: 0;
+        width: 50%;
+        height: 100%;
+        background-color: $yellow-1;
+        border-radius: 50%;
+    }
+    &-l{
+        left: -20%;
+        transform: rotateZ(180deg);
+        z-index: -1;
+        animation: arm-l .1s ease infinite alternate;
+        &::before{ left: 0; }
+    }
+}
+.leg{
+    position: absolute;
+    bottom: -8%;
+    left: 25%;
+    width: 17%;
+    height: 8%;
+    background-color: $black;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    z-index: -1;
+}
+.leg-l{
+    animation: leg-l .2s linear  infinite;
+}
+.leg-r{
+	left: 65%;
+    animation: leg-r .2s linear  infinite;
+}
+.head{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: -8%;
+    left: 45%;
+    width: 30%;
+    height: 25%;
+    z-index: -1;
+    border-radius: 50%;
+    background-color: $black;
+
+    &::before{
+        content: '';
+        position: absolute;
+        bottom: 60%;
+        width: 25%;
+        height: 100%;
+        border-radius: $radius;
+        background-color: $black;
+        animation: head .1s ease infinite alternate;
+    }
+}
+.line{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 3000;
+    &__1{
+        position: absolute;
+        top: 10%;
+        left: 2%;
+        width: 3%;
+        height: 80%;
+        background-color: $red-1;
+    }
+    &__2{
+        bottom: 3%;
+        right: 30%;
+        width: 28%;
+        height: 5%;
+        background-color: $red-1;
+    }
+    &__3{
+        bottom: 72%;
+        right: 3%;
+        width: 15%;
+        height: 4%;
+        background-color: $red-4;
+
+        &:nth-of-type(4){ bottom: 65%; }
+        &:nth-of-type(5){ bottom: 58%; }
+    }
+}
+.ln{
+    position: absolute;
+    border-radius: $radius;
+}
+.drop{
+    position: absolute;
+    width: 6%;
+    height: 5%;
+    top: 15%;
+    left: 15%;
+    background-color: rgba($blue, .9);
+    border-radius: 100% 0% 60% 40% / 60% 0% 100% 40%;
+    transform: rotateZ(-45deg);
+    z-index: 3000;
+    animation: drop 5s linear infinite;
+}
+.floor{
+    position: absolute;
+    top: calc(50% + 128px);
+    height: 10px;
+    border-radius: 10px;
+    z-index: -1;
+    background-color: darken($blue, 5);
+    animation: floor .1s infinite alternate;
+}
+/**/
+@keyframes floor {
+    0%{ width: 100px; }
+    100%{ width: 165px; }
+}
+@keyframes bmo {
+    0%, 20%{ transform: rotateZ(-3deg);}
+    100%{ transform: rotateZ(3deg); }
+}
+@keyframes arm-r {
+    0%{
+        transform: rotateZ(-25deg);
+        transform-origin: center left;
+    }
+    100%{
+        transform: rotateZ(25deg);
+        transform-origin: center left;
+    }
+}
+@keyframes arm-l {
+    0%{
+        transform: rotateZ(25deg);
+        transform-origin: center right;
+    }
+    100%{
+        transform: rotateZ(-25deg);
+        transform-origin: center right;
+    }
+}
+@keyframes leg-l {
+    0%, 20%{ left: 50%; bottom: 0%;}
+    50%{ left: 20%; bottom: -8%; }
+    100%{ left: 50%; bottom: -8%; }
+}
+@keyframes leg-r {
+    0%, 20%{ left: 40%; bottom: -8%; }
+    50%{ left: 60%; bottom: -8%; }
+    100%{ left: 60%; bottom: 0%;}
+}
+@keyframes head {
+    0%{
+        transform: rotateZ(-20deg);
+        transform-origin: bottom;
+    }
+    100%{
+        transform: rotateZ(20deg);
+        transform-origin: bottom;
+    }
+}
+@keyframes eye {
+    0%,90%{  height: 23%; }
+    100%{ height: 5%}
+}
+@keyframes drop {
+    0%, 50%{ opacity: 0; top: 15%; }
+    80%{ opacity: 1; top: 20%; }
+    100%{ opacity: 0; top: 30%; }
+}
+@keyframes light {
+    0%{ background-position: 0; }
+    100%{ background-position: 100%; }
+}
+@keyframes line{
+    0%{  bottom:  39%; }
+    100%{ bottom: 41%; }
+}

@@ -1,0 +1,64 @@
+doctype html
+html(lang="es", dir="ltr")
+    head
+        meta(name="viewport", content="width=device-width, user-scalable=no, initial-scale=1.0")
+        meta(charset="utf-8")
+        link(rel="stylesheet", type="text/css", href="main.css")
+    body
+        div.main
+            div.house
+                div.floor
+                div.wall
+                    div.window
+                    div.door
+                        div.door__square
+                        div.door__line
+                        div.door__square
+                    div.window
+
+                div.top
+                div.circle
+                div.plastic
+                    div.plastic__g
+                        - var n = 0;
+                            while n < 9
+                                div(class='plastic__item')
+                                - n++
+            
+                div.line 
+                    - var n = 0;
+                        while n < 9
+                            div(class='line__item')
+                            - n++
+            
+            div.clouds 
+                div.cloud
+                    div.cloud__item
+                    div.cloud__item
+                div.cloud
+                    div.cloud__item
+                    div.cloud__item
+                div.cloud
+                    div.cloud__item
+                    div.cloud__item
+                div.bird
+                
+            div.birds
+                div.bird
+                div.bird
+
+            div.tree
+                div.tree__item 
+                div.tree__item 
+                div.tree__item 
+            
+            div.bush
+                div.bush__item
+                div.bush__item
+                
+            div.dot
+                
+                
+                
+        
+            

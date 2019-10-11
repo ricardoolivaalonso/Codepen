@@ -1,0 +1,137 @@
+/* Variables */
+$a-bg-1: #C6C6CE;
+$a-bg-2: #D6D6DE;
+
+$a-switch: #E7E7E7;
+$a-switch-bt: #FFFFFF;
+$a-switch-bb: #D5BFBD;
+$a-switch-sh: #98849B;
+
+$a-tap: #ECECEC;
+$a-led: #40CE98;
+$a-border: 1px solid #BDB5BD;
+
+/**/
+$b-bg-1: #032234;
+$b-bg-2: #000f18;
+
+$b-switch-1: #487492;
+$b-switch-2: #564A91;
+$b-switch-bt: #9EC6B8;
+$b-switch-bm: #416491;
+$b-switch-bb: #8A4B90;
+$b-switch-sh: #000f18;
+
+$b-tap-1: #675489;
+$b-tap-2: #474A81;
+$b-tap-3: #4D5B91;
+
+$b-led: #D27B91;
+$b-border: 1px solid #19265C;
+
+/* Reset */
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    transition: all .025s;
+}
+/* Generic */
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.main{
+    background-image: radial-gradient(circle, $a-bg-1, $a-bg-2);
+    width: 100%;
+    height: 100vh;
+}
+.switch{
+    position: relative;
+    width: 370px;
+    height: 280px;
+    border-radius: 50px;
+    background-image: linear-gradient(to top, $a-switch-bb 30%, $a-switch-bt);
+    box-shadow: 0 10px 15px rgba($a-switch-sh, 1);
+    z-index: 1000;
+    cursor: pointer;
+
+    &__g{
+        width: 360px;
+        height: 270px;
+        background-color: $a-switch;
+        border-radius: 44px;
+    }
+    &__button{
+        flex-direction: column;
+        width: 210px;
+        height: 150px;
+        border-radius: 8px;
+        background-image: linear-gradient(to top, $a-switch-bb 50%, $a-switch-bt);
+        border: $a-border;
+    }
+    &__tap{
+        position: relative;
+        width: 204px;
+        height: 126px;
+        background-color: $a-tap;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px darken($a-switch, 20);
+        z-index: 100;
+    }
+    &__led{
+        position: relative;
+        width: 204px;
+        height: 16px;
+        border-radius: 8px;
+        background-color: $a-switch-bb;
+        &-i{
+            width: 25px;
+            height: 4px;
+            border-radius: 10px;
+            background-color: $a-led;
+        }
+    }
+}
+.shadow{
+    position: absolute;
+    top: 50%;
+    width: 370px;
+    height: 200px;
+    background-image: linear-gradient(to bottom, rgba($a-switch-sh, 1), rgba($a-switch-sh, 0));
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 25px;
+}
+/* Modificadore */
+.m-night{
+    background-image: radial-gradient(circle, $b-bg-1, $b-bg-2);
+}
+.s-night{
+    background-image: linear-gradient(to top, $b-switch-bb, $b-switch-bm 40%, $b-switch-bm 85%, $b-switch-bt );
+    box-shadow: 0 10px 15px rgba($b-switch-sh, 1);
+}
+.g-night{
+    background-image: linear-gradient(to bottom, $b-switch-1, $b-switch-2 90%);
+}
+.b-night{
+    background-image: linear-gradient(to top, $b-switch-bb, $b-switch-bm 40%, $b-switch-bm 50%, lighten($b-switch-bt, 17) );
+    border: $b-border;
+    flex-direction:column-reverse;
+    box-shadow: inset 0 4px 5px $b-switch-bm ;
+}
+.t-night{
+    background-image: linear-gradient(to top, $b-tap-3, $b-tap-2 30%, $b-tap-2 85%, $b-tap-1 );
+    box-shadow: none;
+}
+.l-night{
+    background-color: $b-switch-bt;
+    background: none;
+}
+.li-night{
+    background-image: linear-gradient(to top, $b-led, darken($b-led, 10) );
+}
+.sh-night{
+    background-image: linear-gradient(to bottom, rgba($b-switch-sh, 1), rgba($b-switch-sh, 0) 85% );
+    height: 225px;
+}

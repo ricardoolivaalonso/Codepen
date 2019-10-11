@@ -1,0 +1,224 @@
+/* Variables */
+$body: #E1E9EF;
+
+$abg1: #28D7CF;
+$abg2: #8CECD8;
+$a1: #55DED5;
+$a2: #00CFCF;
+$a3: #1C84A6;
+$a4: #40557C;
+$a5: #47466B;
+
+$bbg1: #93A2AF;
+$bbg2: #DDD2D5;
+$b1: #AEB7BE;
+$b2: #6F8A9C;
+$b3: #205A6E;
+$b4: #3A405A;
+$b5: #453750;
+
+/* Reset */
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+/* Generic */
+body{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $body;
+    font-family: 'PT Sans', sans-serif;
+    color: white;
+    user-select: none;
+}
+h1, h2, h4{
+	font-size: 30px;
+    font-weight: normal;
+    letter-spacing: 5px;
+    text-shadow: 0 0 2px rgba(black, .1);
+}
+h4, h2{
+    letter-spacing: 4px;
+    font-size: 16px;
+
+}
+h2{
+    position: relative;
+    bottom: -355px;
+    z-index: 200;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+sup{ font-size: 6px;}
+
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 800px;
+    height: 600px;
+    position: relative;
+}
+.card{
+    width: 280px;
+    height: 480px;
+    position: relative;
+    margin: 0 20px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(black, .35);
+    transition: .15s ease;
+    background-image: linear-gradient(to bottom, $abg1 , $abg2 40%);
+
+    &--b{ background-image: linear-gradient(to bottom, $bbg1 , $bbg2 40%); }
+
+    &__m{
+        z-index: 100;
+        position: absolute;
+        transform: rotateZ(135deg) skew(20deg, 20deg);
+        &--1{
+            top: 220px;
+            left: -235px;
+            width: 500px;
+            height: 500px;
+            background-color: $a1;
+            transition: .2s ease-in;
+        }
+        &--2{
+            top: 220px;
+            left: -135px;
+            width: 500px;
+            height: 500px;
+            background-color: $a2;
+            transition: .15s ease-in;
+        }
+        &--3{
+            top: 220px;
+            left: 100px;
+            width: 500px;
+            height: 500px;
+            background-color: $a3;
+            transition: .1s ease-in;
+        }
+        &--4{
+            top: 350px;
+            left: -75px;
+            width: 500px;
+            height: 500px;
+            background-color: $a4;
+        }
+        &--5{
+            top: 340px;
+            left: -285px;
+            width: 500px;
+            height: 500px;
+            background-color: $a5;
+        }
+
+        &--b1{ background-color: $b1; }
+        &--b2{ background-color: $b2; }
+        &--b3{ background-color: $b3; }
+        &--b4{ background-color: $b4; }
+        &--b5{ background-color: $b5; }
+    }
+    &__sun{
+        position: absolute;
+        left: 30%;
+        top: 30%;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: $body;
+        transition: .15s ease;
+    }
+    &__txt{
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 25px;
+        left: 25px;
+    }
+    &__star{
+        position: absolute;
+        border-radius: 50%;
+        background-color: rgba($body, 1);
+
+        &--1{
+            height: 5px;
+            width: 5px;
+            top: 30%;
+            left: 80%;
+        }
+        &--2{
+            height: 4px;
+            width: 4px;
+            top: 20%;
+            left: 90%;
+        }
+        &--3{
+            height: 4px;
+            width: 4px;
+            top: 10%;
+            left: 60%;
+        }
+        &--4{
+            height: 3px;
+            width: 3px;
+            top: 25%;
+            left: 50%;
+        }
+        &--5{
+            height: 3px;
+            width: 3px;
+            top: 30%;
+            left: 10%;
+        }
+    }
+    &__fugaz{
+        position: absolute;
+        left: -100px;
+        top: -100px;
+        height: 10px;
+        width: 10px;
+        background-color: rgba($body, .3);
+        border-radius: 50%;
+        transform: rotateZ(20deg);
+        animation: fugaz 8s infinite;
+
+        &::before{
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -50px;
+            width: 60px;
+            height: 16px;
+            background-image: linear-gradient(to left, rgba($body, .3), rgba($body, .1));
+
+
+            border-top-left-radius: 50%;
+            border-bottom-left-radius: 50%;
+            animation: fugaz-2 .1s infinite;
+            filter: blur(2px);
+        }
+    }
+}
+/**/
+@keyframes fugaz {
+    0%{
+        left: -100px;
+        top: -100px;
+    }
+    60%, 100%{
+        top: 100px;
+        left: 380px;
+    }
+}
+@keyframes fugaz-2 {
+    0%{ transform: skewX(30deg) scaleY(1);}
+    100%{ transform: skewX(-30deg) scaleY(.5);}
+}
