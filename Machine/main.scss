@@ -1,0 +1,250 @@
+/* Variables */
+$orange-1: #FFB791;
+$orange-2: #F36955;
+
+$green-1: #D3FFFD;
+$green-2: #A0FFD7;
+$green-3: #5ECD9D;
+
+$white-1: #FEFFFF;
+$white-2: #C8CFD4;
+
+$circle-1: #E6F4F9;
+$circle-2: #A5BBC5;
+$circle-3: #8A9DA5;
+
+/* Reset */
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+/* Generic */
+body{
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: $orange-1;
+}
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 400px;
+    height: 400px;
+}
+.l,
+.s{
+    position: relative;
+    left: calc(50% - 300px);
+    top: calc(50% - 300px);
+    z-index: 300;
+    transform-style: preserve-3d;
+    transform:
+        perspective(2000px)
+        rotate3d(-500,-1000, 100, 30deg)
+    ;
+    animation: l .05s ease-in-out infinite alternate;
+    &__face{
+        position: absolute;
+        height: 200px;
+        width: 200px;
+        z-index: 10;
+    }
+    &__face--front{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: rotateY(0deg) translateZ(100px);
+        background-image: linear-gradient(to bottom, $green-2 20%, $white-1 20%);
+        border-top: 5px solid $green-1;
+        border-bottom: 5px solid $white-2;
+    }
+    &__face--back{
+        transform: rotateY(180deg) translateZ(100px);
+        background-color: $white-2;
+    }
+    &__face--right{
+        transform: rotateY(90deg) translateZ(100px);
+        background-image: linear-gradient(to bottom, $green-3 20%, $white-2 20%);
+        border-top: 5px solid lighten($green-3, 10);
+    }
+    &__face--left{
+        transform: rotateY(-90deg) translateZ(100px);
+        background-color: $white-1;
+    }
+    &__face--top{
+        transform: rotateX( 90deg) translateZ(100px);
+        background-color: $green-1;
+    }
+    &__face--bottom{
+        transform: rotateX(-90deg) translateZ(100px);
+        background-color: $white-2;
+    }
+    &__c1{
+        display: flex;
+        align-items: center;
+        width: 120px;
+        height: 120px;
+        position: relative;
+        border-radius: 50%;
+        margin-top: 30px;
+        border: 4px solid $green-1;
+        box-shadow:
+            0 0 0 1px rgba($white-2, .75),
+            1px 1px 1px 1px rgba($white-2, .5);
+        background-image: linear-gradient(200deg, $green-3 50%, darken($green-2, 15) 65%);
+    }
+    &__c2{
+        position: absolute;
+        right: 0px;
+        width: 100px;
+        height: 110px;
+        border-radius: 50%;
+        background-color: rgba($circle-1, 1);
+        overflow: hidden;
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: 20px;
+            left: calc(50% - 100px);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-image: linear-gradient(to bottom, darken(rgba($circle-3, 1), 35) , rgba($circle-3, .4) );
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: calc(50% - 40px);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-image: linear-gradient(to bottom, rgba($circle-2, .7) 50%, rgba($circle-2, .1) 60% );
+        }
+    }
+    &__control{
+        position: absolute;
+        top: 6px;
+        left: 20px;
+        width: 25px;
+        height: 25px;
+
+        border-radius: 50%;
+        background-color: $white-1;
+        box-shadow:
+            inset -1px 0 0 $white-2,
+            3px 2px 0 $green-3;
+        &:nth-of-type(2){ left: 55px;}
+    }
+    &__button{
+        position: absolute;
+        top: 16px;
+        left: 100px;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        box-shadow:
+            inset -1px 0 0 $white-2,
+            1px 1px 0 $white-2;
+        background-color: $orange-2;
+        &:nth-of-type(2){ left: 110px;}
+        &:nth-of-type(3){ left: 120px;}
+    }
+    &__clothes{
+        position: absolute;
+        top: 50px;
+        left: 60px;
+        width: 10px;
+        height: 10px;
+        z-index: 100;
+        animation: clothes .3s linear infinite;
+        &-i{
+            position: absolute;
+            left: 40px;
+            width: 50px;
+            height: 50px;
+            background-color: $orange-1;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70% ;
+            &:nth-of-type(2){
+                left: 20px;
+                bottom: 0;
+                border-radius: 24% 76% 45% 55% / 62% 30% 70% 38% ;
+                background-color: $green-1;
+            }
+        }
+    }
+}
+.s{
+    animation: none;
+    z-index: -100;
+    &__shadow{
+        transform: rotateX(-90deg) translateZ(50px) translateY(45px) translateX(25px) skewX(10deg);
+        width: 225px;
+        height: 300px;
+        border-radius: 5px;
+        background-color: $orange-2;
+        animation: shadow .05s ease-in-out infinite alternate;
+    }
+}
+/**/
+@keyframes clothes {
+    0%{
+        transform-origin: left;
+        transform: rotateZ(0);
+    }
+    100%{
+        transform-origin: left;
+        transform: rotateZ(1turn);
+    }
+}
+@keyframes l {
+    0%{
+        transform-origin: top center;
+        transform:
+            perspective(2000px)
+            rotate3d(-500,-1000, 100, 30deg)
+            translateY(0)
+            translateX(0)
+            rotateZ(-3deg);
+        ;
+    }
+    100%{
+    transform-origin: top center;
+        transform:
+            perspective(2000px)
+            rotate3d(-500,-1000, 0, 30deg)
+            translateY(-10px)
+            translateX(5px)
+            rotateZ(5deg);
+        ;
+    }
+}
+@keyframes shadow {
+    0%{
+        width: 225px;
+        height: 300px;
+        transform:
+            rotateX(-90deg)
+            translateZ(50px)
+            translateY(55px)
+            translateX(25px)
+            skewX(10deg)
+        ;
+    }
+    100%{
+        width: 226px;
+        height: 302px;
+        transform:
+            rotateX(-90deg)
+            translateZ(50px)
+            translateY(55px)
+            translateX(30px)
+            skewX(15deg)
+        ;
+    }
+}
