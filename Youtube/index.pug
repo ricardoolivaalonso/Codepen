@@ -1,0 +1,86 @@
+doctype html
+html(lang="es", dir="ltr")
+    head
+        meta(name="viewport", content="width=device-width, user-scalable=no, initial-scale=1.0")
+        meta(charset="utf-8")
+        link(rel="stylesheet", type="text/css", href="main.css")
+            
+        <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    body
+        div.app
+                
+            div.screen
+                
+                header.header
+                    img.header__menu.icon(src="menu.svg", alt="Ícono de menu")
+                    div.header__logo
+                        img.header__icon(src="youtube.svg", alt="Ícono de youtube")
+                        h1.header__title Youtube
+                    img.header__search.icon(src="search.svg", alt="Ícono de seacrh")
+                //-----------    
+                div.categories
+                    a(href="#").categories__link
+                        span.categories__text High tech
+                    a(href="#").categories__link
+                        span.categories__text Gaming
+                    a(href="#").categories__link
+                        span.categories__text Music
+                    a(href="#").categories__link
+                        span.categories__text All
+                //-----------    
+                div.video
+                
+                    div.video__item
+                        div.video__cover
+                            img.video__img(src="video-2.jpg", alt="Captura")
+                            div.video__stats
+                                span.video__views 4.5M
+                                span.video__duration 10:43
+                                img.video__options.icon(src="options.svg", alt="Ícono de options")
+                        div.video__info
+                            img.video__photo(src="channel-1.png", alt="Captura")
+                            div.video__description
+                                h2.video__title Arkon Fly - Live Session
+                                h3.video__channel Song.FM
+                                    
+                    div.video__item
+                        div.video__cover
+                            img.video__img(src="video-1.jpg", alt="Captura")
+                            div.video__stats
+                                span.video__views 4.6M
+                                span.video__duration 10:43
+                                img.video__options.icon(src="options.svg", alt="Ícono de options")
+                        div.video__info
+                            img.video__photo(src="channel-2.png", alt="Captura")
+                            div.video__description
+                                h2.video__title Multicolor
+                                h3.video__channel Is this just fantasy
+                //-----------    
+                nav.menu
+                    ul.menu__list
+                        
+                        li.menu__item
+                            a.menu__link(href="#")
+                                img.menu__icon.icon(src="home.svg", alt="Ícono de home")
+                                span.menu__txt Home
+                                
+                        li.menu__item
+                            a.menu__link(href="#") 
+                                img.menu__icon.icon(src="trending.svg", alt="Ícono de trending")
+                                span.menu__txt Trending
+                                    
+                        li.menu__item
+                            a.menu__link(href="#") 
+                                img.menu__icon.icon(src="subscriptions.svg", alt="Ícono de subscriptions")
+                                span.menu__txt Subscriptions
+                                    
+                        li.menu__item
+                            a.menu__link(href="#") 
+                                img.menu__icon.icon(src="inbox.svg", alt="Ícono de inbox ")
+                                span.menu__txt Inbox
+                                
+                        li.menu__item
+                            a.menu__link(href="#")
+                                img.menu__icon.icon(src="library.svg", alt="Ícono de library ")
+                                span.menu__txt Library
+                                    
