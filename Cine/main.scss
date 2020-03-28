@@ -1,0 +1,536 @@
+/* Variables */
+$bg-play: #d2d2d2;
+
+$bg-1: #FEFFF7;
+$bg-2: #9A9A9D;
+
+$gray-1: #959395;
+$gray-2: #827980;
+$gray-3: #65586D;
+
+$yellow-1: #FAFDBA;
+$yellow-2: #9F9C82;
+$yellow-3: #8D867F;
+
+$red-1: #7E375C;
+$red-2: #692A58;
+$red-3: #551F55;
+
+:root{
+    --yl: #FAFDBA;
+    --yd: #d5d799;
+}
+
+/* Mixin */
+@mixin cube($width-el, $height-el, $depth-el) {
+    width: $width-el;
+    height: $height-el;
+    &__front{
+        width: $width-el;
+        height: $depth-el;
+        transform: rotateX(-90deg) translateZ($height-el / 2);
+    }
+    &__back{
+        width: $width-el;
+        height: $depth-el;
+        transform: rotateX( 90deg) translateZ($height-el / 2);
+    }
+    &__top{
+        width: $width-el;
+        height: $height-el;
+        transform: rotateY(0deg) translateZ($depth-el / 2);
+    }
+    &__bottom{
+        width: $width-el;
+        height: $height-el;
+        transform: rotateY(180deg) translateZ($depth-el / 2);
+    }
+    &__right{
+        width: $depth-el;
+        height: $height-el;
+        transform: rotateY(90deg) translateZ($width-el / 2);
+    }
+    &__left{
+        width: $depth-el;
+        height: $height-el;
+        transform: rotateY(90deg) translateZ(-$width-el / 2);
+    }
+}
+@mixin step() {
+    &__front{ background-image: linear-gradient(to bottom, $gray-3 70%, darken($gray-3, 5) ); }
+    &__back{ background-color: $gray-3; }
+    &__top{ background-image: linear-gradient(to bottom, $red-3, $red-2 20% , $red-1 ) ;}
+    &__bottom{ background-color: $gray-3; }
+    &__right{ background-image: linear-gradient(to right, $gray-2 70%, darken($gray-2, 5) ); }
+    &__left{ background-color: $gray-3; }
+}
+/* Reset */
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    transform-style: preserve-3d;
+}
+/* Generic */
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100vh;
+
+    overflow: hidden;
+    background-color: $bg-1;
+    font-family: 'Baloo Thambi 2', cursive;
+    transition: 2s;
+}
+video{
+    opacity: 0;
+    transition: 1s;
+}
+.main{
+    width: 1025px;
+    height: 600px;
+    padding-top: 200px;
+
+    position: relative;
+    @media(max-width: 800px){ transform: scale(.75);}
+    @media(max-width: 600px){ transform: scale(.5);}
+}
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.face{ position: absolute; }
+/*Base*/
+/*=================================*/
+/*=================================*/
+.cine{
+    position: relative;
+    width: 400px;
+    height: 700px;
+
+    transform: perspective(4000px) rotateX(75deg) rotateZ(50deg);
+    transition: 2s;
+
+    &::before{
+        content: '';
+        position: absolute;
+        width: 160%;
+        height: 101%;
+        right: -8px;
+        transform: translateZ(-20px);
+        background-image: linear-gradient(to left,  rgba(#000, .2) 60% , rgba(#000, .05) );
+    }
+}
+/* ---------- */
+$width-fl: 400px;
+$height-fl: 700px;
+$depth-fl: 40px;
+
+.floor{
+    @include cube($width-fl, $height-fl, $depth-fl);
+    width: $width-fl;
+    height: $height-fl;
+    &__front{ background-image: linear-gradient(to bottom, $gray-3 70%, darken($gray-3, 5) ); }
+    &__back{ background-color: $gray-3; }
+    &__top{
+        background-image: linear-gradient(to bottom, darken($red-2, 15) , $red-1, darken($red-2, 5) );
+        box-shadow: inset 0 0 80px $red-3;
+        display: flex;
+        align-items: flex-end;
+        padding: 50px 50px 25px 60px;
+    }
+    &__bottom{ background-color: $gray-3; }
+    &__right{ background-image: linear-gradient(to right, $gray-2 70%, darken($gray-2, 5) ); }
+    &__left{ background-color: $gray-3; }
+}
+    /* ---------- */
+    $width-fa: 400px;
+    $height-fa: 200px;
+    $depth-fa: 50px;
+
+    .floor-a{
+        @include cube($width-fa, $height-fa, $depth-fa);
+        width: $width-fa;
+        height: $height-fa;
+        position: absolute;
+        top: 0;
+        transform: translateZ(40px);
+
+        &__front{ background-image: linear-gradient(to bottom, $gray-3 70%, darken($gray-3, 5) ); }
+        &__back{ background-color: $gray-3; }
+        &__top{
+            overflow: hidden;
+            background-image: radial-gradient( circle at 50%  50%, darken($yellow-2, 5), $yellow-2, lighten($gray-2, 5) );
+            &::before{
+                content: '';
+                position: absolute;
+                top: -150px;
+                left: -105px;
+                width: 100%;
+                height: 100%;
+                background-image: linear-gradient(to left, $gray-3, rgba($gray-3, .5), transparent  );
+
+                transform: rotateZ(-30deg);
+            }
+            &::after{
+                content: '';
+                position: absolute;
+                left: 70px;
+                width: 75%;
+                height: 100%;
+                transform: skewX(20deg);
+                background-image: linear-gradient(to bottom, $yellow-3 , rgba($yellow-3, .25) );
+            }
+            box-shadow: inset 0 0 50px $gray-3;
+        }
+        &__bottom{ background-color: $gray-3; }
+        &__right{ background-color: $gray-2; }
+        &__left{ background-color: $gray-3; }
+    }
+
+        .steps{
+            width: 80px;
+            height: 60px;
+            position: absolute;
+            top: 200px;
+            left: 25px;
+            transform: translateZ(20px);
+
+            &::before{
+                content: '';
+                position: absolute;
+                width: 130%;
+                height: 150%;
+                background-image: linear-gradient(to bottom, $red-2 70% , rgba($red-2, .7) );
+            }
+            &-b{
+                left: calc(100% - 81px);
+                &::before{ width: 115%; right: 0; }
+            }
+        }
+
+            $width-sa: 80px;
+            $height-sa: 60px;
+            $depth-sa: 12px;
+
+            .step{
+                &-a,
+                &-b,
+                &-c{
+                    @include cube($width-sa, $height-sa, $depth-sa);
+                    width: $width-sa;
+                    height: $height-sa;
+                    position: absolute;
+                    top: 0;
+                    transform: translateZ(5px);
+                    @include step();
+                }
+                &-b{ transform: translateZ(15px) translateY(-20px); }
+                &-c{ transform: translateZ(25px) translateY(-40px); }
+            }
+/* ---------- */
+$width-wl: 25px;
+$height-wl: 700px;
+$depth-wl: 200px;
+.wall-l{
+    @include cube($width-wl, $height-wl, $depth-wl);
+    width: $width-wl;
+    height: $height-wl;
+
+    position: absolute;
+    top: 0;
+    transform: translateZ(120px);
+
+    &__front{ background-color: $gray-3; }
+    &__back{ background-color: $gray-3; }
+    &__top{ background-image: linear-gradient(to bottom, $gray-1 20%, darken($gray-1, 5) ); }
+    &__bottom{ background-color: $gray-3; }
+    &__right{
+        overflow: hidden;
+        background-image: radial-gradient(circle at 50%  10%, $yellow-3, $gray-2);
+        &::before{
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 80%;
+            height: 100%;
+            background-image: linear-gradient(to left, darken($gray-3, 5), rgba($gray-3, .9), transparent  );
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            top: -100px;
+            width: 200%;
+            height: 30%;
+            transform: rotateZ(25deg);
+            background-image: linear-gradient(to right, rgba($gray-3, 1), rgba($gray-3, .5), transparent);
+        }
+    }
+    &__left{ background-color: $gray-3; }
+}
+/* ---------- */
+$width-wr: 400px;
+$height-wr: 25px;
+$depth-wr: 200px;
+
+.wall-r{
+    @include cube($width-wr, $height-wr, $depth-wr);
+    width: $width-wr;
+    height: $height-wr;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateZ(120px);
+
+    &__front{
+        background-color: $gray-3;
+        box-shadow:
+            inset 30px 3px 20px darken($gray-3, 5),
+            inset -3px -50px 20px darken($gray-3, 5)
+        ;
+    }
+    &__back{ background-color: $gray-3; }
+    &__top{ background-image: linear-gradient(to left, $gray-1 , darken($gray-1, 5) 80%); }
+    &__bottom{ background-color: $gray-3; }
+    &__right{ background-color: $gray-2; }
+    &__left{ background-color: $gray-3; }
+}
+/* --------- */
+.screen{
+    width: 85%;
+    height: 65%;
+    margin-left: 24px;
+    margin-bottom: 45px;
+    overflow: hidden;
+    background-image: radial-gradient(circle at 50% 50%, $yellow-1 70%, darken($yellow-1, 3) );
+    border: 1px solid darken($gray-3, 5);
+    box-shadow:
+        2px 2px 0 $gray-3,
+        -2px -2px 0 $gray-3,
+        2px -2px 0 $gray-3,
+        -2px 2px 0 $gray-3
+    ;
+}
+iframe{
+    overflow: hidden;
+}
+.lamps{
+    position: absolute;
+    top: 0%;
+    width: 20px;
+    height: 100%;
+    transform: translateZ(150px) translateX(21px);
+}
+    .lamp{
+        position: relative;
+        &:nth-of-type(1){ transform: translateY(290px); }
+        &:nth-of-type(2){ transform: translateY(370px); }
+        &:nth-of-type(3){ transform: translateY(450px); }
+    }
+        $width-lm: 10px;
+        $height-lm: 50px;
+        $depth-lm: 10px;
+
+        .lamp-t{
+            @include cube($width-lm, $height-lm, $depth-lm);
+            width: $width-lm;
+            height: $height-lm;
+            position: absolute;
+
+            &__front{ background-color: $gray-3; }
+            &__back{ background-color: $gray-3; }
+            &__top{ background-image: linear-gradient(to top, $gray-3 20%, darken($gray-2, 5) ); }
+            &__bottom{ background-color: $gray-3; }
+            &__right{ background-image: radial-gradient(circle at 50%  10%, $yellow-3, $gray-2); }
+            &__left{ background-color: $gray-3; }
+        }
+
+        $width-lm: 10px;
+        $height-lm: 45px;
+        $depth-lm: 10px;
+
+        .lamp-b{
+            @include cube($width-lm, $height-lm, $depth-lm);
+            width: $width-lm;
+            height: $height-lm;
+            transform: translateZ(-10px);
+
+            &__front{ background-color: var(--yd); }
+            &__back{ background-color: var(--yl); }
+            &__top{ background-color: var(--yl); }
+            &__bottom{ background-color: var(--yl); }
+            &__right{ background-color: var(--yl); }
+            &__left{
+                background-color: $yellow-1;
+                box-shadow:
+                    0 0 20px $yellow-1,
+                    0 0 40px $yellow-1,
+                    0 0 60px $yellow-3,
+                ;
+            }
+        }
+/*---------------*/
+.chairs{
+    position: relative;
+    transform: translateZ(0px);
+    margin-right: 10px;
+    background-image: linear-gradient(to top,  darken($red-2, 10),  darken($red-2, 4));
+    box-shadow: 0px 5px 20px 10px darken($red-2, 10);
+    &:nth-of-type(2){
+        margin-right: 50px;
+
+        &::before{
+            content: '';
+            position: absolute;
+            left: 65px;
+            width: 5px;
+            height: 100%;
+            background-color: $yellow-3;
+            animation: line 4s ease infinite;
+        }
+    }
+    &:nth-of-type(3){ margin-left: 0px; }
+}
+.chair{
+    transform: translateZ(10px);
+    margin-bottom: 30px;
+    position: relative;
+}
+
+    $width-ch: 44px;
+    $height-ch: 40px;
+    $depth-ch: 5px;
+    .chair-b{
+        @include cube($width-ch, $height-ch, $depth-ch);
+        width: $width-ch;
+        height: $height-ch;
+        transform: translateY(-2px) translateZ(2px);
+
+        &__front{ background-color: darken($gray-3, 5);}
+        &__back{ background-color: $gray-2; }
+        &__top{ background-color: $gray-1; }
+        &__bottom{ background-color: $gray-3; }
+        &__right{ background-color: darken($gray-2, 5); }
+        &__left{ background-color: $gray-2; }
+    }
+
+    $width-ch: 45px;
+    $height-ch: 8px;
+    $depth-ch: 40px;
+
+    .chair-t{
+        @include cube($width-ch, $height-ch, $depth-ch);
+        width: $width-ch;
+        height: $height-ch;
+        position: absolute;
+        transform: translateZ(20px) translateY(20px) rotateX(-15deg);
+
+        &__front{
+            background-image: linear-gradient(to bottom, $gray-3, darken($gray-3, 15) );
+            box-shadow: inset 0 0 15px darken($gray-3, 5);
+        }
+        &__back{ background-color: $gray-2; }
+        &__top{ background-color: $gray-1; }
+        &__bottom{ background-color: $gray-3; }
+        &__right{ background-image: linear-gradient(80deg, darken($gray-2, 10) , $gray-3) }
+        &__left{ background-color: $gray-2; }
+    }
+
+    .chair-bs{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        display: flex;
+        justify-content: space-around;
+    }
+        $width-ch: 8px;
+        $height-ch: 40px;
+        $depth-ch: 30px;
+
+        .chair-ba{
+            @include cube($width-ch, $height-ch, $depth-ch);
+            width: $width-ch;
+            height: $height-ch;
+            position: absolute;
+            left: 0;
+            top: -15px;
+            transform: translateZ(0px) translateY(14px) ;
+
+            &__front{ background-image: linear-gradient(to bottom, darken($gray-3, 5), darken($gray-3, 15) ); }
+            &__back{ background-color:$gray-1; }
+            &__top{ background-color: $gray-1; }
+            &__bottom{ background-color: $gray-3 }
+            &__right{ background-image: linear-gradient(80deg, darken($gray-2, 10) , $gray-3) ;}
+            &__left{ background-color: $gray-3; }
+
+            &:nth-of-type(2){
+                transform: translateZ(0px) translateY(14px) translateX(37px);
+            }
+        }
+
+/**/
+.buttons{
+    display: flex;
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    transform: translateZ(5000px);
+}
+.button{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 130px;
+    height: 40px;
+    margin: 0 5px;
+    padding: 0 11px;
+    border: none;
+    outline: none;
+
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    background-image:
+        linear-gradient(
+            to right,
+            darken(complement($yellow-2), 20) 70%,
+            darken(complement($yellow-2), 25) 70%
+        );
+    color: white;
+
+    &__icon{
+        height: 20px;
+        object-fit: contain;
+    }
+}
+/**/
+.is-full{
+    transform: perspective(1900px) rotateX(85deg) rotateZ(0deg) ;
+    transition: 2s;
+}
+.is-black{
+    background-color: $bg-play;
+    transition: 1s;
+    filter: saturate(50%);
+}
+:disabled {
+    cursor: no-drop;
+    background-image:
+        linear-gradient(
+            to right,
+            lighten($gray-1 , 20) 70%,
+            lighten($gray-1 , 15) 70%
+        );
+}
+
+@keyframes line {
+    0%, 50%{ opacity: 1; }
+    100%{ opacity: .25; }
+}
