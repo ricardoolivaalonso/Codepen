@@ -1,0 +1,716 @@
+$bg-1: #F498AD;
+$bg-2: #be4e67;
+
+$radio-1: #00FFF0;
+$radio-2: #00DBCD;
+$radio-3: #23BAA8;
+$radio-4: #13B2A9;
+
+$key-a1: #EEDB73;
+$key-a2: #d6c35a;
+$key-a3: #bba83a;
+
+$key-b1: #f2f2f2;
+$key-b2: #dddddd;
+$key-b3: #b3b3b3;
+
+$key-c1: complement(#EEDB73);
+$key-c2: complement(#d6c35a);
+$key-c3: complement(#c4b041);
+
+/***********************/
+/***********************/
+@mixin cube($width, $height, $depth) {
+    &__front{ @include cube-front($width, $height, $depth); }
+    &__back{ @include cube-back($width, $height, $depth); }
+    &__right{ @include cube-right($width, $height, $depth); }
+    &__left{ @include cube-left($width, $height, $depth); }
+    &__top{ @include cube-top($width, $height, $depth);}
+    &__bottom{ @include cube-bottom($width, $height, $depth); }
+}
+/************************/
+/* Mixin para crear cubo ( Caras siempre al frente ) */
+/************************/
+@mixin cube-front($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: bottom left;
+    transform: rotateX(-90deg) translateZ( -($height - ($depth * 2) ) );
+}
+@mixin cube-back($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-$width) translateY(-$height) ;
+}
+@mixin cube-right($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ($width) translateX(-$depth * 2) translateY(-$height);
+}
+@mixin cube-left($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-$height);
+}
+@mixin cube-top($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: translateZ($height) ;
+}
+@mixin cube-bottom($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: rotateY(180deg) translateX(-$width);
+}
+/***********************/
+/***********************/
+@mixin face-ani($animation, $time, $side, $width-el, $height-el, $depth-el) {
+
+    animation: #{$animation} #{$time} infinite ease;
+
+    @keyframes #{$animation} {
+        0%, 15%, 45%, 60%, 62%, 68%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-el, $depth-el); }
+        }
+        20%, 40%, 58%, 64%, 70%, 100%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-finish, $depth-el); }
+        }
+    }
+}
+/**/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    transform-style: preserve-3d;
+    -webkit-tap-highlight-color: transparent;
+}
+/* Generic */
+body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+	background-image: linear-gradient(120deg, lighten($bg-1, 5), $bg-1, darken( $bg-1, 8) );
+
+	cursor: pointer;
+}
+.face{ position: absolute; }
+
+.svgs{
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%);
+}
+.svg-icon {
+    width: 30px;
+    height: 30px;
+    &:hover{ transform: scale(1.1);}
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+    fill: $key-b1;
+}
+
+.svg-icon circle {
+    stroke: white;
+    stroke-width: 1;
+}
+.s{ display: none; }
+/***************/
+.radio{
+	position: relative;
+    width: 28vw;
+    height: 9vw;
+	transform:
+		perspective(10000px)
+		rotateX(55deg)
+		rotateZ(33deg)
+		scale(.8)
+		translateZ(-9vw)
+	;
+}
+.radio-a{ animation: radio-a infinite 1s alternate 1.5s; }
+
+/******************/
+.m{
+    margin-top: 1.5vw;
+    transform-origin: top left;
+    transform: rotateX(10deg);
+}
+$width-el: .5vw;
+$height-el: 9vw;
+$depth-el: 1vw;
+
+.line{
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 0;
+    transform: translateZ(8vw);
+
+    &:nth-of-type(1){ right: -.5vw; }
+    &:nth-of-type(2){ left: -.5vw; }
+
+	&__front{ background-color: darken($key-c2, 1) ; }
+    &__back{ background-color: darken($key-c3, 1); }
+    &__right{
+        background-color: darken($key-c3, 1);
+        &::before{
+            content: '';
+            position: absolute;
+            width: 1vw;
+            height: 1vw;
+            bottom: .75vw;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background-color: $key-b1;
+        }
+    }
+    &__left{ background-color: darken($key-c3, 1); }
+    &__top{ background-color: darken($key-c1, 1); }
+    &__bottom{  background-color: darken($key-c3, 1); }
+}
+$width-el: 29vw;
+$height-el: .5vw;
+$depth-el: 1vw;
+
+.bar{
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 0;
+    left: -.5vw;
+    transform: translateZ(16.5vw);
+
+	&__front{ background-color: darken($key-c2, 1) ; }
+    &__back{ background-color: darken($key-c3, 1); }
+    &__right{ background-color: darken($key-c3, 1); }
+    &__left{ background-color: darken($key-c1, 1); }
+    &__top{ background-color: darken($key-c1, 1); }
+    &__bottom{  background-color: darken($key-c3, 1); }
+}
+/******************/
+$width-el: 26vw;
+$height-el: .75vw;
+$depth-el: 4vw;
+
+.base{
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: .5vw;
+	left: 1vw;
+
+	&__front{ background-image: linear-gradient(to right, lighten($radio-4, 7), darken($radio-4, 4)) ; }
+    &__back{ background-color: darken($radio-3, 5); }
+    &__right{ background-color: darken($radio-3, 5); }
+    &__left{ background-color: darken($radio-3, 5); }
+    &__top{ background-color: darken($radio-3, 5); }
+    &__bottom{  background-color: darken($radio-3, 5); }
+}
+//----------------------
+$width-el: 28vw;
+$height-el: 12vw;
+$depth-el: 1vw;
+
+.bb{
+	@include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 0;
+	left: 0;
+	transform: translateZ(1vw);
+
+    &__front{ background-image: linear-gradient(to bottom, $radio-2 2.8vw , darken($radio-4, 5) 3.4vw); }
+    &__back{ background-color: $radio-3; }
+	&__right{ background-image: linear-gradient(to bottom, $radio-3 , darken($radio-4, 2) ) ; }
+	&__left{ background-color: $radio-1; }
+	&__top{ background-image: linear-gradient(to right, lighten($radio-1, 30), $radio-1) ; }
+	&__bottom{  background-color: $radio-3; }
+}
+//----------------------
+$width-el: 27.5vw;
+$height-el: 9vw;
+$depth-el: 3.5vw;
+
+.bf{
+	@include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 2vw;
+	left: .25vw;
+	transform: translateZ(1vw);
+
+	&__front{ background-color:  $radio-2 ; }
+    &__back{ background-color: $radio-3; }
+	&__right{ background-image: linear-gradient(to bottom, $radio-3 , darken($radio-4, 2) ) ; }
+	&__left{ background-color: $radio-1; }
+	&__top{ background-image: linear-gradient(to right, lighten($radio-1, 30), $radio-1) ; }
+	&__bottom{  background-color: $radio-3; }
+}
+/****************/
+/****************/
+.screen{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	position: absolute;
+	top: .5vw;
+	left: .5vw;
+	width: 27vw;
+	height: 2vw;
+	overflow: hidden;
+
+	box-shadow:
+		inset .15vw -.25vw .1vw $radio-1,
+		inset -.15vw .15vw .1vw darken($radio-2, 5);
+	background-color: rgba($radio-2, .5);
+
+	&::before{
+		content: '';
+		position: absolute;
+		width: 90%;
+		height: .2vw;
+		background-color: $key-b1;
+		box-shadow:
+			.05vw .05vw .075vw darken($radio-2, 10),
+			-.05vw -.05vw .075vw darken($radio-2, 10),
+			-.05vw .05vw .075vw darken($radio-2, 10),
+			.05vw -.05vw .075vw darken($radio-2, 10);
+	}
+	&::after{
+		content: '';
+		position: absolute;
+		width: .2vw;
+		height: 1vw;
+		background-color: $key-c2;
+		box-shadow:
+			.05vw .05vw .075vw darken($radio-2, 10),
+			-.05vw -.05vw .075vw darken($radio-2, 10),
+			-.05vw .05vw .075vw darken($radio-2, 10),
+			.05vw -.05vw .075vw darken($radio-2, 10);
+
+		animation: indicator 8s infinite alternate;
+	}
+}
+.shadow{
+	position: absolute;
+    width: 120%;
+    height: 200%;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+
+	&::before,
+	&::after{
+		content: '';
+		position: absolute;
+		width: 28vw;
+		height: 100%;
+		bottom: 0;
+		left: 0;
+		transform-origin: bottom left;
+		transform: skewX(-15deg);
+		background-image: linear-gradient(to right, $bg-2, darken($bg-2, 5) );
+	}
+	&::after{
+		height: 100%;
+		bottom: 0;
+		left: 9%;
+		transform: skewX(-15deg) skewY(8deg);
+	}
+}
+//----------------------
+.keys{
+	display: flex;
+	position: absolute;
+	height: 1.1vw;
+	bottom: 1vw;
+	background-color: $radio-3;
+	&::before{
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 120%;
+		transform-origin: left bottom;
+		transform: skewX(-10deg);
+		background-color: $radio-3;
+		animation: key-shadow 3s infinite;
+	}
+	&--1{
+		left: 50%;
+		transform: translateZ(10vw) translateX(-50%);
+	}
+	&--2{
+		left: 2vw;
+		transform: translateZ(10vw);
+	}
+	&--3{
+		right: 2vw;
+		transform: translateZ(10vw);
+	}
+}
+//----------------------
+$width-el: 1.25vw;
+$height-el: .75vw;
+$depth-el: .5vw;
+$height-finish: .5vw;
+
+.key{
+	@include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el;
+	margin: 0 .125vw;
+
+	&__front{ background-color: $key-b2; }
+	&__back{ background-color: $key-b3; }
+	&__right{ background-color: $key-b3; }
+	&__left{ background-color: $key-b1; }
+	&__top{	background-color: $key-b1;}
+	&__bottom{  background-color: $key-b3; }
+
+	&:nth-of-type(2){
+		.key__top{ animation: key 1s infinite;}
+	}
+
+	&--cta{
+		.key__front{
+			background-color: $key-a2;
+			@include face-ani(grow-front-key, 5s, cube-front, $width-el, $height-el, $depth-el);
+		}
+		.key__back{
+			background-color: $key-a3;
+			@include face-ani(grow-back-key, 5s, cube-back, $width-el, $height-el, $depth-el);
+		}
+		.key__right{
+			background-color: $key-a3;
+			@include face-ani(grow-right-key, 5s, cube-right, $width-el, $height-el, $depth-el);
+		}
+		.key__left{
+			background-color: $key-a1;
+			@include face-ani(grow-left-key, 5s, cube-left, $width-el, $height-el, $depth-el);
+		}
+		.key__top{
+			background-color: $key-a1;
+			@include face-ani(grow-top-key, 5s, cube-top, $width-el, $height-el, $depth-el);
+		}
+		.key__bottom{ background-color: $key-a3; }
+
+		&:nth-of-type(2){
+			.key__front{ @include face-ani(grow-front-key, 3s, cube-front, $width-el, $height-el, $depth-el); }
+			.key__back{ @include face-ani(grow-back-key, 3s, cube-back, $width-el, $height-el, $depth-el); }
+			.key__right{ @include face-ani(grow-right-key, 3s, cube-right, $width-el, $height-el, $depth-el); }
+			.key__left{ @include face-ani(grow-left-key, 3s, cube-left, $width-el, $height-el, $depth-el); }
+			.key__top{ @include face-ani(grow-top-key, 3s, cube-top, $width-el, $height-el, $depth-el); }
+		}
+
+	}
+	&--cta2{
+		transform: scaleZ(.5);
+		.key__front{ background-color: $key-c2; }
+		.key__back{ background-color: $key-c3; }
+		.key__right{ background-color: $key-c3; }
+		.key__left{ background-color: $key-c1; }
+		.key__top{ background-color: $key-c1; }
+		.key__bottom{  background-color: $key-c3; }
+	}
+}
+//----------------------
+.speakers{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;;
+	height: 100%;
+}
+
+$width-el: 6vw;
+$height-el: .6vw;
+$height-finish: 1vw;
+$depth-el: 3vw;
+
+.speaker{
+	@include cube($width-el, $height-el, $depth-el);
+	position: absolute;
+	top: 1.5vw;
+	&::before{
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 6.35vw;
+		height: 6.65vw;
+		background-color: rgba($radio-3, .5);
+		animation: speaker-shadow 1s infinite;
+	}
+
+	&--1{ left: calc(100% - 8vw); }
+	&--2{ right: calc(100% - 2vw); }
+
+    &__front{ background-color: $key-b3; }
+    &__back{ background-color: $key-b1; }
+	&__right{ background-color: $key-b3; }
+	&__left{ background-color: $key-b1; }
+	&__top{ background-image: linear-gradient(to right, lighten($key-b2, 5), $key-b2); }
+	&__bottom{  background-color: $key-b3; }
+}
+.sfa{ @include face-ani(grow-front-speaker, 1s, cube-front, $width-el, $height-el, $depth-el); }
+.sba{ @include face-ani(grow-back-speaker, 1s, cube-back, $width-el, $height-el, $depth-el); }
+.sra{ @include face-ani(grow-right-speaker, 1s, cube-right, $width-el, $height-el, $depth-el); }
+.sla{ @include face-ani(grow-left-speaker, 1s, cube-left, $width-el, $height-el, $depth-el); }
+.sta{ @include face-ani(grow-top-speaker, 1s, cube-top, $width-el, $height-el, $depth-el); }
+//----------------------
+.controls{
+	display: flex;
+	position: absolute;
+	top: 2vw;
+	width: 5vw;
+	height: 2.5vw;
+	transform: translateZ(10vw) ;
+	&:nth-of-type(1){ left: 2vw; }
+	&:nth-of-type(2){ right: 1vw; }
+	&:nth-of-type(3){ left: 45%; }
+}
+
+$width-el: .5vw;
+$height-el: .25vw;
+$depth-el: .25vw;
+
+.control{
+	@include cube($width-el, $height-el, $depth-el);
+	display: flex;
+	justify-content: center;
+
+	width: .35vw;
+	height: 2.25vw;
+	margin: 0 .3vw;
+
+	background-color: rgba($radio-3, .35);
+	border-radius: 1vw;
+
+	&::before{
+		content: '';
+		position: absolute;
+		width: .6vw;
+		height: .6vw;
+		background-color: $radio-3;
+
+		box-shadow:
+			inset .15vw -.25vw .1vw $radio-1,
+			inset -.15vw .15vw .1vw darken($radio-2, 5);
+		background-color: rgba($radio-2, .5);
+	}
+
+    &__front{ background-color: $key-a2; }
+    &__back{ background-color: $key-a3; }
+	&__right{ background-color: $key-a3; }
+	&__left{ background-color: $key-a1; }
+	&__top{ background-color: $key-a1; }
+	&__bottom{  background-color: $key-a3; }
+
+	&--cta{
+		align-items: center	;
+
+		.control__front{ background-color: $key-b2; }
+		.control__back{ background-color: $key-b3; }
+		.control__right{ background-color: $key-b3; }
+		.control__left{ background-color: $key-b1; }
+		.control__top{ background-color: $key-b1; }
+		.control__bottom{  background-color: $key-b3; }
+	}
+	&--ct2{
+		.control__front{ background-color: $key-c2; }
+		.control__back{ background-color: $key-c3; }
+		.control__right{ background-color: $key-c3; }
+		.control__left{ background-color: $key-c1; }
+		.control__top{ background-color: $key-c1; }
+		.control__bottom{  background-color: $key-c3; }
+	}
+}
+//----------------------
+$width-el: 7vw;
+$height-el: .5vw;
+$depth-el: 2.25vw;
+
+.cas{
+	@include cube($width-el, $height-el, $depth-el);
+
+	position: absolute;
+	top: 1.5vw;
+	left: 10vw;
+
+	&::before{
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 7.25vw;
+		height: 5vw;
+		background-color: rgba($radio-3, .5);
+
+	}
+	&__front{ background-color: $key-b3; }
+    &__back{ background-color: $key-b1; }
+	&__right{ background-color: $key-b3; }
+	&__left{ background-color: $key-b1; }
+	&__top{ background-color: $key-b2; }
+	&__bottom{  background-color: $key-b3; }
+}
+.cass{
+
+	position: absolute;
+	width: 80%;
+	height: 70%;
+	left: 10%;
+	top: 10%;
+	border: .75vw solid $key-c3;
+
+	&::before,
+	&::after{
+		content: '';
+		position: absolute;
+		height: 1vw;
+		width: 1vw;
+		top: .35vw;
+		left: .35vw;
+		background-color: $key-c3;
+		border-radius: 50%;
+	}
+	&::after{
+		left: calc(100% - 1.5vw);
+	}
+}
+//----------------------
+.buttons{
+	display: flex;
+	position: absolute;
+	bottom: 1.5vw;
+	left: 10vw;
+	width: 7vw;
+	height: 1vw;
+	transform-origin: top left;
+
+	&::before{
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 7.25vw;
+		height: 1.9vw;
+		background-color: rgba($radio-3, .5);
+	}
+}
+//----------------------
+$width-el: 1.25vw;
+$height-el: .75vw;
+$depth-el: .5vw;
+
+.button{
+	@include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el;
+	margin: 0 .125vw;
+	@for $i from 1 through 21 {
+        &:nth-of-type(#{$i}) {
+            animation: key-down-white .5s infinite alternate #{$i / 15 }s;
+        }
+    }
+	&__front{ background-color: $key-b3;}
+    &__back{ background-color: $key-b1; }
+	&__right{ background-color: $key-b3; }
+	&__left{ background-color: $key-b1; }
+	&__top{ background-image: linear-gradient(to right, lighten($key-b2, 2), $key-b2); }
+	&__bottom{  background-color: $key-b3; }
+}
+/*******************/
+/*******************/
+@keyframes speaker-shadow {
+	0%, 25%, 45%, 60%, 62%, 68%, 92%, 100%{
+		width: 6.35vw;
+		height: 6.65vw;
+	}
+	30%, 40%, 58%, 64%, 70%, 90%{
+		width: 6.4vw;
+		height: 6.7vw;
+	}
+}
+@keyframes key-shadow {
+	0%, 25%, 45%, 60%, 62%, 68%, 92%, 100%{
+		width: 100%;
+		height: 120%;
+	}
+	30%, 40%, 58%, 64%, 70%, 90%{
+		width: 100%;
+		height: 110%;
+	}
+}
+@keyframes indicator {
+	0%, 10%, 70%{ transform: translateX(-4vw);}
+	20%, 30%, 80%, 90%, 100%{ transform: translateX(0vw);}
+	25%, 60%, 95%{ transform: translateX(-1vw);}
+	35%, 50%{ transform: translateX(2vw);}
+	38%, 45%, 52%{ transform: translateX(4vw);}
+}
+@keyframes key {
+	0%, 20%{ background-color: $key-a1; }
+	100%{ background-color:  lighten($key-a1, 15); }
+}
+@keyframes key-down-white {
+    0%{
+        transform: translateY(0);
+        transform-origin: center;
+    }
+    30%, 100%{
+        transform: translateY(.25vw) ;
+        transform-origin: center;
+    }
+}
+@keyframes radio-a {
+	0%, 15%, 45%, 60%, 62%, 68%{
+		transform:
+			perspective(10000px)
+			rotateX(55deg)
+			rotateZ(33deg)
+			scale(.8)
+			translateZ(-9vw)
+		;
+	}
+	20%, 40%, 58%, 64%, 70%, 100%{
+		transform:
+			perspective(10000px)
+			rotateX(53deg)
+			rotateZ(33deg)
+			scale(.8)
+			translateZ(-9vw)
+		;
+	}
+}

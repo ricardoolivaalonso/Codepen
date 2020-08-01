@@ -1,0 +1,771 @@
+$white-1: #f2f3ed;
+$white-2: #dbdbdb;
+$white-3: #b5b8bf;
+$white-4: #7e8188;
+
+$gray-1: #DCD7D0;
+$gray-2: #b8b8b8;
+$gray-3: #9a9a9a;
+$gray-4: #868686;
+
+$button-1: #e3d279;
+$button-2: #cbc146;
+$button-3: #b5b42b;
+
+$button-4: #7981e3;
+$button-5: #636cd4;
+$button-6: #464fb5;
+
+$bg-1: #A7E3F5;
+$bg-2: #4E8BB4;
+
+
+/***********************/
+/***********************/
+@mixin cube($width, $height, $depth) {
+    &__front{ @include cube-front($width, $height, $depth); }
+    &__back{ @include cube-back($width, $height, $depth); }
+    &__right{ @include cube-right($width, $height, $depth); }
+    &__left{ @include cube-left($width, $height, $depth); }
+    &__top{ @include cube-top($width, $height, $depth);}
+    &__bottom{ @include cube-bottom($width, $height, $depth); }
+}
+/************************/
+/* Mixin para crear cubo ( Caras siempre al frente ) */
+/************************/
+@mixin cube-front($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: bottom left;
+    transform: rotateX(-90deg) translateZ( -($height - ($depth * 2) ) );
+}
+@mixin cube-back($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-$width) translateY(-$height) ;
+}
+@mixin cube-right($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ($width) translateX(-$depth * 2) translateY(-$height);
+}
+@mixin cube-left($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-$height);
+}
+@mixin cube-top($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: translateZ($height) ;
+}
+@mixin cube-bottom($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: rotateY(180deg) translateX(-$width);
+}
+/***********************/
+/***********************/
+@mixin face-ani($animation, $time, $side, $width-el, $height-el, $depth-el) {
+
+    animation: #{$animation} #{$time} infinite ease;
+
+    @keyframes #{$animation} {
+        0%, 15%, 45%, 60%, 62%, 68%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-el, $depth-el); }
+        }
+        20%, 40%, 58%, 64%, 70%, 100%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-finish, $depth-el); }
+        }
+    }
+}
+/**/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    transform-style: preserve-3d;
+    -webkit-tap-highlight-color: transparent;
+}
+/* Generic */
+body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+
+    background-color: $bg-1;
+	cursor: pointer;
+
+    color: white;
+    font-family: monospace;
+    font-size: .8vw;
+    letter-spacing: .1vw;
+    font-weight: bold;
+    text-transform: uppercase;
+
+
+    user-select: none;
+}
+
+.face{ position: absolute; }
+
+/***************/
+.printer,
+.shadows{
+	position: absolute;
+    width: 26vw;
+    height: 15vw;
+
+	transform:
+		perspective(10000px)
+		rotateX(60deg)
+		rotateZ(-45deg)
+		translateZ(-6vw)
+        scaleX(.8)
+	;
+}
+.shadow-1{
+    right: 0;
+    bottom: -2.5%;
+    width: 110%;
+    height: 120%;
+    background-color: $bg-2;
+}
+.shadow-2{
+    bottom: -4vw;
+    left: 2.5vw;
+    width: 21vw;
+    height: 4vw;
+    background-color: $bg-2;
+}
+.shadow-3{
+    top: -2.6vw;
+    left: -5vw;
+    width: 4vw;
+    height: 100%;
+    background-color: $bg-2;
+}
+.shadow-4{
+    left: -2%;
+    top: -2%;
+    width: 104%;
+    height: 104%;
+    background-color: darken($bg-2, 10);
+    filter: blur(3px);
+}
+.paper{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    position: absolute;
+    left: 5.5vw;
+    bottom: 5vw;
+    height: 5vw;
+    width: 15vw;
+    transform: translateZ(2.6vw);
+    background-color: white;
+
+    &::before{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        background-image: repeating-linear-gradient(to top, rgba($bg-2, .075), rgba($bg-2, .075) .5vw, white .5vw, white 1.01vw);
+        border: 2vw solid white;
+    }
+}
+.paper-shadow{
+    position: absolute;
+    left: 5.5vw;
+    bottom: 0vw;
+    height: 5vw;
+    width: 15vw;
+
+    background-color: $bg-2;
+    transition: 1s;
+}
+.inside-shadow{
+    position: absolute;
+    left: 2.5vw;
+    bottom: 2vw;
+    height: 5vw;
+    width: 21vw;
+    transform: translateZ(2.61vw);
+    transition: 1s;
+
+    background-color: rgba($gray-4, .5);
+}
+
+/***************/
+$width-el: 26vw;
+$height-el: 1vw;
+$depth-el: 2.5vw;
+
+.at{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    top: 0;
+    position: absolute;
+
+    &__front{ background-color: $white-4; }
+    &__back{ background-color: $white-3; }
+    &__right{ background-color: $white-2; }
+    &__left{ background-color: $white-3; }
+    &__top{ background-color: $white-4; }
+    &__bottom{  background-color: $white-3; }
+}
+/***************/
+.ab{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    bottom: 2.5vw;
+    position: absolute;
+
+    &__front{ background-color: $white-2; }
+    &__back{ background-color: $white-4; }
+    &__right{ background-color: $white-2; }
+    &__left{ background-color: $white-3; }
+    &__top{ background-color: $white-4; }
+    &__bottom{  background-color: $white-3; }
+}
+/***************/
+$width-el: 26vw;
+$height-el: .5vw;
+$depth-el: 2.5vw;
+
+.am{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 5vw;
+    transform: translateZ(.5vw);
+
+    &__front{ background-color: $white-2; }
+    &__back{ background-color: $white-4; }
+    &__right{ background-color: $white-2; }
+    &__left{ background-color: $white-3; }
+    &__top{ background-color: $white-4; }
+    &__bottom{  background-color: $white-3; }
+}
+/***************/
+/***************/
+/***************/
+$width-el: 2.5vw;
+$height-el: 2vw;
+$depth-el: 7.5vw;
+
+.bl{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    transform: translateZ(1.1vw);
+
+    &__front{ background-color: $white-2; }
+    &__back{ background-color: $white-4; }
+    &__right{ background-color: $white-3; }
+    &__left{ background-color: $white-3; }
+    &__top{ background-image: linear-gradient(to bottom, $white-1 2.5vw, $white-4 2.5vw, $white-4 13vw, $white-1 13vw);}
+    &__bottom{  background-color: $white-3; }
+}
+/***************/
+.br{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    right: 0;
+    transform: translateZ(1.1vw);
+
+    &__front{ background-color: $white-2; }
+    &__back{ background-color: $white-4; }
+    &__right{ background-color: $white-2; }
+    &__left{ background-color: $white-3; }
+    &__top{ background-image: linear-gradient(to bottom, $white-1 2.5vw, $white-4 2.5vw, $white-4 13vw, $white-1 13vw);}
+    &__bottom{  background-color: $white-3; }
+}
+
+/***************/
+$width-el: 21vw;
+$height-el: 1vw;
+$depth-el: 7.5vw;
+
+.bb{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    left: 2.5vw;
+    transform: translateZ(1.1vw);
+
+    &__front{ background-color: $white-2; }
+    &__back{ background-color: $white-4; }
+    &__right{ background-color: $white-2; }
+    &__left{ background-color: $white-3; }
+    &__top{ background-color: $white-4; }
+    &__bottom{  background-color: $white-3; }
+}
+/***************/
+$width-el: 21vw;
+$height-el: 1vw;
+$depth-el: 5vw;
+
+.bt{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 0;
+    left: 2.5vw;
+    transform: translateZ(2vw);
+
+    &__front{ background-color: $white-2; }
+    &__back{ background-color: $white-4; }
+    &__right{ background-color: $white-2; }
+    &__left{ background-color: $white-3; }
+    &__top{ background-color: $white-1; }
+    &__bottom{  background-color: $white-3; }
+}
+/***************/
+/***************/
+/***************/
+$width-el: 2.5vw;
+$height-el: 8vw;
+$depth-el: 5.5vw;
+
+.cl{
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 2vw;
+    transform: translateZ(3.2vw);
+
+    &__front{
+        width: $width-el;
+        height: $height-el * 1.04;
+        transform-origin: bottom left;
+        transform: rotateX(-90deg) translateZ( -( ($height-el * 1.04) - ($depth-el * 2) ) ) rotateX(16deg);
+        background-color: $white-2;
+    }
+    &__back{
+        @include cube-back($width-el, $height-el, $depth-el);
+        background-color: $white-2;
+    }
+    &__right{
+        @include cube-right($width-el, $height-el, $depth-el);
+        background-image: linear-gradient(-74deg, $white-2 10.5vw, transparent 10.5vw);
+
+    }
+    &__left{
+        @include cube-left($width-el, $height-el, $depth-el);
+        background-image: linear-gradient(74deg, $white-3 10.5vw, transparent 10.5vw);
+
+    }
+    &__top{
+        width: $width-el ;
+        height: $depth-el * 2 - 2.25vw;
+        transform-origin: top left;
+        transform: translateZ($height-el) ;
+        background-color: $white-1;
+
+    }
+    &__bottom{
+        @include cube-bottom($width-el, $height-el, $depth-el);
+        background-color: $white-3;
+    }
+}
+/***************/
+.cr{
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 2vw;
+    right: 0;
+    transform: translateZ(3.2vw);
+
+    &__front{
+        width: $width-el;
+        height: $height-el * 1.04;
+        transform-origin: bottom left;
+        transform: rotateX(-90deg) translateZ( -( ($height-el * 1.04) - ($depth-el * 2) ) ) rotateX(16deg);
+        background-color: $white-2;
+    }
+    &__back{
+        @include cube-back($width-el, $height-el, $depth-el);
+        background-color: $white-2;
+    }
+    &__right{
+        @include cube-right($width-el, $height-el, $depth-el);
+        background-image: linear-gradient(-74deg, $white-2 10.5vw, transparent 10.5vw);
+
+    }
+    &__left{
+        @include cube-left($width-el, $height-el, $depth-el);
+        background-image: linear-gradient(74deg, $white-3 10.5vw, transparent 10.5vw);
+    }
+    &__top{
+        width: $width-el ;
+        height: $depth-el * 2 - 2.25vw;
+        transform-origin: top left;
+        transform: translateZ($height-el) ;
+        background-color: $white-1;
+
+    }
+    &__bottom{
+        @include cube-bottom($width-el, $height-el, $depth-el);
+        background-color: $white-3;
+    }
+}
+
+/***************/
+$width-el: 21vw;
+$height-el: 7vw;
+$depth-el: 3vw;
+
+.cm{
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 6.85vw;
+    left: 2.5vw;
+    transform: translateZ(4.4vw);
+
+    &__front{
+        width: $width-el;
+        height: $height-el * 1.06;
+        transform-origin: bottom left;
+        transform: rotateX(-90deg) translateZ( -( ($height-el * 1.06) - ($depth-el * 2) ) ) rotateX(16deg);
+        background-color: $gray-2;
+    }
+    &__back{
+        @include cube-back($width-el, $height-el, $depth-el);
+        background-color: $gray-2;
+    }
+    &__right{
+        @include cube-right($width-el, $height-el, $depth-el);
+        background-image: linear-gradient(-74deg, $gray-2 5.725vw, transparent 5.725vw);
+    }
+    &__left{
+        @include cube-left($width-el, $height-el, $depth-el);
+        background-image: linear-gradient(74deg, $gray-3 5.725vw, transparent 5.725vw);
+    }
+    &__top{
+        width: $width-el ;
+        height: $depth-el * 2 - 2vw;
+        transform-origin: top left;
+        transform: translateZ($height-el) ;
+        background-color: $gray-1;
+    }
+    &__bottom{
+        @include cube-bottom($width-el, $height-el, $depth-el);
+        background-color: $gray-2;
+    }
+}
+/***************/
+$width-el: 21vw;
+$height-el: 8vw;
+$depth-el: 2.5vw;
+
+.ct{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 2vw;
+    left: 2.5vw;
+    transform: translateZ(3.2vw);
+
+    &__front{ background-color: $white-2; }
+    &__back{ background-color: $white-4; }
+    &__right{ background-color: $white-2; }
+    &__left{ background-color: $white-3; }
+    &__top{ background-color: $white-1; }
+    &__bottom{  background-color: $white-3; }
+}
+/***************/
+
+$width-el: 21vw;
+$height-el: .5vw;
+$depth-el: 4vw;
+
+.cb{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 10vw;
+    left: 2.5vw;
+    transform: translateZ(2vw);
+
+    &__front{ background-color: $gray-2; }
+    &__back{ background-color: $gray-3; }
+    &__right{ background-color: $gray-2; }
+    &__left{ background-color: $gray-3; }
+    &__top{ background-image: linear-gradient(to bottom, $white-4 3vw, $gray-1 3vw);}
+    &__bottom{  background-color: $gray-3; }
+}
+/***************/
+
+$width-el: 1vw;
+$height-el: 1vw;
+$depth-el: 4vw;
+
+.cbl{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 10vw;
+    left: 2.5vw;
+    transform: translateZ(2.5vw);
+
+    &__front{ background-color: $gray-2; }
+    &__back{ background-color: $gray-3; }
+    &__right{ background-image: linear-gradient(to right, $white-4 3vw, $gray-2 3vw); }
+    &__left{ background-color: $gray-3; }
+    &__top{ background-image: linear-gradient(to bottom, $white-4 3vw, $gray-1 3vw);}
+    &__bottom{  background-color: $gray-3; }
+}
+/***************/
+.cbr{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    top: 10vw;
+    right: 2.5vw;
+    transform: translateZ(2.5vw);
+
+    &__front{ background-color: $gray-2; }
+    &__back{ background-color: $gray-3; }
+    &__right{ background-color: $gray-1; }
+    &__left{ background-image: linear-gradient(to right, darken($white-4, 5) 3vw, $gray-3 3vw); }
+    &__top{ background-image: linear-gradient(to bottom, $white-4 3vw, $gray-1 3vw); }
+    &__bottom{  background-color: $gray-3; }
+}
+/***************/
+/***************/
+/***************/
+.screen{
+
+    position: absolute;
+    top: 1vw;
+    left: 1vw;
+    width: 11vw;
+    height: 5vw;
+    background-color: $bg-1;
+    border-top: .125vw solid darken($bg-2, 5);
+    border-right: .3vw solid darken($bg-2, 5);
+
+
+    box-shadow: inset -.25vw -.25vw .4vw lighten($bg-2, 5);
+
+    &__text{
+        width: 100%;
+        height: 100%;
+        padding: .5vw;
+        font-size: 1vw;
+        opacity: 0;
+    }
+}
+
+.buttons{
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+
+    top: 1vw;
+    right: 1vw;
+    width: 7vw;
+    height: 5vw;
+    background-color: lighten($white-1, 10);
+    padding: .75vw;
+}
+
+/***************/
+$width-el: 1.5vw;
+$height-el: .3vw;
+$depth-el: .25vw;
+
+.button{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: relative;
+    margin-bottom: .6vw;
+
+
+    &__front{ background-color: $white-3; }
+    &__back{ background-color: $white-1; }
+    &__right{ background-color: $white-2; }
+    &__left{ background-color: $white-3; }
+    &__top{ background-color: $white-2; }
+    &__bottom{  background-color: $white-3; }
+
+    &--cta{
+        .button__front{ background-color: $button-3; }
+        .button__back{ background-color: $button-1; }
+        .button__right{ background-color: $button-2; }
+        .button__left{ background-color: $button-3; }
+        .button__top{ background-color: $button-2; }
+        .button__bottom{  background-color: $button-3; }
+    }
+}
+
+$width-el: 5.5vw;
+$height-el: .3vw;
+$depth-el: .4vw;
+
+.large{
+    @include cube($width-el, $height-el, $depth-el);
+
+    width: $width-el;
+    height: $depth-el;
+    position: absolute;
+    bottom: 1vw;
+
+    &:hover .large__top{
+        background-color: darken($button-4, 5);
+        transition: .25s;
+    }
+
+    &__front{ background-color: $button-6; }
+    &__back{ background-color: $button-4; }
+    &__right{ background-color: $button-5; }
+    &__left{ background-color: $button-6; }
+    &__top{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $button-4;
+    }
+    &__bottom{  background-color: $button-3; }
+}
+/***************/
+/***************/
+/***************/
+.is-paper-animated{ animation: paper 10s steps(6,end) infinite; }
+.is-paper-shadow-animated{ animation: paper 10s steps(6,end) infinite; }
+.is-text-animated{ animation: text 2s infinite; }
+.is-printer-animated{ animation: printer .4s infinite alternate ease-in-out; }
+.is-shadows-animated{ animation: shadows .4s infinite alternate ease-in-out; }
+
+@keyframes printer {
+    0%, 85%{
+        transform:
+            perspective(10000px)
+            rotateX(60deg)
+            rotateZ(-45deg)
+            translateZ(-5.6vw)
+            scaleX(.8)
+            rotateY(0deg)
+        ;
+    }
+    30%, 50%, 80%{
+        transform:
+            perspective(10000px)
+            rotateX(60deg)
+            rotateZ(-45deg)
+            translateZ(-5.8vw)
+            scaleX(.8)
+            rotateY(-.5deg)
+        ;
+    }
+    60%, 100%{
+        transform:
+    		perspective(10000px)
+    		rotateX(60deg)
+    		rotateZ(-45deg)
+    		translateZ(-5.8vw)
+            scaleX(.8)
+            rotateY(.5deg)
+    	;
+    }
+
+}
+@keyframes shadows {
+    0%, 85%{
+        transform:
+            perspective(10000px)
+            rotateX(60deg)
+            rotateZ(-45deg)
+            translateZ(-6vw)
+            scaleX(.8)
+        ;
+    }
+    30%, 50%, 80%{
+        transform:
+            perspective(10000px)
+            rotateX(60deg)
+            rotateZ(-45deg)
+            translateZ(-6vw)
+            scaleX(.81)
+        ;
+    }
+    60%, 100%{
+        transform:
+    		perspective(10000px)
+    		rotateX(60deg)
+    		rotateZ(-45deg)
+    		translateZ(-6vw)
+            scaleX(.79)
+    	;
+    }
+
+}
+
+@keyframes text { 10%, 90%{ opacity: 1; } }
+
+@keyframes paper {
+    50%{
+        bottom: -7.5vw;
+        height: 15vw;
+        opacity: 1;
+    }
+    90%{
+        bottom: -12vw;
+        height: 15vw;
+        opacity: 1;
+    }
+    100%{
+        bottom: -12vw;
+        height: 15vw;
+        opacity: 0;
+    }
+}
