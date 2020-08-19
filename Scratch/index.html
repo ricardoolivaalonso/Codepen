@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <head>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="main.css">
+  </head>
+  <body>
+    <svg class="svg-icon" viewbox="0 0 20 20" id="text">
+      <path d="M17.969,10c0,1.707-0.5,3.366-1.446,4.802c-0.076,0.115-0.203,0.179-0.333,0.179c-0.075,0-0.151-0.022-0.219-0.065c-0.184-0.122-0.233-0.369-0.113-0.553c0.86-1.302,1.314-2.812,1.314-4.362s-0.454-3.058-1.314-4.363c-0.12-0.183-0.07-0.43,0.113-0.552c0.186-0.12,0.432-0.07,0.552,0.114C17.469,6.633,17.969,8.293,17.969,10 M15.938,10c0,1.165-0.305,2.319-0.88,3.339c-0.074,0.129-0.21,0.201-0.347,0.201c-0.068,0-0.134-0.016-0.197-0.052c-0.191-0.107-0.259-0.351-0.149-0.542c0.508-0.9,0.776-1.918,0.776-2.946c0-1.028-0.269-2.046-0.776-2.946c-0.109-0.191-0.042-0.434,0.149-0.542c0.193-0.109,0.436-0.042,0.544,0.149C15.634,7.681,15.938,8.834,15.938,10 M13.91,10c0,0.629-0.119,1.237-0.354,1.811c-0.063,0.153-0.211,0.247-0.368,0.247c-0.05,0-0.102-0.01-0.151-0.029c-0.203-0.084-0.301-0.317-0.217-0.521c0.194-0.476,0.294-0.984,0.294-1.508s-0.1-1.032-0.294-1.508c-0.084-0.203,0.014-0.437,0.217-0.52c0.203-0.084,0.437,0.014,0.52,0.217C13.791,8.763,13.91,9.373,13.91,10 M11.594,3.227v13.546c0,0.161-0.098,0.307-0.245,0.368c-0.05,0.021-0.102,0.03-0.153,0.03c-0.104,0-0.205-0.04-0.281-0.117l-3.669-3.668H2.43c-0.219,0-0.398-0.18-0.398-0.398V7.012c0-0.219,0.179-0.398,0.398-0.398h4.815l3.669-3.668c0.114-0.115,0.285-0.149,0.435-0.087C11.496,2.92,11.594,3.065,11.594,3.227 M7.012,7.41H2.828v5.18h4.184V7.41z M10.797,4.189L7.809,7.177v5.646l2.988,2.988V4.189z"></path>
+    </svg>
+    <audio id="audio">
+      <source src="song.mp3" type="audio/mpeg">
+    </audio>
+    <div class="shadows">
+      <div class="shadow-a face" id="shadows"></div>
+      <div class="shadow-b face" id="shadowsb"></div>
+      <div class="shadow-c face" id="shadowsc"></div>
+    </div>
+    <div class="main" id="radio">
+      <div class="foots">
+        <div class="foot__shadows">
+          <div class="foot__shadow"></div>
+          <div class="foot__shadow"></div>
+          <div class="foot__shadow"></div>
+          <div class="foot__shadow"></div>
+        </div>
+        <div class="foot">
+          <div class="foot__front face"> </div>
+          <div class="foot__back face"> </div>
+          <div class="foot__right face"> </div>
+          <div class="foot__left face"> </div>
+          <div class="foot__top face"> </div>
+          <div class="foot__bottom face"> </div>
+        </div>
+        <div class="foot">
+          <div class="foot__front face"> </div>
+          <div class="foot__back face"> </div>
+          <div class="foot__right face"> </div>
+          <div class="foot__left face"> </div>
+          <div class="foot__top face"> </div>
+          <div class="foot__bottom face"> </div>
+        </div>
+        <div class="foot">
+          <div class="foot__front face"> </div>
+          <div class="foot__back face"> </div>
+          <div class="foot__right face"> </div>
+          <div class="foot__left face"> </div>
+          <div class="foot__top face"> </div>
+          <div class="foot__bottom face"> </div>
+        </div>
+        <div class="foot">
+          <div class="foot__front face"> </div>
+          <div class="foot__back face"> </div>
+          <div class="foot__right face"> </div>
+          <div class="foot__left face"> </div>
+          <div class="foot__top face"> </div>
+          <div class="foot__bottom face"> </div>
+        </div>
+      </div>
+      <div class="player">
+        <div class="player__front face"> 
+          <div class="speakers">
+            <div class="speaker">
+              <div class="speaker__front face"> </div>
+              <div class="speaker__back face"> </div>
+              <div class="speaker__right face"> </div>
+              <div class="speaker__left face"> </div>
+              <div class="speaker__top face"> 
+                <div class="speaker__top-ca face speaker-ca">&#9835;</div>
+                <div class="speaker__top-cb face speaker-cb">&#9834;</div>
+              </div>
+              <div class="speaker__bottom face"> </div>
+            </div>
+            <div class="speaker">
+              <div class="speaker__front face"> </div>
+              <div class="speaker__back face"> </div>
+              <div class="speaker__right face"> </div>
+              <div class="speaker__left face"> </div>
+              <div class="speaker__top face"> 
+                <div class="speaker__top-ca face speaker-ca">&#9835;</div>
+                <div class="speaker__top-cb face speaker-cb">&#9834;</div>
+              </div>
+              <div class="speaker__bottom face"> </div>
+            </div>
+            <div class="player__text">victrola</div>
+          </div>
+        </div>
+        <div class="player__back face"> </div>
+        <div class="player__right face"> </div>
+        <div class="player__left face"> </div>
+        <div class="player__top face"> </div>
+        <div class="player__bottom face"> </div>
+      </div>
+      <div class="playert" id="playert">
+        <div class="playert-ta">
+          <div class="playert-ta__front face"> </div>
+          <div class="playert-ta__back face"> </div>
+          <div class="playert-ta__right face"> </div>
+          <div class="playert-ta__left face"> </div>
+          <div class="playert-ta__top face"> </div>
+          <div class="playert-ta__bottom face"> </div>
+        </div>
+        <div class="playert-ta">
+          <div class="playert-ta__front face"> </div>
+          <div class="playert-ta__back face"> </div>
+          <div class="playert-ta__right face"> </div>
+          <div class="playert-ta__left face"> </div>
+          <div class="playert-ta__top face"> </div>
+          <div class="playert-ta__bottom face"> </div>
+        </div>
+        <div class="playert-tb">
+          <div class="playert-tb__front face"> </div>
+          <div class="playert-tb__back face"> </div>
+          <div class="playert-tb__right face"> </div>
+          <div class="playert-tb__left face"> </div>
+          <div class="playert-tb__top face"> </div>
+          <div class="playert-tb__bottom face"> </div>
+        </div>
+        <div class="playert-tb">
+          <div class="playert-tb__front face"> </div>
+          <div class="playert-tb__back face"> </div>
+          <div class="playert-tb__right face"> </div>
+          <div class="playert-tb__left face"> </div>
+          <div class="playert-tb__top face"> </div>
+          <div class="playert-tb__bottom face"> </div>
+        </div>
+      </div>
+      <div class="parts">
+        <div class="disc" id="disc"></div>
+        <div class="shadow-disc"></div>
+        <div class="speakers">
+          <div class="control">
+            <div class="control-ta">
+              <div class="control-ta__front face"> </div>
+              <div class="control-ta__back face"> </div>
+              <div class="control-ta__right face"> </div>
+              <div class="control-ta__left face"> </div>
+              <div class="control-ta__top face"> </div>
+              <div class="control-ta__bottom face"> </div>
+            </div>
+            <div class="control-ta">
+              <div class="control-ta__front face"> </div>
+              <div class="control-ta__back face"> </div>
+              <div class="control-ta__right face"> </div>
+              <div class="control-ta__left face"> </div>
+              <div class="control-ta__top face"> </div>
+              <div class="control-ta__bottom face"> </div>
+            </div>
+            <div class="control-tb">
+              <div class="control-tb__front face"> </div>
+              <div class="control-tb__back face"> </div>
+              <div class="control-tb__right face"> </div>
+              <div class="control-tb__left face"> </div>
+              <div class="control-tb__top face"> </div>
+              <div class="control-tb__bottom face"> </div>
+            </div>
+            <div class="control-tb">
+              <div class="control-tb__front face"> </div>
+              <div class="control-tb__back face"> </div>
+              <div class="control-tb__right face"> </div>
+              <div class="control-tb__left face"> </div>
+              <div class="control-tb__top face"> </div>
+              <div class="control-tb__bottom face"> </div>
+            </div>
+            <div class="control-range" id="control">
+              <div class="control-range__front face"> </div>
+              <div class="control-range__back face"> </div>
+              <div class="control-range__right face"> </div>
+              <div class="control-range__left face"> </div>
+              <div class="control-range__top face"> </div>
+              <div class="control-range__bottom face"> </div>
+            </div>
+          </div>
+          <div class="needle">
+            <div class="needle-a">
+              <div class="needle-a__front face"> </div>
+              <div class="needle-a__back face"> </div>
+              <div class="needle-a__right face"> </div>
+              <div class="needle-a__left face"> </div>
+              <div class="needle-a__top face"> </div>
+              <div class="needle-a__bottom face"> </div>
+            </div>
+            <div class="needle-con" id="needle">
+              <div class="needle-b">
+                <div class="needle-b__front face"> </div>
+                <div class="needle-b__back face"> </div>
+                <div class="needle-b__right face"> </div>
+                <div class="needle-b__left face"> </div>
+                <div class="needle-b__top face"> </div>
+                <div class="needle-b__bottom face"> </div>
+              </div>
+              <div class="needle-c">
+                <div class="needle-c__front face"> </div>
+                <div class="needle-c__back face"> </div>
+                <div class="needle-c__right face"> </div>
+                <div class="needle-c__left face"> </div>
+                <div class="needle-c__top face"> </div>
+                <div class="needle-c__bottom face"> </div>
+              </div>
+              <div class="needle-d">
+                <div class="needle-d__front face"> </div>
+                <div class="needle-d__back face"> </div>
+                <div class="needle-d__right face"> </div>
+                <div class="needle-d__left face"> </div>
+                <div class="needle-d__top face"> </div>
+                <div class="needle-d__bottom face"> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="borders">
+        <div class="border-ta">
+          <div class="border-ta__front face"> </div>
+          <div class="border-ta__back face"> </div>
+          <div class="border-ta__right face"> </div>
+          <div class="border-ta__left face"> </div>
+          <div class="border-ta__top face"> </div>
+          <div class="border-ta__bottom face"> </div>
+        </div>
+        <div class="border-ta">
+          <div class="border-ta__front face"> </div>
+          <div class="border-ta__back face"> </div>
+          <div class="border-ta__right face"> </div>
+          <div class="border-ta__left face"> </div>
+          <div class="border-ta__top face"> </div>
+          <div class="border-ta__bottom face"> </div>
+        </div>
+        <div class="border-tb">
+          <div class="border-tb__front face"> </div>
+          <div class="border-tb__back face"> </div>
+          <div class="border-tb__right face"> </div>
+          <div class="border-tb__left face"> </div>
+          <div class="border-tb__top face"> </div>
+          <div class="border-tb__bottom face"> </div>
+        </div>
+        <div class="border-tb">
+          <div class="border-tb__front face"> </div>
+          <div class="border-tb__back face"> </div>
+          <div class="border-tb__right face"> </div>
+          <div class="border-tb__left face"> </div>
+          <div class="border-tb__top face"> </div>
+          <div class="border-tb__bottom face"> </div>
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
