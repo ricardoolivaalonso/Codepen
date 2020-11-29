@@ -1,1 +1,2 @@
-# CSSArt - Illustrations/Animations with HTML, CSS & JS.
+#### CSSArt
+Illustrations/Animations with HTML, CSS & JS.
