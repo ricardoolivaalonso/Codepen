@@ -1,0 +1,1315 @@
+/***********************/
+/* Mixin para crear cubo ( Centrado en el origen ) */
+/***********************/
+/************************/
+/* Mixin para crear cubo ( Desde la base ) */
+/************************/
+/***********************/
+/* Mixin para crear octagono ( Centrado en el origen ) */
+/***********************/
+/***********************/
+/* Mixin para crear colorear cubo ( Top punto de luz ) */
+/***********************/
+/***********************/
+/* Mixin para crear colorear octagono*/
+/***********************/
+/***********************/
+/* Mixin para animar cubo (Desde la base)*/
+/***********************/
+/**/
+*, *::after, *::before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-tap-highlight-color: transparent; }
+
+/* Generic */
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: #3647bd;
+  font-family: 'Press Start 2P', cursive; }
+
+a {
+  cursor: pointer;
+  text-decoration: none; }
+
+.face {
+  position: absolute; }
+
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+
+/***********************/
+/* Pokedex ( Contenedor principal)*/
+/***********************/
+.pokedex {
+  position: absolute;
+  width: 46vmax;
+  height: 36vmax;
+  -webkit-transform: perspective(10000px) rotateX(55deg) rotateZ(25deg) translateZ(-5vw);
+  transform: perspective(10000px) rotateX(55deg) rotateZ(25deg) translateZ(-5vw);
+  -webkit-transition: -webkit-transform .2s;
+  transition: -webkit-transform .2s;
+  -o-transition: transform .2s;
+  transition: transform .2s;
+  transition: transform .2s, -webkit-transform .2s; }
+  .pokedex::before {
+    content: 'Pokedex';
+    position: absolute;
+    bottom: 2vmax;
+    right: 0;
+    font-size: 2vmax;
+    color: #DEDEDE; }
+
+.shadows {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 47vmax;
+  height: 37vmax;
+  overflow: hidden;
+  -webkit-transform: translateZ(-0.65vmax);
+  transform: translateZ(-0.65vmax); }
+
+.shadow-1 {
+  position: absolute;
+  width: 25vmax;
+  height: 100%;
+  left: 0;
+  bottom: 0;
+  background-color: #1f296e; }
+
+.shadow-2 {
+  position: absolute;
+  width: 24vmax;
+  height: 28vmax;
+  background-color: #1f296e;
+  right: 0;
+  bottom: 0;
+  -webkit-transition: right 2s;
+  -o-transition: right 2s;
+  transition: right 2s; }
+
+/***********************/
+/* Parte izquierda pokedex (Objetos independiente) */
+/***********************/
+.al1 {
+  position: absolute;
+  width: 23vmax;
+  height: 36vmax;
+  bottom: 0;
+  left: 0; }
+  .al1__front {
+    width: 23vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateX(-90deg) translateZ(34.75vmax);
+    transform: rotateX(-90deg) translateZ(34.75vmax); }
+  .al1__back {
+    width: 23vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateX(-90deg) rotateY(180deg) translateX(-23vmax) translateY(-1.25vmax);
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-23vmax) translateY(-1.25vmax); }
+  .al1__right {
+    width: 36vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(90deg) rotateZ(-90deg) translateZ(23vmax) translateX(-36vmax) translateY(-1.25vmax);
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ(23vmax) translateX(-36vmax) translateY(-1.25vmax); }
+  .al1__left {
+    width: 36vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateY(-1.25vmax);
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-1.25vmax); }
+  .al1__top {
+    width: 23vmax;
+    height: 36vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translateZ(1.25vmax);
+    transform: translateZ(1.25vmax); }
+  .al1__bottom {
+    width: 23vmax;
+    height: 36vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(180deg) translateX(-23vmax);
+    transform: rotateY(180deg) translateX(-23vmax); }
+  .al1__front {
+    background-color: #7a0619; }
+  .al1__back {
+    background-color: #ab0823; }
+  .al1__right {
+    background-color: #ab0823; }
+  .al1__left {
+    background-color: #7a0619; }
+  .al1__top {
+    background-color: #DC0A2D; }
+  .al1__bottom {
+    background-color: #7a0619; }
+  .al1__right {
+    background-color: #93071e; }
+
+.al2 {
+  position: absolute;
+  width: 23vmax;
+  height: 4vmax;
+  top: 0;
+  left: 0; }
+  .al2__front {
+    width: 23vmax;
+    height: 2.2vmax;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateX(-90deg) translateZ(1.8vmax);
+    transform: rotateX(-90deg) translateZ(1.8vmax); }
+  .al2__back {
+    width: 23vmax;
+    height: 2.2vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateX(-90deg) rotateY(180deg) translateX(-23vmax) translateY(-2.2vmax);
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-23vmax) translateY(-2.2vmax); }
+  .al2__right {
+    width: 4vmax;
+    height: 2.2vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(90deg) rotateZ(-90deg) translateZ(23vmax) translateX(-4vmax) translateY(-2.2vmax);
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ(23vmax) translateX(-4vmax) translateY(-2.2vmax); }
+  .al2__left {
+    width: 4vmax;
+    height: 2.2vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateY(-2.2vmax);
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-2.2vmax); }
+  .al2__top {
+    width: 23vmax;
+    height: 4vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translateZ(2.2vmax);
+    transform: translateZ(2.2vmax); }
+  .al2__bottom {
+    width: 23vmax;
+    height: 4vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(180deg) translateX(-23vmax);
+    transform: rotateY(180deg) translateX(-23vmax); }
+  .al2__front {
+    background-color: #7a0619; }
+  .al2__back {
+    background-color: #ab0823; }
+  .al2__right {
+    background-color: #ab0823; }
+  .al2__left {
+    background-color: #7a0619; }
+  .al2__top {
+    background-color: #DC0A2D; }
+  .al2__bottom {
+    background-color: #7a0619; }
+
+.al3 {
+  position: absolute;
+  width: 13.75vmax;
+  height: 5vmax;
+  top: 4vmax;
+  left: 0;
+  -webkit-transform: translateZ(1.26vmax);
+  transform: translateZ(1.26vmax); }
+  .al3__front {
+    width: 13.75vmax;
+    height: 0.95vmax;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateX(-90deg) translateZ(4.05vmax);
+    transform: rotateX(-90deg) translateZ(4.05vmax); }
+  .al3__back {
+    width: 13.75vmax;
+    height: 0.95vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateX(-90deg) rotateY(180deg) translateX(-13.75vmax) translateY(-0.95vmax);
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-13.75vmax) translateY(-0.95vmax); }
+  .al3__right {
+    width: 5vmax;
+    height: 0.95vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(90deg) rotateZ(-90deg) translateZ(13.75vmax) translateX(-5vmax) translateY(-0.95vmax);
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ(13.75vmax) translateX(-5vmax) translateY(-0.95vmax); }
+  .al3__left {
+    width: 5vmax;
+    height: 0.95vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.95vmax);
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.95vmax); }
+  .al3__top {
+    width: 13.75vmax;
+    height: 5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translateZ(0.95vmax);
+    transform: translateZ(0.95vmax); }
+  .al3__bottom {
+    width: 13.75vmax;
+    height: 5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(180deg) translateX(-13.75vmax);
+    transform: rotateY(180deg) translateX(-13.75vmax); }
+  .al3__top {
+    background-image: -webkit-linear-gradient(155deg, transparent 2.1vmax, #DC0A2D 2.1vmax);
+    background-image: -o-linear-gradient(155deg, transparent 2.1vmax, #DC0A2D 2.1vmax);
+    background-image: linear-gradient(-65deg, transparent 2.1vmax, #DC0A2D 2.1vmax); }
+  .al3__bottom {
+    background-image: -webkit-linear-gradient(25deg, transparent 2.1vmax, #7a0619 2.1vmax);
+    background-image: -o-linear-gradient(25deg, transparent 2.1vmax, #7a0619 2.1vmax);
+    background-image: linear-gradient(65deg, transparent 2.1vmax, #7a0619 2.1vmax); }
+  .al3__front {
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(11.5vmax, #7a0619), color-stop(11.5vmax, transparent));
+    background-image: -webkit-linear-gradient(left, #7a0619 11.5vmax, transparent 11.5vmax);
+    background-image: -o-linear-gradient(left, #7a0619 11.5vmax, transparent 11.5vmax);
+    background-image: linear-gradient(to right, #7a0619 11.5vmax, transparent 11.5vmax); }
+  .al3__back {
+    background-color: #7a0619; }
+  .al3__left {
+    background-color: #ab0823; }
+  .al3__right::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5.6vmax;
+    height: 100%;
+    background-color: #ab0823;
+    -webkit-transform-origin: top right;
+    -ms-transform-origin: top right;
+    transform-origin: top right;
+    -webkit-transform: rotateY(-25deg);
+    transform: rotateY(-25deg); }
+
+/***********************/
+/* Contenido izquierda */
+/***********************/
+.screen-left {
+  position: absolute;
+  top: 11vmax;
+  left: 2.5vmax;
+  width: 16vmax;
+  height: 13.5vmax;
+  -webkit-transform: translateZ(1.25vmax);
+  transform: translateZ(1.25vmax);
+  -webkit-box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35);
+  box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35); }
+  .screen-left__front {
+    width: 16vmax;
+    height: 0.25vmax;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateX(-90deg) translateZ(13.25vmax);
+    transform: rotateX(-90deg) translateZ(13.25vmax); }
+  .screen-left__back {
+    width: 16vmax;
+    height: 0.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateX(-90deg) rotateY(180deg) translateX(-16vmax) translateY(-0.25vmax);
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-16vmax) translateY(-0.25vmax); }
+  .screen-left__right {
+    width: 13.5vmax;
+    height: 0.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(90deg) rotateZ(-90deg) translateZ(16vmax) translateX(-13.5vmax) translateY(-0.25vmax);
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ(16vmax) translateX(-13.5vmax) translateY(-0.25vmax); }
+  .screen-left__left {
+    width: 13.5vmax;
+    height: 0.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.25vmax);
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.25vmax); }
+  .screen-left__top {
+    width: 16vmax;
+    height: 13.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translateZ(0.25vmax);
+    transform: translateZ(0.25vmax); }
+  .screen-left__bottom {
+    width: 16vmax;
+    height: 13.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(180deg) translateX(-16vmax);
+    transform: rotateY(180deg) translateX(-16vmax); }
+  .screen-left__front {
+    background-color: black; }
+  .screen-left__back {
+    background-color: #090909; }
+  .screen-left__right {
+    background-color: #090909; }
+  .screen-left__left {
+    background-color: black; }
+  .screen-left__top {
+    background-color: #222222; }
+  .screen-left__bottom {
+    background-color: black; }
+  .screen-left__top {
+    background-color: #DEDEDE;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    .screen-left__top::before {
+      content: '';
+      position: absolute;
+      width: 13vmax;
+      height: 10.5vmax;
+      background-color: black;
+      -webkit-animation: pokemon-screen 1s infinite;
+      animation: pokemon-screen 1s infinite; }
+    .screen-left__top::after {
+      content: '';
+      position: absolute;
+      top: .5vmax;
+      width: .5vmax;
+      height: .5vmax;
+      background-color: #DC0A2D;
+      border-radius: 50%; }
+
+.pokemon {
+  position: absolute;
+  width: 13vmax;
+  height: 13vmax;
+  padding: 1.5vmax 1vmax 1vmax;
+  -webkit-transform: rotateX(-90deg) translateY(-6.5vmax);
+  transform: rotateX(-90deg) translateY(-6.5vmax);
+  background-image: -webkit-gradient(linear, left bottom, left top, from(rgba(41, 170, 253, 0.025)), color-stop(rgba(41, 170, 253, 0.2)), to(rgba(41, 170, 253, 0.3)));
+  background-image: -webkit-linear-gradient(bottom, rgba(41, 170, 253, 0.025), rgba(41, 170, 253, 0.2), rgba(41, 170, 253, 0.3));
+  background-image: -o-linear-gradient(bottom, rgba(41, 170, 253, 0.025), rgba(41, 170, 253, 0.2), rgba(41, 170, 253, 0.3));
+  background-image: linear-gradient(to top, rgba(41, 170, 253, 0.025), rgba(41, 170, 253, 0.2), rgba(41, 170, 253, 0.3));
+  border-top-left-radius: .5vmax;
+  border-top-right-radius: .5vmax;
+  -webkit-box-shadow: 0.2vmax 0.2vmax 2vmax rgba(41, 170, 253, 0.1), -0.2vmax 0.2vmax 2vmax rgba(41, 170, 253, 0.1), 0.2vmax -0.2vmax 2vmax rgba(41, 170, 253, 0.1), -0.2vmax -0.2vmax 2vmax rgba(41, 170, 253, 0.1);
+  box-shadow: 0.2vmax 0.2vmax 2vmax rgba(41, 170, 253, 0.1), -0.2vmax 0.2vmax 2vmax rgba(41, 170, 253, 0.1), 0.2vmax -0.2vmax 2vmax rgba(41, 170, 253, 0.1), -0.2vmax -0.2vmax 2vmax rgba(41, 170, 253, 0.1);
+  -webkit-transition: opacity 2s linear 1s;
+  -o-transition: opacity 2s linear 1s;
+  transition: opacity 2s linear 1s; }
+  .pokemon::before {
+    content: '';
+    position: absolute;
+    width: 96%;
+    left: 2%;
+    height: 100%;
+    background-image: -webkit-repeating-linear-gradient(rgba(41, 170, 253, 0.0175) 0, rgba(41, 170, 253, 0.0175) 1vmax, transparent 1vmax, transparent 2vmax);
+    background-image: -o-repeating-linear-gradient(rgba(41, 170, 253, 0.0175) 0, rgba(41, 170, 253, 0.0175) 1vmax, transparent 1vmax, transparent 2vmax);
+    background-image: repeating-linear-gradient(rgba(41, 170, 253, 0.0175) 0, rgba(41, 170, 253, 0.0175) 1vmax, transparent 1vmax, transparent 2vmax);
+    background-size: 200% 200%;
+    -webkit-animation: pokemon-bg 4s linear infinite;
+    animation: pokemon-bg 4s linear infinite;
+    background-position: 0 0; }
+  .pokemon:hover .pokemon-image {
+    -webkit-transform: translateZ(1vmax) scale(1.05);
+    transform: translateZ(1vmax) scale(1.05);
+    -webkit-transition: -webkit-transform .2s;
+    transition: -webkit-transform .2s;
+    -o-transition: transform .2s;
+    transition: transform .2s;
+    transition: transform .2s, -webkit-transform .2s;
+    opacity: 1; }
+  .pokemon-url {
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+  .pokemon-name {
+    font-weight: normal;
+    font-size: 1vmax;
+    -webkit-transition: 2s linear 1s;
+    -o-transition: 2s linear 1s;
+    transition: 2s linear 1s;
+    color: #001827;
+    text-shadow: 0.05vw 0.05vw 0.2vw rgba(41, 170, 253, 0.45);
+    -webkit-animation: pokemon-img 1s infinite alternate;
+    animation: pokemon-img 1s infinite alternate; }
+  .pokemon-image {
+    max-width: 70%;
+    -o-object-fit: contain;
+    object-fit: contain;
+    -webkit-transition: 2s linear 1s;
+    -o-transition: 2s linear 1s;
+    transition: 2s linear 1s;
+    -webkit-animation: pokemon-img 1s infinite alternate;
+    animation: pokemon-img 1s infinite alternate;
+    -webkit-filter: drop-shadow(0.75vmax 0.75vmax 0.75vmax rgba(34, 34, 34, 0.5));
+    filter: drop-shadow(0.75vmax 0.75vmax 0.75vmax rgba(34, 34, 34, 0.5)); }
+  .pokemon-number {
+    color: #204526;
+    font-size: 1.5vmax;
+    line-height: 1;
+    -webkit-transition: 2s linear 1s;
+    -o-transition: 2s linear 1s;
+    transition: 2s linear 1s; }
+  .pokemon-author {
+    font-weight: normal;
+    font-size: .85vmax;
+    color: #DEDEDE;
+    line-height: 2; }
+  .pokemon-tags {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    position: absolute;
+    bottom: 2vmax;
+    width: 100%;
+    padding: 0 2vmax; }
+  .pokemon-tag {
+    font-size: .85vmax;
+    color: #DEDEDE; }
+
+.screen-left-2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  bottom: 3.5vmax;
+  left: 2.5vmax;
+  width: 6vmax;
+  height: 3vmax;
+  -webkit-transform: translateZ(1.25vmax);
+  transform: translateZ(1.25vmax);
+  background-color: #51AD60;
+  -webkit-box-shadow: inset 0.2vmax 0.2vmax 0 #306839, inset -0.1vmax -0.1vmax 0 #306839, 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35);
+  box-shadow: inset 0.2vmax 0.2vmax 0 #306839, inset -0.1vmax -0.1vmax 0 #306839, 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35); }
+
+.arrows {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  bottom: 2vmax;
+  left: 12.5vmax;
+  width: 6vmax;
+  height: 6vmax;
+  -webkit-transform: translateZ(1.25vmax);
+  transform: translateZ(1.25vmax); }
+
+.arrow-h {
+  position: absolute;
+  width: 6vmax;
+  height: 2vmax;
+  -webkit-box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35);
+  box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35); }
+  .arrow-h__front {
+    width: 6vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateX(-90deg) translateZ(1.5vmax);
+    transform: rotateX(-90deg) translateZ(1.5vmax); }
+  .arrow-h__back {
+    width: 6vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateX(-90deg) rotateY(180deg) translateX(-6vmax) translateY(-0.5vmax);
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-6vmax) translateY(-0.5vmax); }
+  .arrow-h__right {
+    width: 2vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(90deg) rotateZ(-90deg) translateZ(6vmax) translateX(-2vmax) translateY(-0.5vmax);
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ(6vmax) translateX(-2vmax) translateY(-0.5vmax); }
+  .arrow-h__left {
+    width: 2vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.5vmax);
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.5vmax); }
+  .arrow-h__top {
+    width: 6vmax;
+    height: 2vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translateZ(0.5vmax);
+    transform: translateZ(0.5vmax); }
+  .arrow-h__bottom {
+    width: 6vmax;
+    height: 2vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(180deg) translateX(-6vmax);
+    transform: rotateY(180deg) translateX(-6vmax); }
+  .arrow-h__front {
+    background-color: black; }
+  .arrow-h__back {
+    background-color: #090909; }
+  .arrow-h__right {
+    background-color: #090909; }
+  .arrow-h__left {
+    background-color: black; }
+  .arrow-h__top {
+    background-color: #222222; }
+  .arrow-h__bottom {
+    background-color: black; }
+
+.arrow-v {
+  position: absolute;
+  width: 2vmax;
+  height: 6vmax;
+  -webkit-box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35);
+  box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35); }
+  .arrow-v__front {
+    width: 2vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateX(-90deg) translateZ(5.5vmax);
+    transform: rotateX(-90deg) translateZ(5.5vmax); }
+  .arrow-v__back {
+    width: 2vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateX(-90deg) rotateY(180deg) translateX(-2vmax) translateY(-0.5vmax);
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-2vmax) translateY(-0.5vmax); }
+  .arrow-v__right {
+    width: 6vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(90deg) rotateZ(-90deg) translateZ(2vmax) translateX(-6vmax) translateY(-0.5vmax);
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ(2vmax) translateX(-6vmax) translateY(-0.5vmax); }
+  .arrow-v__left {
+    width: 6vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.5vmax);
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.5vmax); }
+  .arrow-v__top {
+    width: 2vmax;
+    height: 6vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translateZ(0.5vmax);
+    transform: translateZ(0.5vmax); }
+  .arrow-v__bottom {
+    width: 2vmax;
+    height: 6vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(180deg) translateX(-2vmax);
+    transform: rotateY(180deg) translateX(-2vmax); }
+  .arrow-v__front {
+    background-color: black; }
+  .arrow-v__back {
+    background-color: #090909; }
+  .arrow-v__right {
+    background-color: #090909; }
+  .arrow-v__left {
+    background-color: black; }
+  .arrow-v__top {
+    background-color: #222222; }
+  .arrow-v__bottom {
+    background-color: black; }
+
+.arrow-back,
+.arrow-next {
+  position: absolute;
+  width: 2vmax;
+  height: 2vmax;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #DEDEDE;
+  font-size: 1vmax;
+  padding-top: .25vmax;
+  -webkit-animation: pokemon-arrow 2s infinite;
+  animation: pokemon-arrow 2s infinite; }
+
+.arrow-back {
+  left: 0; }
+
+.arrow-next {
+  right: 0; }
+
+.led,
+.led-a,
+.led-b,
+.led-c {
+  position: absolute;
+  top: 2vmax;
+  left: 2.5vmax;
+  width: 4vmax;
+  height: 4vmax;
+  -webkit-transform: translateZ(2.25vmax);
+  transform: translateZ(2.25vmax);
+  border-radius: 50%;
+  background-color: #29AAFD; }
+
+.led {
+  -webkit-box-shadow: inset 0.25vmax 0.25vmax 0.35vmax #0293f1, inset -0.25vmax -0.25vmax 0.35vmax #0293f1;
+  box-shadow: inset 0.25vmax 0.25vmax 0.35vmax #0293f1, inset -0.25vmax -0.25vmax 0.35vmax #0293f1; }
+
+.led-a,
+.led-b,
+.led-c {
+  left: 7vmax;
+  width: .75vmax;
+  height: .75vmax;
+  background-color: #f63c5b;
+  border: none; }
+
+.led-b {
+  left: 8vmax;
+  background-color: #FAE017; }
+
+.led-c {
+  left: 9vmax;
+  background-color: #51AD60; }
+
+/***********************/
+/* Parte derecha pokedex (Objetos unificado) */
+/***********************/
+.cover {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 23vmax;
+  height: 36vmax;
+  -webkit-transform-origin: left;
+  -ms-transform-origin: left;
+  transform-origin: left;
+  -webkit-transition: translate 2s, -webkit-transform 2s;
+  transition: translate 2s, -webkit-transform 2s;
+  -o-transition: transform 2s, translate 2s;
+  transition: transform 2s, translate 2s;
+  transition: transform 2s, translate 2s, -webkit-transform 2s; }
+
+.ar1 {
+  position: absolute;
+  width: 23vmax;
+  height: 27vmax;
+  bottom: 0;
+  right: 0; }
+  .ar1__front {
+    width: 23vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateX(-90deg) translateZ(25.75vmax);
+    transform: rotateX(-90deg) translateZ(25.75vmax); }
+  .ar1__back {
+    width: 23vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateX(-90deg) rotateY(180deg) translateX(-23vmax) translateY(-1.25vmax);
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-23vmax) translateY(-1.25vmax); }
+  .ar1__right {
+    width: 27vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(90deg) rotateZ(-90deg) translateZ(23vmax) translateX(-27vmax) translateY(-1.25vmax);
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ(23vmax) translateX(-27vmax) translateY(-1.25vmax); }
+  .ar1__left {
+    width: 27vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateY(-1.25vmax);
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-1.25vmax); }
+  .ar1__top {
+    width: 23vmax;
+    height: 27vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translateZ(1.25vmax);
+    transform: translateZ(1.25vmax); }
+  .ar1__bottom {
+    width: 23vmax;
+    height: 27vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(180deg) translateX(-23vmax);
+    transform: rotateY(180deg) translateX(-23vmax); }
+  .ar1__front {
+    background-color: #7a0619; }
+  .ar1__right {
+    background-color: #ab0823; }
+  .ar1__left {
+    background-color: #93071e; }
+  .ar1__top {
+    background-color: #DC0A2D; }
+  .ar1__bottom {
+    background-color: #f40c32; }
+
+.ar2 {
+  position: absolute;
+  width: 11.5vmax;
+  height: 5vmax;
+  top: 4vmax;
+  left: 0; }
+  .ar2__front {
+    width: 11.5vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateX(-90deg) translateZ(3.75vmax);
+    transform: rotateX(-90deg) translateZ(3.75vmax); }
+  .ar2__back {
+    width: 11.5vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateX(-90deg) rotateY(180deg) translateX(-11.5vmax) translateY(-1.25vmax);
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-11.5vmax) translateY(-1.25vmax); }
+  .ar2__right {
+    width: 5vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(90deg) rotateZ(-90deg) translateZ(11.5vmax) translateX(-5vmax) translateY(-1.25vmax);
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ(11.5vmax) translateX(-5vmax) translateY(-1.25vmax); }
+  .ar2__left {
+    width: 5vmax;
+    height: 1.25vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateY(-1.25vmax);
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-1.25vmax); }
+  .ar2__top {
+    width: 11.5vmax;
+    height: 5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translateZ(1.25vmax);
+    transform: translateZ(1.25vmax); }
+  .ar2__bottom {
+    width: 11.5vmax;
+    height: 5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(180deg) translateX(-11.5vmax);
+    transform: rotateY(180deg) translateX(-11.5vmax); }
+  .ar2__top {
+    background-image: -webkit-linear-gradient(25deg, #DC0A2D 10.45vmax, transparent 10.45vmax);
+    background-image: -o-linear-gradient(25deg, #DC0A2D 10.45vmax, transparent 10.45vmax);
+    background-image: linear-gradient(65deg, #DC0A2D 10.45vmax, transparent 10.45vmax); }
+  .ar2__bottom {
+    background-image: -webkit-linear-gradient(155deg, #f40c32 10.45vmax, transparent 10.45vmax);
+    background-image: -o-linear-gradient(155deg, #f40c32 10.45vmax, transparent 10.45vmax);
+    background-image: linear-gradient(-65deg, #f40c32 10.45vmax, transparent 10.45vmax); }
+  .ar2__front {
+    background-color: #ab0823; }
+  .ar2__back {
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(2.4vmax, transparent), color-stop(2.4vmax, #ab0823));
+    background-image: -webkit-linear-gradient(left, transparent 2.4vmax, #ab0823 2.4vmax);
+    background-image: -o-linear-gradient(left, transparent 2.4vmax, #ab0823 2.4vmax);
+    background-image: linear-gradient(to right, transparent 2.4vmax, #ab0823 2.4vmax); }
+  .ar2__left {
+    background-color: #93071e; }
+  .ar2__right::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 5.6vmax;
+    height: 100%;
+    background-color: #ab0823;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateY(25deg);
+    transform: rotateY(25deg); }
+
+/***********************/
+/* Contenido derecha */
+/***********************/
+.screen-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  top: 3vmax;
+  right: 2.15vmax;
+  width: 18vmax;
+  height: 6vmax;
+  padding: 1vmax;
+  background-color: #222222;
+  -webkit-box-shadow: inset 0.25vmax 0.25vmax 0 black, inset -0.15vmax -0.15vmax 0 black, 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35);
+  box-shadow: inset 0.25vmax 0.25vmax 0 black, inset -0.15vmax -0.15vmax 0 black, 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35); }
+
+.buttons-right-1 {
+  position: absolute;
+  top: 10.25vmax;
+  right: 2.15vmax;
+  width: 18vmax;
+  height: 6vmax;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[6];
+  grid-template-columns: repeat(6, 1fr);
+  -webkit-box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35);
+  box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35); }
+
+.button-right {
+  width: 2.925vmax;
+  height: 2.925vmax; }
+  .button-right__front {
+    width: 2.925vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateX(-90deg) translateZ(2.45vmax);
+    transform: rotateX(-90deg) translateZ(2.45vmax); }
+  .button-right__back {
+    width: 2.925vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateX(-90deg) rotateY(180deg) translateX(-2.925vmax) translateY(-0.5vmax);
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-2.925vmax) translateY(-0.5vmax); }
+  .button-right__right {
+    width: 2.95vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(90deg) rotateZ(-90deg) translateZ(2.925vmax) translateX(-2.95vmax) translateY(-0.5vmax);
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ(2.925vmax) translateX(-2.95vmax) translateY(-0.5vmax); }
+  .button-right__left {
+    width: 2.95vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.5vmax);
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.5vmax); }
+  .button-right__top {
+    width: 2.925vmax;
+    height: 2.95vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translateZ(0.5vmax);
+    transform: translateZ(0.5vmax); }
+  .button-right__bottom {
+    width: 2.925vmax;
+    height: 2.95vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(180deg) translateX(-2.925vmax);
+    transform: rotateY(180deg) translateX(-2.925vmax); }
+  .button-right__front {
+    background-color: #0274be; }
+  .button-right__back {
+    background-color: #0293f1; }
+  .button-right__right {
+    background-color: #0293f1; }
+  .button-right__left {
+    background-color: #0274be; }
+  .button-right__top {
+    background-color: #29AAFD; }
+  .button-right__bottom {
+    background-color: #0274be; }
+
+.buttons-right-2 {
+  position: absolute;
+  top: 17.5vmax;
+  right: 2.15vmax;
+  width: 18vmax;
+  height: 3vmax;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 4fr 1fr;
+  grid-template-columns: 1fr 4fr 1fr; }
+
+.button-right {
+  -webkit-box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35);
+  box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35); }
+  .button-right__front--white {
+    background-color: #ababab; }
+  .button-right__back--white {
+    background-color: #c5c5c5; }
+  .button-right__right--white {
+    background-color: #c5c5c5; }
+  .button-right__left--white {
+    background-color: #ababab; }
+  .button-right__top--white {
+    background-color: #DEDEDE; }
+  .button-right__bottom--white {
+    background-color: #ababab; }
+  .button-right__front--yellow {
+    background-color: #a79504; }
+  .button-right__back--yellow {
+    background-color: #d9c105; }
+  .button-right__right--yellow {
+    background-color: #d9c105; }
+  .button-right__left--yellow {
+    background-color: #a79504; }
+  .button-right__top--yellow {
+    background-color: #FAE017; }
+  .button-right__bottom--yellow {
+    background-color: #a79504; }
+
+.buttons-right-3 {
+  position: absolute;
+  bottom: 2vmax;
+  right: 2.15vmax;
+  width: 18vmax;
+  height: 3vmax;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between; }
+
+.button-large {
+  width: 8.5vmax;
+  height: 3vmax;
+  -webkit-box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35);
+  box-shadow: 0.35vmax 0.35vmax 0.35vmax rgba(34, 34, 34, 0.35); }
+  .button-large__front {
+    width: 8.5vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: bottom left;
+    -ms-transform-origin: bottom left;
+    transform-origin: bottom left;
+    -webkit-transform: rotateX(-90deg) translateZ(2.5vmax);
+    transform: rotateX(-90deg) translateZ(2.5vmax); }
+  .button-large__back {
+    width: 8.5vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateX(-90deg) rotateY(180deg) translateX(-8.5vmax) translateY(-0.5vmax);
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-8.5vmax) translateY(-0.5vmax); }
+  .button-large__right {
+    width: 3vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(90deg) rotateZ(-90deg) translateZ(8.5vmax) translateX(-3vmax) translateY(-0.5vmax);
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ(8.5vmax) translateX(-3vmax) translateY(-0.5vmax); }
+  .button-large__left {
+    width: 3vmax;
+    height: 0.5vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.5vmax);
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-0.5vmax); }
+  .button-large__top {
+    width: 8.5vmax;
+    height: 3vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: translateZ(0.5vmax);
+    transform: translateZ(0.5vmax); }
+  .button-large__bottom {
+    width: 8.5vmax;
+    height: 3vmax;
+    -webkit-transform-origin: top left;
+    -ms-transform-origin: top left;
+    transform-origin: top left;
+    -webkit-transform: rotateY(180deg) translateX(-8.5vmax);
+    transform: rotateY(180deg) translateX(-8.5vmax); }
+  .button-large__front {
+    background-color: black; }
+  .button-large__back {
+    background-color: #090909; }
+  .button-large__right {
+    background-color: #090909; }
+  .button-large__left {
+    background-color: black; }
+  .button-large__top {
+    background-color: #222222; }
+  .button-large__bottom {
+    background-color: black; }
+
+/***********************/
+/* Parte central pokedex */
+/***********************/
+.wheel {
+  -webkit-transform: rotateX(90deg) translateY(0.75vmax);
+  transform: rotateX(90deg) translateY(0.75vmax);
+  bottom: 16vmax;
+  left: calc(50% - .55vmax); }
+  .wheel-el {
+    width: 3vmax;
+    height: 3vmax; }
+    .wheel-el__front {
+      width: 1.275vmax;
+      height: 32vmax;
+      -webkit-transform: rotateX(-90deg) translateZ(1.5vmax);
+      transform: rotateX(-90deg) translateZ(1.5vmax); }
+    .wheel-el__back {
+      width: 1.275vmax;
+      height: 32vmax;
+      -webkit-transform: rotateX(90deg) translateZ(1.5vmax);
+      transform: rotateX(90deg) translateZ(1.5vmax); }
+    .wheel-el__top {
+      width: 1.275vmax;
+      height: 3vmax;
+      -webkit-transform: rotateY(0deg) translateZ(16vmax);
+      transform: rotateY(0deg) translateZ(16vmax); }
+    .wheel-el__bottom {
+      width: 1.275vmax;
+      height: 3vmax;
+      -webkit-transform: rotateY(180deg) translateZ(16vmax);
+      transform: rotateY(180deg) translateZ(16vmax); }
+    .wheel-el__right {
+      width: 32vmax;
+      height: 3vmax;
+      -webkit-transform: rotateY(90deg) translateZ(0.58824vmax);
+      transform: rotateY(90deg) translateZ(0.58824vmax); }
+    .wheel-el__left {
+      width: 32vmax;
+      height: 3vmax;
+      -webkit-transform: rotateY(90deg) translateZ(-0.58824vmax);
+      transform: rotateY(90deg) translateZ(-0.58824vmax); }
+    .wheel-el:nth-of-type(2) {
+      -webkit-transform: rotateZ(45deg);
+      -ms-transform: rotate(45deg);
+      transform: rotateZ(45deg); }
+    .wheel-el:nth-of-type(3) {
+      -webkit-transform: rotateZ(90deg);
+      -ms-transform: rotate(90deg);
+      transform: rotateZ(90deg); }
+    .wheel-el:nth-of-type(4) {
+      -webkit-transform: rotateZ(135deg);
+      -ms-transform: rotate(135deg);
+      transform: rotateZ(135deg); }
+    .wheel-el__front {
+      background-color: #f4153a; }
+    .wheel-el__back {
+      background-color: #ab0823; }
+    .wheel-el__right {
+      background-color: #ab0823; }
+    .wheel-el__left {
+      background-color: #7a0619; }
+    .wheel-el__top {
+      background-color: #DC0A2D; }
+    .wheel-el__bottom {
+      background-color: #7a0619; }
+
+/***********************/
+/* Estados */
+/***********************/
+.is-pokedex-open {
+  -webkit-transform: translateZ(2.4vmax) rotateY(-180deg);
+  transform: translateZ(2.4vmax) rotateY(-180deg);
+  -webkit-transition: translate 3s, -webkit-transform 3s;
+  transition: translate 3s, -webkit-transform 3s;
+  -o-transition: transform 3s, translate 3s;
+  transition: transform 3s, translate 3s;
+  transition: transform 3s, translate 3s, -webkit-transform 3s; }
+
+.is-pokemon-hidden {
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 1s linear;
+  -o-transition: opacity 1s linear;
+  transition: opacity 1s linear; }
+
+.is-shadow-hidden {
+  right: 100%;
+  -webkit-transition: right 3s;
+  -o-transition: right 3s;
+  transition: right 3s; }
+
+@-webkit-keyframes pokemon-bg {
+  to {
+    background-position: 100% 100%; } }
+
+@keyframes pokemon-bg {
+  to {
+    background-position: 100% 100%; } }
+
+@-webkit-keyframes pokemon-arrow {
+  0%, 20%, 80%, 90%, 95%, 100% {
+    opacity: 1;
+    color: #DEDEDE; }
+  30%, 40%, 62%, 66%, 92% {
+    opacity: .95;
+    color: #29AAFD; }
+  50%, 60%, 64%, 70% {
+    opacity: .9;
+    color: #DEDEDE; } }
+
+@keyframes pokemon-arrow {
+  0%, 20%, 80%, 90%, 95%, 100% {
+    opacity: 1;
+    color: #DEDEDE; }
+  30%, 40%, 62%, 66%, 92% {
+    opacity: .95;
+    color: #29AAFD; }
+  50%, 60%, 64%, 70% {
+    opacity: .9;
+    color: #DEDEDE; } }
+
+@-webkit-keyframes pokemon-img {
+  0%, 20%, 80%, 90%, 95%, 100% {
+    opacity: 1; }
+  30%, 40%, 62%, 66%, 92% {
+    opacity: .95; }
+  50%, 60%, 64%, 70% {
+    opacity: .9; } }
+
+@keyframes pokemon-img {
+  0%, 20%, 80%, 90%, 95%, 100% {
+    opacity: 1; }
+  30%, 40%, 62%, 66%, 92% {
+    opacity: .95; }
+  50%, 60%, 64%, 70% {
+    opacity: .9; } }
+
+@-webkit-keyframes pokemon-screen {
+  0%, 20%, 80%, 90%, 95%, 100% {
+    opacity: 1; }
+  30%, 40%, 62%, 66%, 92% {
+    opacity: .975; }
+  50%, 60%, 64%, 70% {
+    opacity: .95; } }
+
+@keyframes pokemon-screen {
+  0%, 20%, 80%, 90%, 95%, 100% {
+    opacity: 1; }
+  30%, 40%, 62%, 66%, 92% {
+    opacity: .975; }
+  50%, 60%, 64%, 70% {
+    opacity: .95; } }

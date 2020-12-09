@@ -1,0 +1,1772 @@
+:root {
+    --bg1: 12, 20, 84;
+    --bg2: 13, 14, 69;
+    --bg3: 7, 5, 48;
+
+    --shadow-floor-1: 6, 2, 27;
+    --shadow-floor-2: 13, 6, 54;
+
+    --light-floor-1: 41, 38, 61; //azul
+    --light-floor-2: 83, 106, 119; // azul claro
+    --light-floor-3: 158, 111, 189; // cyan
+    --light-floor-4: 13, 86, 70; // melon
+    --light-floor-5: 0, 0, 150; // morado
+
+    --w1: 200, 200, 200;
+    --w2: 150, 150, 190;
+    --w3: 90, 90, 115;
+
+    --b1: 59, 59, 59;
+    --b2: 23, 35, 51;
+    --b3: 2, 6, 25;
+
+    --water1: 51, 163, 207;
+    --water2: 63, 120, 162;
+
+    --window: 215, 247, 247;
+    --lamp: 214, 249, 249;
+    --crystal: 15, 22, 36;
+
+}
+/*
+@keyframes colors {
+    0%, 50%{ --lamp: 230, 253, 232; }
+    51%, 100%{ --lamp: 193, 255, 164; }
+}
+body{ animation: 4s colors infinite;}
+*/
+/***********************/
+/***********************/
+@mixin cube($width, $height, $depth) {
+    &__front{ @include cube-front($width, $height, $depth); }
+    &__back{ @include cube-back($width, $height, $depth); }
+    &__right{ @include cube-right($width, $height, $depth); }
+    &__left{ @include cube-left($width, $height, $depth); }
+    &__top{ @include cube-top($width, $height, $depth);}
+    &__bottom{ @include cube-bottom($width, $height, $depth); }
+}
+/************************/
+/* Mixin para crear cubo ( Caras siempre al frente ) */
+/************************/
+@mixin cube-front($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: bottom left;
+    transform: rotateX(-90deg) translateZ( -($height - ($depth * 2) ) );
+}
+@mixin cube-back($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-$width) translateY(-$height) ;
+}
+@mixin cube-right($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ($width) translateX(-$depth * 2) translateY(-$height);
+}
+@mixin cube-left($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-$height);
+}
+@mixin cube-top($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: translateZ($height) ;
+}
+@mixin cube-bottom($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: rotateY(180deg) translateX(-$width);
+}
+/***********************/
+/***********************/
+@mixin cube-color($color) {
+    &__front{ background-color: darken($color, 14); }
+    &__back{ background-color: darken($color, 7); }
+    &__right{ background-color: $color; }
+    &__left{ background-color: darken($color, 14); }
+    &__top{ background-color: darken($color, 7); }
+    &__bottom{ background-color: darken($color, 14); }
+}
+/***********************/
+/***********************/
+@mixin face-ani($animation, $time, $side, $width-el, $height-el, $depth-el) {
+
+    animation: #{$animation} #{$time} infinite ease;
+
+    @keyframes #{$animation} {
+        0%, 15%, 45%, 60%, 62%, 68%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-el, $depth-el); }
+        }
+        20%, 40%, 58%, 64%, 70%, 100%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-finish, $depth-el); }
+        }
+    }
+}
+/**/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	user-select: none;
+    transform-style: preserve-3d;
+
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    outline: none;
+    appearance: none;
+}
+/* Generic */
+body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+    width: 100%;
+    height: 100vh;
+    background-image: radial-gradient(circle, rgba(9, 15, 66, 1), rgba(3, 3, 36, 1), rgba(2, 1, 20, 1) );
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform .1s linear;
+}
+
+.face{ position: absolute; }
+/***************/
+$bg: rgb(12, 20, 84);
+$text: #ffffff;
+$on: darken($bg, 15);
+$off: lighten($bg, 55);
+
+.input{
+    position: fixed;
+    bottom: 4vw;
+    left: 4vw;
+    transform: translateZ(20000px);
+
+    // display: none;
+
+    @media(max-width: 600px){ left: calc(50% - 50px); }
+
+    &__label{
+		cursor: pointer;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	}
+    &__checkbox{
+        position: relative;
+        width: 100px;
+        height: 50px;
+
+        border-radius: 25px;
+		appearance: none;
+        background-color: $on;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        cursor: pointer;
+        transition: 1s;
+
+        &:checked{ background-color: $off;}
+        &:checked + .input__label .bg{ background-color: lighten($bg, 6); }
+
+        &::before{
+            content: '';
+            position: absolute;
+            width: 34px;
+            height: 34px;
+            top: 50%;
+            left: 8px;
+			transform: translateY(-50%);
+
+            border-radius: 50%;
+			border: 2px solid $text;
+            transition: 1s;
+
+        }
+        &:checked::before{ left: calc(100% - 42px); }
+    }
+}
+.lamp-b{
+    position: absolute;
+    width: .5vw;
+    height: .5vw;
+
+    border-radius: 50%;
+    background-color: rgba(214, 249, 249, 1);
+    border: .1vw solid rgba(90, 90, 115, .25);
+    box-shadow:
+        .6vw .6vw .85vw rgba(214, 249, 249, 1),
+        -.6vw .6vw .85vw rgba(214, 249, 249, 1),
+        .6vw -.6vw .85vw rgba(214, 249, 249, 1),
+        -.6vw -.6vw .85vw rgba(214, 249, 249, 1)
+    ;
+}
+.lamp-t{
+    position: absolute;
+    width: .5vw;
+    height: 2.5vw;
+
+    border-radius: 50%;
+    background-image: linear-gradient(to top, transparent, rgba(214, 249, 249, .8));
+    border: .1vw solid rgba(90, 90, 115, .25);
+
+    filter: blur(.3vw);
+
+    &::before,
+    &::after{
+        content: '';
+        position: absolute;
+        bottom: .1vw;
+        width: 200%;
+        height: 3vw;
+
+        border-radius: 50%;
+        background-image: linear-gradient(to top, transparent, rgba(214, 249, 249, .5), rgba(214, 249, 249, .2));
+        box-shadow:
+            .15vw .15vw 1.5vw rgba(214, 249, 249, .2),
+            -.15vw .15vw 1.5vw rgba(214, 249, 249, .2),
+            .15vw -.15vw 1.5vw rgba(214, 249, 249, .2),
+            -.15vw -.15vw 1.5vw rgba(214, 249, 249, .2)
+        ;
+    }
+    &::before{
+        transform-origin: bottom left;
+        transform: rotateZ(-10deg);
+    }
+    &::after{
+        transform-origin: bottom left;
+        transform: rotateZ(10deg);
+    }
+}
+/***************/
+.house,
+.shadows,
+.lamps{
+	position: absolute;
+    width: 30vw;
+    height: 35vw;
+
+	transform:
+		perspective(10000px)
+		rotateX(60deg)
+		rotateZ(45deg)
+        translateZ(-10vw)
+	;
+    // animation: h 4s infinite alternate;
+}
+@keyframes h {
+    from{
+        transform:
+    		perspective(10000px)
+    		rotateX(60deg)
+    		rotateZ(40deg)
+            translateZ(-10vw)
+    	;
+    }
+}
+.shadows{
+    width: 34vw;
+    height: 39vw;
+    margin-top: 3vw;
+
+}
+.shadow{
+    position: absolute;
+
+    &-1{// dark shadow
+        top: -1vw;
+        left: 0;
+        width: 31.5vw;
+        height: 37vw;
+        background-color: rgba(6, 2, 27, .7);
+        filter: blur(.35vw);
+    }
+    &-2{
+        bottom: 1vw;
+        left: -2vw;
+        width: 36vw;
+        height: 42vw;
+
+        background-color: rgba(13, 6, 54, .25);
+        filter: blur(1vw);
+
+    }
+}
+.light{
+    position: absolute;
+    &-1{
+        bottom: -15vw;
+        left: 15vw;
+        width: 10vw;
+        height: 20vw;
+        border-radius: 50%;
+        transform: rotateZ(-45deg);
+
+        background-image: linear-gradient(to bottom , rgba(0, 0, 150, .2), rgba(0, 0, 150, .2));
+        filter: blur(.95vw);
+    }
+    &-2{
+        bottom: -25vw;
+        width: 40vw;
+        height: 40vw;
+        border-radius: 50%;
+        transform: rotateZ(-45deg);
+
+        background-image: radial-gradient( rgba(0, 0, 150, .05),  rgba(0, 0, 150, .05));
+        filter: blur(1vw);
+    }
+    &-3{
+        bottom: 5vw;
+        left: 20vw;
+        width: 30vw;
+        height: 30vw;
+        border-radius: 50%;
+        transform: rotateZ(-60deg);
+
+        background-image: radial-gradient(rgba(0, 0, 150, .3) 50%, rgba(6, 2, 27, .1), rgba(13, 86, 70, .2));
+        box-shadow:
+            1vw 1vw 1vw rgba(0, 0, 150, .1),
+            -1vw 1vw 1vw rgba(0, 0, 150, .1),
+            1vw -1vw 1vw rgba(0, 0, 150, .1),
+            -1vw -1vw 1vw rgba(0, 0, 150, .1)
+        ;
+        filter: blur(1vw);
+    }
+    &-4{
+        bottom: -25vw;
+        right: 24vw;
+        width: 50vw;
+        height: 50vw;
+        transform: rotateZ(-25deg);
+
+        border-radius: 50%;
+        background-image: linear-gradient(to right, rgba(214, 249, 249, .075),  rgba(214, 249, 249, .075));
+        filter: blur(.4vw);
+    }
+
+    &-5{
+        width: 20vw;
+        height: 20vw;
+        left: -15vw;
+        bottom: -1vw;
+
+        border-radius: 50%;
+        // background-image: radial-gradient( rgba(0, 0, 150, .3), transparent);
+        // filter: blur(1vw);
+    }
+}
+.lamps{
+    width: 34vw;
+    height: 38vw;
+
+    .lamp-b{
+
+        box-shadow: none;
+        box-shadow:
+            .5vw -.5vw 1.75vw rgba(214, 249, 249, .8),
+            -.5vw -.5vw 1.75vw rgba(214, 249, 249, .8),
+            .5vw .5vw 1.75vw rgba(214, 249, 249, .8),
+            -.5vw .5vw 1.75vw rgba(214, 249, 249, .8)
+        ;
+        &-1{ bottom: 0; left:  0; }
+        &-2{ bottom: 0; right: 0; }
+        &-3{ top: 0; left: 0; }
+        &-4{ top: 0; right: 0; }
+    }
+}
+/***************/
+/***************/
+.a1{
+    $width-el: 30vw;
+    $height-el: 1.5vw;
+    $depth-el: 17.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 30vw;
+    height: 35vw;
+
+    &__r1{
+        position: absolute;
+        bottom: 1vw;
+        left: -4vw;
+        width: 33vw;
+        height: 7vw;
+        transform-origin: top left;
+        transform: skewX(45deg);
+        background-image: linear-gradient(to bottom, rgba(200, 200, 200, .1), rgba(200, 200, 200, .02));
+
+        border-top-left-radius: 7vw;
+    }
+    &__r2{
+        position: absolute;
+        bottom: 1vw;
+        right: -2vw;
+        width: 6vw;
+        height: 32vw;
+        transform-origin: bottom right;
+        transform: skewY(45deg);
+        background-image: linear-gradient(to right, rgba(200, 200, 200, .1), rgba(200, 200, 200, .01));
+    }
+
+    &__front{
+        background-color: rgba(150, 150, 190, 1);
+        overflow: hidden;
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(13, 86, 70, .55), transparent 70%, rgba(6, 2, 27, .5));
+        }
+        &--s2{
+            width: 8vw;
+            height: 8vw;
+            left: -1vw;
+            bottom: -1vw;
+
+            border-radius: 50%;
+            background-image: linear-gradient(to right, rgba(158, 111, 189, .3), rgba(214, 249, 249, .5));
+            box-shadow:
+                .5vw .5vw 2vw rgba(214, 249, 249, .2),
+                -.5vw .5vw 2vw rgba(214, 249, 249, .2),
+                .5vw -.5vw 2vw rgba(214, 249, 249, .2),
+                -.5vw -.5vw 2vw rgba(214, 249, 249, .2)
+            ;
+            filter: blur(1vw);
+        }
+        &--s3,
+        &--s4{
+            width: 2vw;
+            height: 2vw;
+
+            border-radius: 50%;
+            background-color: rgba(214, 249, 249, .4);
+            filter: blur(.75vw);
+        }
+        &--s3{ left: -.5vw;}
+        &--s4{ right: -.5vw;}
+    }
+    &__back{ background-color: rgba(150, 150, 190, 1); }
+    &__right{
+        background-color: rgba(90, 90, 115, 1);
+        overflow: hidden;
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(41, 38, 61, .4), rgba(158, 111, 189, .4) 50%);
+        }
+        &--s2,
+        &--s3{
+            width: 2vw;
+            height: 2vw;
+            border-radius: 50%;
+            background-color: rgba(214, 249, 249, .35);
+            filter: blur(.75vw);
+        }
+        &--s2{ left: -.5vw;}
+        &--s3{ right: -.5vw;}
+
+    }
+    &__left{ background-color: rgba(90, 90, 115, 1); }
+    &__top{
+        background-color:  rgba(200, 200, 200, 1);
+        overflow: hidden;
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(13, 86, 70, .25), transparent 70%, rgba(158, 111, 189, .1));
+        }
+        &--s2{
+            width: 24vw;
+            height: 5vw;
+            left: -1vw;
+            bottom: 0;
+
+            transform-origin: right;
+            transform: skewX(-25deg);
+            background-image: linear-gradient(to right, rgba(6, 2, 27, .075), rgba(6, 2, 27, .05));
+        }
+        &--s3{
+            width: 20vw;
+            height: 15vw;
+            left: -11vw;
+            bottom: -7vw;
+            border-radius: 50%;
+
+            background-image: linear-gradient(to right, rgba(158, 111, 189, .3), rgba(214, 249, 249, .5));
+            box-shadow:
+                .5vw .5vw 2vw rgba(214, 249, 249, .2),
+                -.5vw .5vw 2vw rgba(214, 249, 249, .2),
+                .5vw -.5vw 2vw rgba(214, 249, 249, .2),
+                -.5vw -.5vw 2vw rgba(214, 249, 249, .2)
+            ;
+            filter: blur(1vw);
+        }
+        &--s4{
+            right: -3vw;
+            top: -.5vw;
+            width: 70%;
+            height: 120%;
+
+            border-radius: 50%;
+            background-image: linear-gradient(to right, rgba(158, 111, 189, .3), rgba(0, 0, 150, .3) );
+            filter: blur(1.4vw);
+        }
+
+        .lamp-b{
+            bottom: 4.25vw;
+            &-1{ right: 7vw; }
+            &-2{ right: 9.5vw; }
+            &-3{ right: 12vw; }
+            &-4{ right: 14.5vw; }
+            &-5{ right: 17vw; }
+        }
+    }
+    &__bottom{ background-color:  rgba(150, 150, 190, 1); }
+}
+/*---------------------*/
+.b1{
+    $width-el: 30vw;
+    $height-el: 5vw;
+    $depth-el: 10vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(1.5vw);
+
+	position: absolute;
+    top: 0;
+    left: 0;
+    width: 30vw;
+    height: 20vw;
+
+    &__front{ background-color: rgba(150, 150, 190, 1); }
+    &__back{ background-color:  rgba(150, 150, 190, 1); }
+    &__right{
+        background-color: rgba(90, 90, 115, 1);
+        overflow: hidden;
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right,  rgba(158, 111, 189, .2), rgba(158, 111, 189, .3));
+        }
+
+    }
+    &__left{ background-color: rgba(90, 90, 115, 1); }
+    &__top{
+        background-color:  rgba(200, 200, 200, 1);
+        overflow: hidden;
+        &--s1{
+            right: 3.5vw;
+            top: -.5vw;
+            width: 4vw;
+            height: 15vw;
+
+            background-image: linear-gradient(to right, rgba(0, 0, 150, .5), rgba(0, 0, 150, .1));
+            transform: skewY(-10deg);
+            filter: blur(.15vw);
+        }
+        &--s2{
+            right: -3vw;
+            top: -.5vw;
+            width: 70%;
+            height: 120%;
+
+            border-radius: 50%;
+            background-image: linear-gradient(to right, rgba(158, 111, 189, .6), rgba(0, 0, 150, .45) );
+            filter: blur(1.4vw);
+        }
+        &--s3{
+            left: -3vw;
+            top: -.5vw;
+            width: 60%;
+            height: 120%;
+
+            border-radius: 50%;
+            background-image: linear-gradient(to right, rgba(41, 38, 61, .7),  rgba(15, 22, 36, .2), rgba(0, 0, 150, .5) );
+            filter: blur(1.4vw);
+        }
+        &--s4{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(215, 247, 247, 1),  rgba(215, 247, 247, 1) );
+        }
+        &--s5{
+            width: 24vw;
+            height: 7vw;
+            left: -1vw;
+            bottom: 0;
+
+            transform-origin: right;
+            transform: skewX(-25deg);
+            background-image: linear-gradient(to right, rgba(6, 2, 27, .08), rgba(6, 2, 27, .08));
+        }
+        .lamp-b{
+            top: 1vw;
+            &-1{ right: 1vw; }
+            &-2{ right: 5vw; }
+            &-3{ top: 13vw; right: 5vw; }
+        }
+    }
+    &__bottom{ background-color:  rgba(150, 150, 190, 1); }
+}
+.b2{
+    $width-el: 12vw;
+    $height-el: 5vw;
+    $depth-el: 5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(1.5vw);
+
+	position: absolute;
+    top: 20vw;
+    left: 0;
+    width: 12vw;
+    height: 10vw;
+
+    &__front{
+        background-color: rgba(150, 150, 190, 1);
+        overflow: hidden;
+
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(13, 86, 70, .3), transparent );
+        }
+        &--s2{
+            width: 8vw;
+            height: 8vw;
+            border-radius: 50%;
+            left: -1vw;
+            bottom: -1vw;
+
+            filter: blur(1vw);
+            box-shadow:
+                .5vw .5vw 2vw rgba(214, 249, 249, .2),
+                -.5vw .5vw 2vw rgba(214, 249, 249, .2),
+                .5vw -.5vw 2vw rgba(214, 249, 249, .2),
+                -.5vw -.5vw 2vw rgba(214, 249, 249, .2)
+            ;
+            background-image: linear-gradient(to right, rgba(214, 249, 249, .3), rgba(214, 249, 249, .5));
+        }
+        .lamp-t{
+            bottom: 1vw;
+
+            &-1{ right: 1.5vw; }
+            &-2{ right: 4vw; }
+            &-3{ right: 6.5vw; }
+            &-4{ right: 9vw; }
+            &-5{ right: 11.25vw; }
+        }
+    }
+    &__back{ background-color:  rgba(200, 200, 200, 1); }
+    &__right{
+        background-color: rgba(150, 150, 190, 1);
+
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(51, 163, 207, .5), rgba(63, 120, 162, .7));
+        }
+    }
+    &__left{ background-color: rgba(90, 90, 115, 1); }
+    &__top{
+        background-color: rgba(23, 35, 51, 1);
+        box-shadow:
+            inset 1vw 1vw 0vw rgba(2, 6, 25, .25),
+            inset -1vw 1vw 0vw rgba(2, 6, 25, .25),
+            inset 1vw -1vw 0vw rgba(2, 6, 25, .25)
+        ;
+        overflow: hidden;
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right,  rgba(158, 111, 189, .5), rgba(0, 0, 150, .3));
+
+            &::before{
+                content: '';
+                position: absolute;
+                bottom: -6vw;
+                left: -5vw;
+                width: 12vw;
+                height: 12vw;
+                border-radius: 50%;
+                background-image: radial-gradient( rgba(214, 249, 249, .1), transparent );
+                filter: blur(.3vw);
+
+            }
+        }
+        .lamp-b{
+            &-1{ bottom: .35vw; left: .35vw; }
+            &-2{ bottom: .35vw; right: .35vw; }
+            &-3{ top: .35vw; left: .35vw; }
+            &-4{ top: .35vw; right: .35vw; }
+        }
+    }
+    &__bottom{ background-color:  rgba(150, 150, 190, 1); }
+}
+.b3,
+.b4{
+    $width-el: 12vw;
+    $height-el: 5vw;
+    $depth-el: .125vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(1.5vw);
+
+	position: absolute;
+    top: 20vw;
+    left: 12vw;
+    width: 12vw;
+    height: .25vw;
+
+    &__front{ background-color: rgba(150, 150, 190, 1); }
+    &__back{ background-color:  rgba(200, 200, 200, 1); }
+    &__right{ background-color: rgba(90, 90, 115, 1); }
+    &__left{ background-color: rgba(150, 150, 190, 1); }
+    &__top{ background-color:  rgba(200, 200, 200, 1); }
+    &__bottom{ background-color:  rgba(150, 150, 190, 1); }
+}
+.b3{
+    &__front{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(51, 163, 207, .5), rgba(63, 120, 162, .7));
+        }
+    }
+}
+.b4{
+    top: calc(30vw - .25vw);
+    &__front{
+        overflow: hidden;
+        &--s1{
+            right: -3vw;
+            top: -.5vw;
+            width: 70%;
+            height: 120%;
+
+            border-radius: 50%;
+            background-image: linear-gradient(to right, rgba(158, 111, 189, .2), rgba(0, 0, 150, .3) );
+            filter: blur(1.4vw);
+        }
+        .lamp-t{
+            bottom: 1vw;
+
+            &-1{ right: 1vw; }
+            &-2{ right: 3.5vw; }
+            &-3{ right: 6vw; }
+            &-4{ right: 8.5vw; }
+            &-5{ right: 11vw; }
+        }
+    }
+    &__right{
+        overflow: hidden;
+        &--s1{
+            left: 0;
+            top: -.5vw;
+            width: 100%;
+            height: 120%;
+
+            border-radius: 50%;
+            background-image: linear-gradient(to left, rgba(158, 111, 189, .2), rgba(0, 0, 150, .3) );
+            filter: blur(1vw);
+        }
+
+    }
+}
+.b5{
+    $width-el: .25vw;
+    $height-el: 5vw;
+    $depth-el: 5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(1.5vw);
+
+	position: absolute;
+    top: 20vw;
+    left: calc(24vw - .25vw);
+    width: .25vw;
+    height: 10vw;
+
+    &__front{ background-color: rgba(150, 150, 190, 1); }
+    &__back{ background-color:  rgba(200, 200, 200, 1); }
+    &__right{
+        background-color: rgba(90, 90, 115, 1);
+        &--s1{
+            width: 100%;
+            height: 100%;
+
+            background-image: linear-gradient(to right, rgba(214, 249, 249, .2), rgba(214, 249, 249, .5));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(-35deg, transparent 50%, rgba(214, 249, 249, .2) 50%);
+        }
+
+        .lamp-t{
+            opacity: .5;
+            filter: blur(.25vw);
+            &-1{ bottom: 1.5vw; left: 3.25vw; }
+            &-2{ bottom: 2.25vw; left: 5vw; }
+            &-3{ bottom: 3vw; left: 6.75vw; }
+            &-4{ bottom: 3.75vw; left: 8.5vw; }
+        }
+    }
+    &__left{ background-color: rgba(150, 150, 190, 1); }
+    &__top{ background-color:  rgba(200, 200, 200, 1); }
+    &__bottom{ background-color:  rgba(150, 150, 190, 1); }
+}
+.bc2{
+    $width-el: 12vw;
+    $height-el: 2vw;
+    $depth-el: 7vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    transform: translateZ(6.5vw);
+
+    position: absolute;
+    top: 16vw;
+    left: 0;
+    width: 12vw;
+    height: 14vw;
+}
+.crystal{
+    .face{
+        background-color: rgba(15, 36, 25, 0.25);
+        // border-top: .3vw solid rgba(15, 22, 36, .25);
+        overflow: hidden;
+
+        &::before{
+            content: '';
+            position: absolute;
+            width: 5vw;
+            height: 100%;
+
+            background-image: linear-gradient(-35deg,  rgba(158, 111, 189, .25),  transparent , rgba(214, 249, 249, .1), transparent 80%);
+            filter: blur(.75vw);
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            left: 50%;
+
+            background-image: linear-gradient(-75deg,  rgba(214, 249, 249, .3),  transparent , rgba(15, 22, 36, .25), transparent, rgba(15, 22, 36, .3) );
+            filter: blur(.75vw);
+        }
+    }
+}
+.window{
+    .face{
+        background-color: rgba(215, 247, 247, 1);
+        border-top: .3vw solid rgba(59, 59, 59, 1);
+        border-bottom: .3vw solid rgba(59, 59, 59, 1);
+        border-left: .3vw solid rgba(59, 59, 59, 1);
+        box-shadow:
+            .5vw .5vw .75vw rgba(215, 247, 247, .35),
+            -.5vw .5vw .75vw rgba(215, 247, 247, .35),
+            .5vw -.5vw .75vw rgba(215, 247, 247, .35),
+            -.5vw -.5vw .75vw rgba(215, 247, 247, .35)
+        ;
+
+        &::before{
+            content: '';
+            position: absolute;
+            left: calc(50% - .115vw);
+            bottom: -1vw;
+            width: .3vw;
+            height: calc(100% + 1vw);
+            background-color: rgba(59, 59, 59, 1);
+        }
+
+        &-b{
+            &::before{ content: none; }
+
+            box-shadow:
+                .5vw .5vw 2.75vw rgba(215, 247, 247, .75),
+                -.5vw .5vw 2.75vw rgba(215, 247, 247, .75),
+                .5vw -.5vw 2.75vw rgba(215, 247, 247, .75),
+            ;
+        }
+    }
+}
+.bc3{
+    $width-el: 12vw;
+    $height-el: 2vw;
+    $depth-el: 5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(6.5vw);
+
+    position: absolute;
+    top: 20vw;
+    left: 12vw;
+    width: 12vw;
+    height: 10vw;
+}
+.bc4{
+    $width-el: 6vw;
+    $height-el: 2vw;
+    $depth-el: 10vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(6.5vw);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6vw;
+    height: 20vw;
+}
+/*---------------------*/
+.bp1a,
+.bp1b{
+    transform: translateZ(1.5vw);
+
+	position: absolute;
+    top: 19.9vw;
+    left: 11.9vw;
+    width: 12vw;
+    height: 10vw;
+
+    background-color: rgba(63, 120, 162, 1);
+    overflow: hidden;
+
+    &::before{
+        content: '';
+        position: absolute;
+        width: 5vw;
+        height: 100%;
+
+        background-image: linear-gradient(-75deg,  rgba(41, 38, 61, .2), transparent, rgba(0, 0, 150, .2),  transparent , rgba(200, 200, 200, .2), transparent 80%);
+        filter: blur(.85vw);
+    }
+    &::after{
+        content: '';
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        left: 50%;
+
+        background-color: rgba(200, 200, 200, .3);
+        filter: blur(.85vw);
+    }
+}
+.bp1b{
+    transform: translateZ(5.75vw);
+    background-color: rgba(74, 169, 207, 0.8);
+
+    &--s1{
+        position: absolute;
+        width: 5vw;
+        height: 5vw;
+        border-radius: 50%;
+
+        filter: blur(1vw);
+        background-image: linear-gradient(-75deg, rgba(13, 86, 70, .2),  transparent , rgba(214, 249, 249, .4), transparent 80%);
+    }
+}
+.bp2,
+.bp3,
+.bp4,
+.bp5,
+.bp6
+{
+    $width-el: .75vw;
+    $height-el: 4vw;
+    $depth-el: 5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(1.5vw);
+
+    position: absolute;
+    top: 19.95vw;
+    left: 12vw;
+    width: .75vw;
+    height: 10vw;
+
+    &__front{ background-color: rgba(150, 150, 190, 1); }
+    &__back{ background-color:  rgba(200, 200, 200, 1); }
+    &__right{ background-color: rgba(63, 120, 162, 1); }
+    &__left{ background-color: rgba(150, 150, 190, 1); }
+    &__top{
+        background-color: rgba(51, 163, 207, 1);
+
+        .lamp-b{
+            width: .35vw;
+            height: .35vw;
+            &-1{ top: 1vw;  }
+            &-2{ bottom: 1vw; }
+        }
+    }
+    &__bottom{ background-color:  rgba(150, 150, 190, 1); }
+}
+.bp3{
+    $width-el: .75vw;
+    $height-el: 3.25vw;
+    $depth-el: 5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    left: 12.75vw;
+}
+.bp4{
+    $width-el: .75vw;
+    $height-el: 2.5vw;
+    $depth-el: 5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    left: 13.5vw;
+}
+.bp5{
+    $width-el: .75vw;
+    $height-el: 1.75vw;
+    $depth-el: 5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    left: 14.25vw;
+}
+.bp6{
+    $width-el: .75vw;
+    $height-el: 1vw;
+    $depth-el: 5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    left: 15vw;
+}
+/*---------------------*/
+.be1,
+.be2,
+.be3,
+.be4{
+    $width-el: 6vw;
+    $height-el: 1vw;
+    $depth-el: 3.25vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(1.51vw);
+
+	position: absolute;
+    top: 20vw;
+    right: 0;
+    width: 6vw;
+    height: 6.5vw;
+
+    &__front{
+        background-color: rgba(150, 150, 190, 1);
+        &::before{
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background-image: linear-gradient( transparent, rgba(90, 90, 115, .3) );
+        }
+    }
+    &__back{ background-color:  rgba(200, 200, 200, 1); }
+    &__right{
+        background-color: rgba(90, 90, 115, 1);
+        &::before{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right,  rgba(158, 111, 189, .2),  rgba(158, 111, 189, .2));
+        }
+    }
+    &__left{ background-color: rgba(150, 150, 190, 1); }
+    &__top{
+        background-color:  rgba(200, 200, 200, 1);
+        overflow: hidden;
+        &::after{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+
+            background-image: linear-gradient(to left, rgba(158, 111, 189, .15), rgba(0, 0, 150, .15) );
+            filter: blur(1vw);
+        }
+
+        .lamp-b{
+            bottom: .5vw;
+            &-1{ left: .5vw; }
+            &-2{ right: .5vw; }
+        }
+    }
+    &__bottom{ background-color:  rgba(150, 150, 190, 1); }
+}
+.be1{
+    &__top{
+        &::before{
+            content: '';
+            position: absolute;
+            top: 0;
+            height: 5.75vw;
+            width: 100%;
+
+            background-image: linear-gradient(rgba(90, 90, 115, .8) 80%, rgba(90, 90, 115, .2));
+            filter: blur(.2vw);
+        }
+    }
+    &__bottom{
+        &::before{
+            content: '';
+            position: absolute;
+            top: 0;
+            height: 8vw;
+            width: 100%;
+
+            background-image: linear-gradient(rgba(90, 90, 115, .4) 80%, rgba(90, 90, 115, .1));
+            filter: blur(.1vw);
+        }
+    }
+}
+.be2{
+    $width-el: 6vw;
+    $height-el: 1vw;
+    $depth-el: 2.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(2.5vw);
+    height: 5vw;
+
+    &__top{
+        &::before{
+            content: '';
+            position: absolute;
+            top: 0;
+            height: 4.25vw;
+            width: 100%;
+
+            background-image: linear-gradient(rgba(90, 90, 115, .4) 80%, rgba(90, 90, 115, .3));
+            filter: blur(.2vw);
+        }
+    }
+}
+.be3{
+    $width-el: 6vw;
+    $height-el: 1vw;
+    $depth-el: 1.75vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(3.5vw);
+    height: 3.5vw;
+
+    &__top{
+        &::before{
+            content: '';
+            position: absolute;
+            top: 0;
+            height: 2.75vw;
+            width: 100%;
+
+            background-image: linear-gradient(rgba(90, 90, 115, .3) 80%, rgba(90, 90, 115, .3));
+            filter: blur(.2vw);
+        }
+    }
+}
+.be4{
+    $width-el: 6vw;
+    $height-el: 1vw;
+    $depth-el: 1vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(4.5vw);
+    height: 2vw;
+
+    &__top{
+        &::before{
+            content: '';
+            position: absolute;
+            top: 0;
+            height: 1vw;
+            width: 100%;
+
+            background-image: linear-gradient(rgba(90, 90, 115, .3) 80%, rgba(90, 90, 115, .2));
+            filter: blur(.2vw);
+        }
+    }
+}
+/*---------------------*/
+.c1,
+.c2,
+.c3,
+.c4{
+    &__front{ background-color: rgba(150, 150, 190, 1); }
+    &__back{ background-color:  rgba(200, 200, 200, 1); }
+    &__right{ background-color: rgba(90, 90, 115, 1); }
+    &__left{ background-color: rgba(90, 90, 115, 1); }
+    &__top{ background-color:  rgba(200, 200, 200, 1); }
+    &__bottom{ background-color:  rgba(150, 150, 190, 1); }
+}
+
+.c1{
+    $width-el: 1.5vw;
+    $height-el: 5vw;
+    $depth-el: 3.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(6.505vw);
+
+    position: absolute;
+    top: 0;
+    right: 6vw;
+    width: 1.5vw;
+    height: 7vw;
+
+    &__front{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, transparent, rgba(0, 0, 150, .2));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, rgba(214, 249, 249, .2), rgba(214, 249, 249, .3) 80%);
+        }
+    }
+    &__right{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, transparent, rgba(158, 111, 189, .5));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, rgba(214, 249, 249, .75), rgba(214, 249, 249, .3));
+        }
+
+
+    }
+    &__bottom{
+        box-shadow:
+            .75vw .75vw 1vw rgba(90, 90, 115, .4),
+            -.75vw .75vw 1vw rgba(90, 90, 115, .4)
+        ;
+    }
+}
+.c2{
+    $width-el: 1.5vw;
+    $height-el: 5.5vw;
+    $depth-el: 2.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(6.505vw);
+    position: absolute;
+    top: 9.5vw;
+    right: 6vw;
+    width: 1.5vw;
+    height: 5vw;
+
+    &__front{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, transparent, rgba(0, 0, 150, .2));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, rgba(214, 249, 249, .2), rgba(214, 249, 249, .3) 80%);
+        }
+    }
+    &__right{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, transparent, rgba(158, 111, 189, .5));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, rgba(214, 249, 249, .75), rgba(214, 249, 249, .3));
+        }
+    }
+    &__bottom{
+        box-shadow:
+            .75vw .75vw 1vw rgba(90, 90, 115, .5),
+            -.75vw .75vw 1vw rgba(90, 90, 115, .5)
+        ;
+    }
+}
+.c3{
+    $width-el: 12vw;
+    $height-el: 1.75vw;
+    $depth-el: 7.25vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(11.5vw);
+    position: absolute;
+    top: 0;
+    right: 6vw;
+    width: 12vw;
+    height: 14.5vw;
+
+    &__top{
+        overflow: hidden;
+        background-color: rgba(23, 35, 51, 1);
+        box-shadow:
+            inset 1vw 1vw 0vw rgba(23, 35, 51, 1),
+            inset -1vw 1vw 0vw rgba(2, 6, 25, 1),
+            inset 1vw -1vw 0vw rgba(2, 6, 25, 1)
+        ;
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right,  rgba(158, 111, 189, .5), rgba(0, 0, 150, .3));
+
+            &::before{
+                content: '';
+                position: absolute;
+                bottom: 0;
+                width: 6vw;
+                height: 6vw;
+                border-radius: 50%;
+                background-image: radial-gradient( rgba(214, 249, 249, .1), transparent );
+                filter: blur(.3vw);
+
+            }
+        }
+        .lamp-b{
+            &-1{ bottom: .35vw; left: .35vw; }
+            &-2{ bottom: .35vw; right: .35vw; }
+            &-3{ top: .35vw; left: .35vw; }
+            &-4{ top: .35vw; right: .35vw; }
+        }
+    }
+
+    &__front{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, transparent, rgba(0, 0, 150, .2));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, transparent, rgba(214, 249, 249, .3) 80%);
+        }
+    }
+    &__right{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, transparent, rgba(158, 111, 189, .5));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, transparent, rgba(214, 249, 249, .3) 80%);
+        }
+    }
+}
+.c4{
+    $width-el: 12vw;
+    $height-el: 1.75vw;
+    $depth-el: 12.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(11.5vw);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12vw;
+    height: 25vw;
+
+    &__top{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(41, 38, 61, .2), rgba(0, 0, 150, .3));
+        }
+    }
+    &__front{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, transparent, rgba(0, 0, 150, .3));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(214, 249, 249, .2), rgba(214, 249, 249, .3) 80%);
+        }
+    }
+    &__right{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(214, 249, 249, .2), rgba(158, 111, 189, .5));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, rgba(214, 249, 249, .1), rgba(214, 249, 249, .3) 80%);
+        }
+    }
+}
+
+/*---------------------*/
+.cc1{
+    $width-el: 10.5vw;
+    $height-el: 5vw;
+    $depth-el: 6.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(6.51vw);
+
+    position: absolute;
+    top: 0;
+    right: 7.4vw;
+    width: 10.5vw;
+    height: 13vw;
+}
+.cc2{
+    $width-el: 12vw;
+    $height-el: 5vw;
+    $depth-el: 8vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(6.51vw);
+
+    position: absolute;
+    top: 0vw;
+    left: 0vw;
+    width: 12vw;
+    height: 16vw;
+}
+.cc3{
+    $width-el: 11.25vw;
+    $height-el: 2vw;
+    $depth-el: 6.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(13.25vw);
+
+    position: absolute;
+    top: .75vw;
+    right: 6.75vw;
+    width: 11.25vw;
+    height: 13vw;
+}
+
+/*---------------------*/
+.d1,
+.d2,
+.d3{
+    &__front{ background-color: rgba(150, 150, 190, 1); }
+    &__back{ background-color:  rgba(200, 200, 200, 1); }
+    &__right{ background-color: rgba(90, 90, 115, 1); }
+    &__left{ background-color: rgba(90, 90, 115, 1); }
+    &__top{ background-color:  rgba(200, 200, 200, 1); }
+    &__bottom{ background-color:  rgba(150, 150, 190, 1); }
+}
+.d1{
+    $width-el: 12vw;
+    $height-el: 5vw;
+    $depth-el: .75vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(13.25vw);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12vw;
+    height: 1.5vw;
+
+    &__right{
+        overflow: hidden;
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, rgba(214, 249, 249, .3), rgba(158, 111, 189, .5));
+        }
+        &--s2{
+            position: absolute;
+            bottom: 0;
+            left: .5vw;
+            width: 1vw;
+            height: 1vw;
+            border-radius: 50%;
+            background-color: rgba(214, 249, 249, .75);
+            filter: blur(.5vw);
+        }
+        .lamp-t{
+            bottom: 0;
+            filter: blur(.5vw);
+            &-1{ left: .35vw;}
+        }
+    }
+}
+.d2{
+    $width-el: 1.5vw;
+    $height-el: 5vw;
+    $depth-el: 11.75vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(13.25vw);
+
+    position: absolute;
+    top: 1.5vw;
+    left: 0;
+    width: 1.5vw;
+    height: 23.5vw;
+
+    &__front{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(214, 249, 249, .2), rgba(214, 249, 249, .2) 80%);
+        }
+    }
+}
+.d3{
+    $width-el: 12vw;
+    $height-el: 1.5vw;
+    $depth-el: 12.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    transform: translateZ(18.25vw);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12vw;
+    height: 25vw;
+
+    &__top{
+        background-color: rgba(2, 6, 25, 1);
+        overflow: hidden;
+
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, rgba(214, 249, 249, .05), transparent, transparent,  rgba(214, 249, 249, .05));
+        }
+
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right,  rgba(158, 111, 189, .5), rgba(0, 0, 150, .3));
+
+            &::before{
+                content: '';
+                position: absolute;
+                bottom: -6vw;
+                left: -5vw;
+                width: 12vw;
+                height: 12vw;
+                border-radius: 50%;
+                background-image: radial-gradient( rgba(214, 249, 249, .1), transparent );
+                filter: blur(.3vw);
+
+            }
+        }
+
+        .lamp-b{
+            box-shadow: none;
+            box-shadow:
+                .5vw -.5vw 1.75vw rgba(214, 249, 249, .5),
+                -.5vw -.5vw 1.75vw rgba(214, 249, 249, .5),
+
+                .5vw .5vw 1.75vw rgba(214, 249, 249, .5),
+                -.5vw .5vw 1.75vw rgba(214, 249, 249, .5)
+            ;
+            &-1{ bottom: 1vw; left: 1vw; }
+            &-2{ bottom: 1vw; left: calc(50% - .25vw); }
+            &-3{ bottom: 1vw; right: 1vw; }
+            &-4{ top: 1vw; left: 1vw; }
+            &-5{ top: 1vw; left: calc(50% - .25vw); }
+            &-6{ top: 1vw; right: 1vw; }
+
+        }
+    }
+    &__front{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, transparent, rgba(0, 0, 150, .3));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, transparent, rgba(214, 249, 249, .3) 80%);
+        }
+    }
+    &__right{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(41, 38, 61, .05), rgba(158, 111, 189, .5));
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, rgba(214, 249, 249, .1), rgba(214, 249, 249, .3) 80%);
+        }
+    }
+}
+/*---------------------*/
+.e1,
+.e2,
+.e3{
+    &__front{
+        background-color: rgba(23, 35, 51, 1);
+        overflow: hidden;
+        &--s1{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to right, rgba(214, 249, 249, .4), transparent);
+            filter: blur(.5vw);
+        }
+    }
+    &__back{ background-color:  rgba(59, 59, 59, 1); }
+    &__right{ background-color: rgba(2, 6, 25, 1); }
+    &__left{ background-color: rgba(23, 35, 51, 1); }
+    &__top{ background-color:  rgba(59, 59, 59, 1); }
+    &__bottom{ background-color:  rgba(23, 35, 51, 1); }
+}
+.e1{
+    $width-el: 6vw;
+    $height-el: 5vw;
+    $depth-el: .5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(13.25vw);
+
+	position: absolute;
+    bottom: 10.35vw;
+    left: 1.5vw;
+    width: 6vw;
+    height: 1vw;
+}
+.e2{
+    $width-el: 1vw;
+    $height-el: 5vw;
+    $depth-el: 1.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(13.25vw);
+
+	position: absolute;
+    top: 1.5vw;
+    left: 11vw;
+    width: 1vw;
+    height: 3vw;
+    &__right{
+        &--s1{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, rgba(214, 249, 249, .2), transparent);
+        }
+    }
+}
+.e3{
+    $width-el: 1vw;
+    $height-el: 5vw;
+    $depth-el: 3.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    transform: translateZ(13.25vw);
+
+	position: absolute;
+    top: 11.5vw;
+    left: 11vw;
+    width: 1vw;
+    height: 7vw;
+
+    &__right{
+        &--s1{
+            position: absolute;
+            bottom: 0;
+            left: 4vw;
+            width: 1vw;
+            height: 1vw;
+            border-radius: 50%;
+            background-color: rgba(214, 249, 249, .25);
+            filter: blur(.5vw);
+        }
+        &--s2{
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to top, rgba(214, 249, 249, .2), transparent);
+        }
+    }
+}
+.e4{
+    $width-el: 1vw;
+    $height-el: 5vw;
+    $depth-el: 3.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    transform: translateZ(13.26vw);
+
+	position: absolute;
+    top: 4.5vw;
+    left: 10vw;
+    width: 1vw;
+    height: 7vw;
+}
+.e5{
+    $width-el: 9.5vw;
+    $height-el: 5vw;
+    $depth-el: 5.55vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    transform: translateZ(13.26vw);
+
+	position: absolute;
+    bottom: 16.5vw;
+    left: 1.5vw;
+    width: 9.5vw;
+    height: 6vw;
+
+}

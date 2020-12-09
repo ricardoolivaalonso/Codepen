@@ -1,0 +1,177 @@
+doctype html
+html(lang='en')
+    head
+        meta(name="viewport" content="width=device-width, user-scalable=no")
+        link(rel="stylesheet" type="text/css" href="main.css")
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    body
+        div.pokedex#pokedex
+            div.shadows
+                div.shadow-1
+                div.shadow-2#pokedex-shadow.is-shadow-hidden
+            //--------- Base izquierda ---------
+            div.al1
+                div.al1__front.face
+                div.al1__back.face
+                div.al1__right.face
+                div.al1__left.face
+                div.al1__top.face
+                div.al1__bottom.face
+            div.al2
+                div.al2__front.face
+                div.al2__back.face
+                div.al2__right.face
+                div.al2__left.face
+                div.al2__top.face
+                div.al2__bottom.face
+            div.al3
+                div.al3__front.face
+                div.al3__back.face
+                div.al3__right.face
+                div.al3__left.face
+                div.al3__top.face
+                div.al3__bottom.face   
+            //--------- Base centro ---------
+            div.wheel.flex.face
+                div.wheel-el.flex.face
+                    div.wheel-el__front.face 
+                    div.wheel-el__back.face 
+                    div.wheel-el__right.face 
+                    div.wheel-el__left.face 
+                    div.wheel-el__top.face 
+                    div.wheel-el__bottom.face 
+                div.wheel-el.flex.face
+                    div.wheel-el__front.face 
+                    div.wheel-el__back.face 
+                    div.wheel-el__right.face 
+                    div.wheel-el__left.face 
+                    div.wheel-el__top.face 
+                    div.wheel-el__bottom.face 
+                div.wheel-el.flex.face
+                    div.wheel-el__front.face 
+                    div.wheel-el__back.face 
+                    div.wheel-el__right.face 
+                    div.wheel-el__left.face 
+                    div.wheel-el__top.face 
+                    div.wheel-el__bottom.face 
+                div.wheel-el.flex.face
+                    div.wheel-el__front.face 
+                    div.wheel-el__back.face 
+                    div.wheel-el__right.face 
+                    div.wheel-el__left.face 
+                    div.wheel-el__top.face 
+                    div.wheel-el__bottom.face 
+            //--------- Base derecha ---------
+            div.cover#pokedex-cover.is-pokedex-open 
+                div.ar1 
+                    div.ar1__front.face
+                    div.ar1__back.face
+                    div.ar1__right.face
+                    div.ar1__left.face
+                    div.ar1__top.face
+                        //--------- Contenido derecha ---------
+                        div.screen-right
+                            h2.pokemon-author#pokemon-author 
+                
+                        div.buttons-right-1
+                            - var n = 1
+                            while n <= 12
+                                div.button-right
+                                    div.button-right__front.face
+                                    div.button-right__back.face
+                                    div.button-right__right.face
+                                    div.button-right__left.face
+                                    div.button-right__top.face
+                                    div.button-right__bottom.face
+                                - n++ 
+                                
+                        div.buttons-right-2
+                            - var n = 1
+                            while n <= 2
+                                div.button-right
+                                    div.button-right__front.button-right__front--white.face
+                                    div.button-right__back.button-right__back--white.face
+                                    div.button-right__right.button-right__right--white.face
+                                    div.button-right__left.button-right__left--white.face
+                                    div.button-right__top.button-right__top--white.face
+                                    div.button-right__bottom.button-right__bottom--white.face
+                                - n++ 
+                            div.button-right
+                                div.button-right__front.button-right__front--yellow.face
+                                div.button-right__back.button-right__back--yellow.face
+                                div.button-right__right.button-right__right--yellow.face
+                                div.button-right__left.button-right__left--yellow.face
+                                div.button-right__top.button-right__top--yellow.face
+                                div.button-right__bottom.button-right__bottom--yellow.face
+                                
+                        div.buttons-right-3
+                            - var n = 1
+                            while n <= 2
+                                div.button-large
+                                    div.button-large__front.face
+                                    div.button-large__back.face
+                                    div.button-large__right.face
+                                    div.button-large__left.face
+                                    div.button-large__top.face
+                                    div.button-large__bottom.face
+                                - n++ 
+                    div.ar1__bottom.face
+                div.ar2
+                    div.ar2__front.face
+                    div.ar2__back.face
+                    div.ar2__right.face
+                    div.ar2__left.face
+                    div.ar2__top.face
+                    div.ar2__bottom.face
+
+            //---------------------
+            //---------------------
+            //--------- Contenido izquierda ---------
+            div.screen-left     
+                div.screen-left__front.face
+                div.screen-left__back.face
+                div.screen-left__right.face
+                div.screen-left__left.face
+                div.screen-left__top.face
+                    div.pokemon#pokemon.is-pokemon-hidden
+                        a.pokemon-url()
+                            h1.pokemon-name#pokemon-name 
+                            img.pokemon-image#pokemon-image(src="")
+                            audio#pokemon-audio
+                                source(src="", type="audio/mpeg")
+                    div.pokemon-tags
+                        span.pokemon-tag 
+                        span.pokemon-tag 
+                div.screen-left__bottom.face
+            div.screen-left-2        
+                div.screen-left-2__front.face
+                div.screen-left-2__back.face
+                div.screen-left-2__right.face
+                div.screen-left-2__left.face
+                div.screen-left-2__top.face
+                    p.pokemon-number#pokemon-number.is-pokemon-hidden 
+                div.screen-left-2__bottom.face
+            div.arrows
+                div.arrow-h      
+                    div.arrow-h__front.face
+                    div.arrow-h__back.face
+                    div.arrow-h__right.face
+                    div.arrow-h__left.face
+                    div.arrow-h__top.face
+                        a.arrow-back#arrow-back &#60;
+                        a.arrow-next#arrow-next &#62;
+                    div.arrow-h__bottom.face
+                div.arrow-v      
+                    div.arrow-v__front.face
+                    div.arrow-v__back.face
+                    div.arrow-v__right.face
+                    div.arrow-v__left.face
+                    div.arrow-v__top.face
+                    div.arrow-v__bottom.face
+            div.led
+            div.led-a
+            div.led-b
+            div.led-c
+            
+        script(src="main.js")

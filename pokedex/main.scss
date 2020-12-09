@@ -1,0 +1,762 @@
+$red: #DC0A2D;
+$black: #222222;
+$blue: #29AAFD;
+$white: #DEDEDE;
+$yellow: #FAE017;
+$green: #51AD60;
+$bg: #3647bd;
+
+/***********************/
+/* Mixin para crear cubo ( Centrado en el origen ) */
+/***********************/
+@mixin cube($width, $height, $depth) {
+    &__front{ @include cube-front($width, $height, $depth); }
+    &__back{ @include cube-back($width, $height, $depth); }
+    &__right{ @include cube-right($width, $height, $depth); }
+    &__left{ @include cube-left($width, $height, $depth); }
+    &__top{ @include cube-top($width, $height, $depth);}
+    &__bottom{ @include cube-bottom($width, $height, $depth); }
+}
+/************************/
+/* Mixin para crear cubo ( Desde la base ) */
+/************************/
+@mixin cube-front($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: bottom left;
+    transform: rotateX(-90deg) translateZ( -($height - ($depth * 2) ) );
+}
+@mixin cube-back($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-$width) translateY(-$height) ;
+}
+@mixin cube-right($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ($width) translateX(-$depth * 2) translateY(-$height);
+}
+@mixin cube-left($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-$height);
+}
+@mixin cube-top($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: translateZ($height) ;
+}
+@mixin cube-bottom($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: rotateY(180deg) translateX(-$width);
+}
+/***********************/
+/* Mixin para crear octagono ( Centrado en el origen ) */
+/***********************/
+@mixin wheel($width-el, $height-el, $depth-el) {
+    width: $width-el;
+    height: $height-el;
+    &__front{
+        width: $width-el * .425;
+        height: $depth-el;
+        transform: rotateX(-90deg) translateZ($height-el / 2);
+    }
+    &__back{
+        width: $width-el * .425;
+        height: $depth-el;
+        transform: rotateX( 90deg) translateZ($height-el / 2);
+    }
+    &__top{
+        width: $width-el * .425;
+        height: $height-el ;
+        transform: rotateY(0deg) translateZ($depth-el / 2);
+    }
+    &__bottom{
+        width: $width-el * .425;
+        height: $height-el;
+        transform: rotateY(180deg) translateZ($depth-el / 2);
+    }
+    &__right{
+        width: $depth-el ;
+        height: $height-el ;
+        transform: rotateY(90deg) translateZ($width-el / 5.1);
+    }
+    &__left{
+        width: $depth-el;
+        height: $height-el;
+        transform: rotateY(90deg) translateZ(-$width-el / 5.1);
+    }
+    &:nth-of-type(2){ transform: rotateZ(45deg); }
+    &:nth-of-type(3){ transform: rotateZ(90deg); }
+    &:nth-of-type(4){ transform: rotateZ(135deg); }
+}
+/***********************/
+/* Mixin para crear colorear cubo ( Top punto de luz ) */
+/***********************/
+@mixin cube-color($color) {
+    &__front{ background-color: darken($color, 20); }
+    &__back{ background-color: darken($color, 10) }
+    &__right{ background-color: darken($color, 10) }
+    &__left{ background-color: darken($color, 20); }
+    &__top{ background-color: $color; }
+    &__bottom{ background-color: darken($color, 20);}
+}
+/***********************/
+/* Mixin para crear colorear octagono*/
+/***********************/
+@mixin cube-color2($color) {
+    &__front{ background-color: lighten($color, 7); }
+    &__back{ background-color: darken($color, 10) }
+    &__right{ background-color: darken($color, 10) }
+    &__left{ background-color: darken($color, 20); }
+    &__top{ background-color: $color; }
+    &__bottom{ background-color: darken($color, 20); }
+}
+/***********************/
+/* Mixin para animar cubo (Desde la base)*/
+/***********************/
+@mixin face-ani($animation, $time, $side, $width-el, $height-el, $depth-el) {
+
+    animation: #{$animation} #{$time} infinite ease;
+
+    @keyframes #{$animation} {
+        0%, 15%, 45%, 60%, 62%, 68%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-el, $depth-el); }
+        }
+        20%, 40%, 58%, 64%, 70%, 100%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-finish, $depth-el); }
+        }
+    }
+}
+/**/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	user-select: none;
+    transform-style: preserve-3d;
+    -webkit-tap-highlight-color: transparent;
+}
+/* Generic */
+body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+    width: 100%;
+    height: 100vh;
+    background-color: $bg;
+    font-family: 'Press Start 2P', cursive;
+}
+a{
+    cursor: pointer;
+    text-decoration: none;
+}
+.face{ position: absolute; }
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/***********************/
+/* Pokedex ( Contenedor principal)*/
+/***********************/
+.pokedex{
+	position: absolute;
+    width: 46vmax;
+    height: 36vmax;
+
+    transform:
+    	perspective(10000px)
+    	rotateX(55deg)
+    	rotateZ(25deg)
+        translateZ(-5vw)
+    ;
+    transition: transform .2s;
+
+    &::before{
+        content: 'Pokedex';
+        position: absolute;
+        bottom: 2vmax;
+        right: 0;
+        font-size: 2vmax;
+        color: $white;
+    }
+}
+
+.shadows{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 47vmax;
+    height: 37vmax;
+    overflow: hidden;
+    transform: translateZ(-.65vmax);
+}
+    .shadow-1{
+        position: absolute;
+        width: 25vmax;
+        height: 100%;
+        left: 0;
+        bottom: 0;
+        background-color: darken($bg, 20);
+    }
+    .shadow-2{
+        position: absolute;
+        width: 24vmax;
+        height: 28vmax;
+        background-color: darken($bg, 20);
+        right: 0;
+        bottom: 0;
+        transition: right 2s;
+    }
+
+/***********************/
+/* Parte izquierda pokedex (Objetos independiente) */
+/***********************/
+.al1
+{
+    position: absolute;
+    width: 23vmax;
+    height: 36vmax;
+    bottom: 0;
+    left: 0;
+
+    $width-el: 23vmax;
+    $height-el: 1.25vmax;
+    $depth-el: 18vmax;
+
+    @include cube($width-el, $height-el, $depth-el);
+    @include cube-color($red);
+    &__right{ background-color: darken($red, 15); }
+}
+.al2
+{
+    position: absolute;
+    width: 23vmax;
+    height: 4vmax;
+    top: 0;
+    left: 0;
+
+    $width-el: 23vmax;
+    $height-el: 2.2vmax;
+    $depth-el: 2vmax;
+
+    @include cube($width-el, $height-el, $depth-el);
+    @include cube-color($red);
+}
+.al3
+{
+    position: absolute;
+    width: 13.75vmax;
+    height: 5vmax;
+    top: 4vmax;
+    left: 0;
+
+    $width-el: 13.75vmax;
+    $height-el: .95vmax;
+    $depth-el: 2.5vmax;
+    transform: translateZ(1.26vmax);
+    @include cube($width-el, $height-el, $depth-el);
+
+    &__top{ background-image: linear-gradient( -65deg, transparent 2.1vmax, $red 2.1vmax); }
+    &__bottom{ background-image: linear-gradient( 65deg, transparent 2.1vmax, darken($red, 20) 2.1vmax); }
+    &__front{ background-image: linear-gradient( to right, darken($red, 20) 11.5vmax, transparent 11.5vmax); }
+    &__back{ background-color: darken($red, 20); }
+    &__left{ background-color: darken($red, 10); }
+    &__right{
+        &::before{
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5.6vmax;
+            height: 100%;
+            background-color: darken($red, 10);
+            transform-origin: top right;
+            transform: rotateY(-25deg);
+        }
+
+    }
+}
+    /***********************/
+    /* Contenido izquierda */
+    /***********************/
+    .screen-left{
+        position: absolute;
+        top: 11vmax;
+        left: 2.5vmax;
+
+        width: 16vmax;
+        height: 13.5vmax;
+        transform: translateZ(1.25vmax);
+
+        $width-el: 16vmax;
+        $height-el: .25vmax;
+        $depth-el: 6.75vmax;
+
+        @include cube($width-el, $height-el, $depth-el);
+        @include cube-color($black);
+
+        box-shadow: .35vmax .35vmax .35vmax rgba($black, .35);
+
+
+        &__top{
+            background-color: $white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &::before{
+                content: '';
+                position: absolute;
+                width: 13vmax;
+                height: 10.5vmax;
+                background-color: darken($blue, 70);
+                animation: pokemon-screen 1s infinite;
+            }
+            &::after{
+                content: '';
+                position: absolute;
+                top: .5vmax;
+                width: .5vmax;
+                height: .5vmax;
+                background-color: $red;
+                border-radius: 50%;
+            }
+        }
+    }
+    .pokemon{
+        position: absolute;
+        width: 13vmax;
+        height: 13vmax;
+        padding: 1.5vmax 1vmax 1vmax;
+
+        transform: rotateX(-90deg) translateY(-6.5vmax);
+        background-image: linear-gradient(to top, rgba($blue, .025), rgba($blue, .2), rgba($blue, .3));
+
+        border-top-left-radius: .5vmax;
+        border-top-right-radius: .5vmax;
+        box-shadow:
+            .2vmax .2vmax 2vmax rgba($blue, .1),
+            -.2vmax .2vmax 2vmax rgba($blue, .1),
+            .2vmax -.2vmax 2vmax rgba($blue, .1),
+            -.2vmax -.2vmax 2vmax rgba($blue, .1)
+        ;
+
+        transition: opacity 2s linear 1s;
+
+        &::before{
+            content: '';
+            position: absolute;
+            width: 96%;
+            left: 2%;
+            height: 100%;
+            background-image: repeating-linear-gradient( rgba($blue, .0175) 0, rgba($blue, .0175) 1vmax, transparent 1vmax, transparent 2vmax);
+            background-size: 200% 200%;
+            animation: pokemon-bg 4s linear infinite;
+            background-position: 0 0;
+        }
+        &:hover{
+            .pokemon-image{
+                transform: translateZ(1vmax) scale(1.05);
+                transition: transform .2s;
+                opacity: 1;
+            }
+        }
+
+
+        &-url{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        &-name{
+            font-weight: normal;
+            font-size: 1vmax;
+            transition: 2s linear 1s;
+
+            color: darken($blue, 50);
+            text-shadow: .05vw .05vw .2vw rgba($blue, .45);
+            animation: pokemon-img 1s infinite alternate;
+        }
+        &-image{
+            max-width: 70%;
+            object-fit: contain;
+            transition: 2s linear 1s;
+
+            animation: pokemon-img 1s infinite alternate;
+            filter: drop-shadow(.75vmax .75vmax .75vmax rgba($black,.5) );
+
+        }
+        &-number{
+            color: darken($green, 30);
+            font-size: 1.5vmax;
+            line-height: 1;
+            transition: 2s linear 1s;
+
+        }
+        &-author{
+            font-weight: normal;
+            font-size: .85vmax;
+            color: $white;
+            line-height: 2;
+        }
+        &-tags{
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            bottom: 2vmax;
+            width: 100%;
+            padding: 0 2vmax;
+        }
+        &-tag{
+            font-size: .85vmax;
+            color: $white;
+        }
+    }
+    .screen-left-2{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        position: absolute;
+        bottom: 3.5vmax;
+        left: 2.5vmax;
+        width: 6vmax;
+        height: 3vmax;
+
+        transform: translateZ(1.25vmax);
+
+        background-color: $green;
+        box-shadow:
+            inset .2vmax .2vmax 0 darken($green, 20),
+            inset -.1vmax -.1vmax 0 darken($green, 20),
+            .35vmax .35vmax .35vmax rgba($black, .35)
+
+        ;
+    }
+    .arrows{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        position: absolute;
+        bottom: 2vmax;
+        left: 12.5vmax;
+
+        width: 6vmax;
+        height: 6vmax;
+        transform: translateZ(1.25vmax);
+    }
+        .arrow-h{
+            position: absolute;
+            width: 6vmax;
+            height: 2vmax;
+
+            $width-el: 6vmax;
+            $height-el: .5vmax;
+            $depth-el: 1vmax;
+            box-shadow: .35vmax .35vmax .35vmax rgba($black, .35);
+
+            @include cube($width-el, $height-el, $depth-el);
+            @include cube-color($black);
+        }
+        .arrow-v{
+            position: absolute;
+            width: 2vmax;
+            height: 6vmax;
+
+            $width-el: 2vmax;
+            $height-el: .5vmax;
+            $depth-el: 3vmax;
+            box-shadow: .35vmax .35vmax .35vmax rgba($black, .35);
+
+            @include cube($width-el, $height-el, $depth-el);
+            @include cube-color($black);
+        }
+        .arrow-back,
+        .arrow-next{
+            position: absolute;
+            width: 2vmax;
+            height: 2vmax;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: $white;
+            font-size: 1vmax;
+            padding-top: .25vmax;
+
+            animation: pokemon-arrow 2s infinite;
+
+        }
+        .arrow-back{
+            left: 0;
+        }
+        .arrow-next{
+            right: 0;
+        }
+    .led,
+    .led-a,
+    .led-b,
+    .led-c{
+        position: absolute;
+        top: 2vmax;
+        left: 2.5vmax;
+        width: 4vmax;
+        height: 4vmax;
+        transform: translateZ(2.25vmax);
+        border-radius: 50%;
+        background-color: $blue;
+
+    }
+    .led{
+        box-shadow:
+            inset .25vmax .25vmax .35vmax darken($blue, 10),
+            inset -.25vmax -.25vmax .35vmax darken($blue, 10)
+            ;
+    }
+
+    .led-a,
+    .led-b,
+    .led-c{
+        left: 7vmax;
+        width: .75vmax;
+        height: .75vmax;
+        background-color: lighten($red, 15);
+        border: none;
+    }
+    .led-b{ left: 8vmax; background-color: $yellow; }
+    .led-c{ left: 9vmax; background-color: $green; }
+/***********************/
+/* Parte derecha pokedex (Objetos unificado) */
+/***********************/
+.cover{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 23vmax;
+    height: 36vmax;
+    transform-origin: left;
+    transition: transform 2s, translate 2s;
+
+}
+    .ar1
+    {
+        position: absolute;
+        width: 23vmax;
+        height: 27vmax;
+        bottom: 0;
+        right: 0;
+
+        $width-el: 23vmax;
+        $height-el: 1.25vmax;
+        $depth-el: 13.5vmax;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        &__front{ background-color: darken($red, 20); }
+        &__right{ background-color: darken($red, 10) }
+        &__left{ background-color: darken($red, 15); }
+        &__top{ background-color: $red; }
+        &__bottom{ background-color: lighten($red, 5); }
+    }
+    .ar2{
+        position: absolute;
+        width: 11.5vmax;
+        height: 5vmax;
+        top: 4vmax;
+        left: 0;
+
+        $width-el: 11.5vmax;
+        $height-el: 1.25vmax;
+        $depth-el: 2.5vmax;
+        @include cube($width-el, $height-el, $depth-el);
+
+        &__top{ background-image: linear-gradient( 65deg, $red 10.45vmax, transparent 10.45vmax); }
+        &__bottom{ background-image: linear-gradient( -65deg, lighten($red, 5) 10.45vmax, transparent 10.45vmax); }
+        &__front{ background-color: darken($red, 10); }
+        &__back{ background-image: linear-gradient( to right, transparent 2.4vmax, darken($red, 10) 2.4vmax); }
+
+        &__left{ background-color: darken($red, 15); }
+        &__right{
+            &::before{
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 5.6vmax;
+                height: 100%;
+
+                background-color: darken($red, 10);
+                transform-origin: bottom left;
+                transform: rotateY(25deg) ;
+            }
+        }
+    }
+    /***********************/
+    /* Contenido derecha */
+    /***********************/
+    .screen-right{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        position: absolute;
+        top: 3vmax;
+        right: 2.15vmax;
+        width: 18vmax;
+        height: 6vmax;
+        padding: 1vmax;
+
+        background-color: $black;
+        box-shadow:
+            inset .25vmax .25vmax 0 darken($black, 20),
+            inset -.15vmax -.15vmax 0 darken($black, 20),
+            .35vmax .35vmax .35vmax rgba($black, .35)
+
+        ;
+    }
+        .buttons-right-1{
+            position: absolute;
+            top: 10.25vmax;
+            right: 2.15vmax;
+            width: 18vmax;
+            height: 6vmax;
+
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            box-shadow: .35vmax .35vmax .35vmax rgba($black, .35);
+
+
+        }
+            .button-right{
+                width: 2.925vmax;
+                height: 2.925vmax;
+
+                $width-el: 2.925vmax;
+                $height-el: .5vmax;
+                $depth-el: 1.475vmax;
+
+                @include cube($width-el, $height-el, $depth-el);
+                @include cube-color($blue);
+            }
+        .buttons-right-2{
+            position: absolute;
+            top: 17.5vmax;
+            right: 2.15vmax;
+            width: 18vmax;
+            height: 3vmax;
+
+            display: grid;
+            grid-template-columns: 1fr 4fr 1fr;
+        }
+            .button-right{
+                &__front--white{ background-color:darken($white, 20); }
+                &__back--white{ background-color: darken($white, 10) }
+                &__right--white{ background-color: darken($white, 10) }
+                &__left--white{ background-color: darken($white, 20); }
+                &__top--white{ background-color: $white; }
+                &__bottom--white{ background-color: darken($white, 20); }
+
+                &__front--yellow{ background-color:darken($yellow, 20); }
+                &__back--yellow{ background-color: darken($yellow, 10) }
+                &__right--yellow{ background-color: darken($yellow, 10) }
+                &__left--yellow{ background-color: darken($yellow, 20); }
+                &__top--yellow{ background-color: $yellow; }
+                &__bottom--yellow{ background-color: darken($yellow, 20); }
+
+                box-shadow: .35vmax .35vmax .35vmax rgba($black, .35);
+
+            }
+        .buttons-right-3{
+            position: absolute;
+            bottom: 2vmax;
+            right: 2.15vmax;
+            width: 18vmax;
+            height: 3vmax;
+
+            display: flex;
+            justify-content: space-between;
+        }
+            .button-large{
+                width: 8.5vmax;
+                height: 3vmax;
+
+                $width-el: 8.5vmax;
+                $height-el: .5vmax;
+                $depth-el: 1.5vmax;
+                box-shadow: .35vmax .35vmax .35vmax rgba($black, .35);
+
+                @include cube($width-el, $height-el, $depth-el);
+                @include cube-color($black);
+            }
+/***********************/
+/* Parte central pokedex */
+/***********************/
+.wheel{
+    transform: rotateX(90deg) translateY(.75vmax);
+    bottom: 16vmax;
+    left: calc(50% - .55vmax);
+
+    &-el{
+        $width: 3vmax;
+        $height: $width;
+        $depth: 32vmax;
+
+        @include wheel($width, $height, $depth);
+        @include cube-color2($red);
+    }
+}
+/***********************/
+/* Estados */
+/***********************/
+
+.is-pokedex-open{
+    transform: translateZ(2.4vmax) rotateY(-180deg);
+    transition: transform 3s, translate 3s;
+}
+.is-pokemon-hidden{
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s linear;
+}
+.is-shadow-hidden{
+    right: 100%;
+    transition: right 3s;
+}
+@keyframes pokemon-bg{
+    to{ background-position: 100% 100%; }
+}
+@keyframes pokemon-arrow {
+    0%, 20%, 80%, 90%, 95%, 100%{ opacity: 1; color: $white; }
+    30%, 40%, 62%, 66%, 92%{ opacity: .95; color: $blue; }
+    50%, 60%, 64%, 70%{ opacity: .9; color: $white; }
+}
+@keyframes pokemon-img {
+    0%, 20%, 80%, 90%, 95%, 100%{ opacity: 1; }
+    30%, 40%, 62%, 66%, 92%{ opacity: .95; }
+    50%, 60%, 64%, 70%{ opacity: .9; }
+}
+@keyframes pokemon-screen {
+    0%, 20%, 80%, 90%, 95%, 100%{ opacity: 1; }
+    30%, 40%, 62%, 66%, 92%{ opacity: .975; }
+    50%, 60%, 64%, 70%{ opacity: .95; }
+}
