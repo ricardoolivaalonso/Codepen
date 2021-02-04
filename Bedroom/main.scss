@@ -1,0 +1,1661 @@
+:root {
+    --bg1: #8DD9E7;
+    --bg2: #86C6D3;
+    --bg3: #5C8F9B;
+
+    --floor1: #EBE4D1;
+    --floor2: #c9c5b3;
+    --floor3: #bab6a6;
+    --floor4: #a49e82;
+
+    --wall1: #E3EAF0;
+    --wall2: #CCD8DD;
+    --wall2b: #c0ccd0;
+    --wall2c: #b1bec2;
+    --wall3: #9aadb5;
+
+    --wood1: #FEEFCD;
+    --wood2: #E8CFA9;
+    --wood3: #CDAC8C;
+    --wood3b: #bfa183;
+    --wood4: #a48669;
+    --wood5: #996951;
+
+    --white1: #EDEDE4;
+    --white2: #D9DFD4;
+    --white3: #c3c9be;
+    --white4: #aeb4a9;
+
+    --blue1: #4F8FC0;
+    --blue2: #4383b4;
+    --blue3: #3473a3;
+    --blue4: #27618c;
+
+    --black1: #474747;
+    --black2: #393939;
+    --black3: #222222;
+    --black4: #1a1a1a;
+
+    --green1: #89B863;
+    --green2: #6faa40;
+    --green3: #59a11f;
+
+    --yellow1: #e9e35a;
+    --yellow2: #dbd54d;
+    --yellow3: #d5ce32;
+}
+/***********************/
+/***********************/
+@mixin cube($width, $height, $depth) {
+    &__front{ @include cube-front($width, $height, $depth); }
+    &__back{ @include cube-back($width, $height, $depth); }
+    &__right{ @include cube-right($width, $height, $depth); }
+    &__left{ @include cube-left($width, $height, $depth); }
+    &__top{ @include cube-top($width, $height, $depth);}
+    &__bottom{ @include cube-bottom($width, $height, $depth); }
+}
+/************************/
+/* Mixin para crear cubo ( Caras siempre al frente ) */
+/************************/
+@mixin cube-front($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: bottom left;
+    transform: rotateX(-90deg) translateZ( -($height - ($depth * 2) ) );
+}
+@mixin cube-back($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-$width) translateY(-$height) ;
+}
+@mixin cube-right($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ($width) translateX(-$depth * 2) translateY(-$height);
+}
+@mixin cube-left($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-$height);
+}
+@mixin cube-top($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: translateZ($height) ;
+}
+@mixin cube-bottom($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: rotateY(180deg) translateX(-$width);
+}
+/************************/
+/* Mixin para crear rueda */
+/************************/
+@mixin wheel($width-el, $height-el, $depth-el) {
+    width: $width-el;
+    height: $height-el;
+    &__front{
+        width: $width-el * .425;
+        height: $depth-el;
+        transform: rotateX(-90deg) translateZ($height-el / 2);
+    }
+    &__back{
+        width: $width-el * .425;
+        height: $depth-el;
+        transform: rotateX( 90deg) translateZ($height-el / 2);
+    }
+    &__top{
+        width: $width-el * .425;
+        height: $height-el ;
+        transform: rotateY(0deg) translateZ($depth-el / 2);
+    }
+    &__bottom{
+        width: $width-el * .425;
+        height: $height-el;
+        transform: rotateY(180deg) translateZ($depth-el / 2);
+    }
+    &__right{
+        width: $depth-el ;
+        height: $height-el ;
+        transform: rotateY(90deg) translateZ($width-el / 5.1);
+    }
+    &__left{
+        width: $depth-el;
+        height: $height-el;
+        transform: rotateY(90deg) translateZ(-$width-el / 5.1);
+    }
+
+    &:nth-of-type(2){ transform: rotateZ(45deg); }
+    &:nth-of-type(3){ transform: rotateZ(90deg); }
+    &:nth-of-type(4){ transform: rotateZ(135deg); }
+}
+/***********************/
+/***********************/
+@mixin cube-color($color) {
+    &__front{ background-color: darken($color, 14); }
+    &__back{ background-color: darken($color, 7); }
+    &__right{ background-color: $color; }
+    &__left{ background-color: darken($color, 14); }
+    &__top{ background-color: darken($color, 7); }
+    &__bottom{ background-color: darken($color, 14); }
+}
+/***********************/
+/***********************/
+@mixin face-ani($animation, $time, $side, $width-el, $height-el, $depth-el) {
+
+    animation: #{$animation} #{$time} infinite ease;
+
+    @keyframes #{$animation} {
+        0%, 15%, 45%, 60%, 62%, 68%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-el, $depth-el); }
+        }
+        20%, 40%, 58%, 64%, 70%, 100%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-finish, $depth-el); }
+        }
+    }
+}
+/**/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	user-select: none;
+    transform-style: preserve-3d;
+
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    outline: none;
+    appearance: none;
+}
+/* Generic */
+body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+    width: 100%;
+    height: 100vh;
+    background-color: var(--bg1);
+    overflow: hidden;
+}
+
+.face{ position: absolute; }
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/***************/
+/***************/
+.room,
+.shadows{
+	position: absolute;
+    width: 30vw;
+    height: 45vw;
+
+	transform:
+		perspective(10000px)
+		rotateX(60deg)
+		rotateZ(55deg)
+        translateZ(-8vw)
+	;
+    transition: transform 100ms linear ;
+}
+.shadow{
+    &1,
+    &2,
+    &3,
+    &4,
+    &5,
+    &6
+    {
+        position: absolute;
+        top: 0vw;
+        left: 0vw;
+        background-color: var(--bg3);
+        filter: blur(.25vw);
+    }
+    &1{
+        width: 30.25vw;
+        height: 37.25vw;
+    }
+    &2{
+        top: 37vw;
+        left: 15vw;
+        width: 15.25vw;
+        height: 8.25vw;
+    }
+    &3,
+    &4{
+        width: 12.25vw;
+        height: 37.25vw;
+        left: -12vw;
+        background-color: transparent;
+        background-image: linear-gradient(to left, var(--bg3), var(--bg2) );
+    }
+    &4{
+        width: 25vw;
+        height: 1.25vw;
+        top: 37vw;
+        left: -10vw;
+        filter: blur(1vw);
+        opacity: .75;
+    }
+    &5{
+        top: -2vw;
+        left: 27vw;
+        width: 5vw;
+        height: 5vw;
+
+        background-color: transparent;
+        background-image: radial-gradient(circle, var(--bg3), var(--bg2) 80%, transparent);
+        border-radius: 50%;
+        filter: blur(1vw);
+        opacity: .5;
+    }
+    &6{
+        top: 45vw;
+        left: 15vw;
+        width: 15.25vw;
+        height: 1.25vw;
+
+        background-color: transparent;
+        background-image: linear-gradient(to bottom, var(--bg3), var(--bg2) 80%, transparent);
+        transform-origin: bottom right;
+        filter: blur(1vw);
+        opacity: .75;
+    }
+}
+.os{
+    position: absolute;
+    filter: blur(.2vw);
+    background-image: linear-gradient(to bottom, var(--floor2), transparent);
+}
+.fs{
+    position: absolute;
+    width: 115%;
+    height: 110%;
+    background-image: linear-gradient( to bottom, var(--floor3), var(--floor4), var(--floor4) );
+    filter: blur(.175vw);
+}
+.lg{
+    position: absolute;
+    width: 5vw;
+    height: 150%;
+    transform: rotateZ(20deg);
+    background-image: linear-gradient( to right, transparent, var(--white2), transparent );
+    opacity: .35;
+    filter: blur(.5vw);
+}
+/***************/
+/***************/
+.at{
+    $width-el: 30vw;
+    $height-el: .6vw;
+    $depth-el: 18.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    position: absolute;
+    top: 0vw;
+    left: 0vw;
+    width: 30vw;
+    height: 37vw;
+
+    &__top{
+        overflow: hidden;
+
+        .os1{
+            width: 6vw;
+            height: 100%;
+            background-image: linear-gradient(to right, var(--floor3), transparent);
+        }
+        .os2{
+            width: 100%;
+            height: 6vw;
+        }
+
+        .ws{
+            position: absolute;
+            filter: blur(.45vw);
+            background-color: var(--floor2);
+            transform: skewX(-5deg);
+
+        }
+        .ws1,
+        .ws2,
+        .ws3{
+            left: 1.5vw;
+            top: 1.5vw;
+            width: 5vw;
+            height: 20vw;
+        }
+        .ws2{ left: 27vw; }
+        .ws3{ left: 52%; width: .5vw; }
+
+        .ws4,
+        .ws5{
+            left: 1.5vw;
+            top: 1.5vw;
+            width: 28vw;
+            height: 6vw;
+
+        }
+        .ws5{ top: 15.75vw; }
+        .ws6{
+            left: 9vw;
+            top: 1.5vw;
+            width: 14vw;
+            height: 10vw;
+        }
+        .ws7{
+            right: 2vw;
+            top: 1.5vw;
+            width: 3vw;
+            height: 6vw;
+        }
+
+    }
+}
+.ab{
+    $width-el: 15vw;
+    $height-el: .6vw;
+    $depth-el: 4vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    position: absolute;
+    top: 37vw;
+    right: 0vw;
+    width: 15vw;
+    height: 8vw;
+}
+.at,
+.ab{
+    &__front{ background-color: var(--wall3); }
+    &__back{ background-color: var(--wall2); }
+    &__right{ background-color: var(--wall2); }
+    &__left{ background-color: var(--wall2c); }
+    &__top{ background-color: var(--floor1); }
+    &__bottom{ background-color: var(--wall3); }
+}
+/********/
+.bb,
+.bbl,
+.bbr,
+.bt{
+    $width-el: 28.5vw;
+    $height-el: 3vw;
+    $depth-el: .75vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    position: absolute;
+    top: 0;
+    left: 1.5vw;
+    width: 28.5vw;
+    height: 1.5vw;
+
+    transform: translateZ(.6vw);
+
+    &__front{
+        background-color: var(--wall2b);
+
+        .os1{
+            width: 100%;
+            height: 100%;
+            bottom: 0;
+            background-image: linear-gradient(to top, var(--wall2c), transparent);
+        }
+        .os2{
+            width: 100%;
+            height: 1vw;
+            bottom: 0;
+            background-image: linear-gradient(to top, var(--wall3), transparent);
+        }
+    }
+    &__back{
+        .os1{
+            width: 100%;
+            height: 6vw;
+            bottom: 0;
+            background-image: linear-gradient(to top, var(--wall2b), transparent);
+        }
+    }
+}
+
+.bt{ transform: translateZ(12.6vw); }
+
+.bbl,
+.bbr{
+    $width-el: 3vw;
+    $height-el: 9vw;
+    $depth-el: .75vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    position: absolute;
+    top: 0;
+    left: 1.5vw;
+    width: 3vw;
+    height: 1.5vw;
+    transform: translateZ(3.6vw);
+}
+.bbr{ left: 27vw; }
+
+.bl{
+    $width-el: 1.5vw;
+    $height-el: 15vw;
+    $depth-el: 18.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1.5vw;
+    height: 37vw;
+
+    transform: translateZ(.6vw);
+    &__front{ background-color: var(--wall3); }
+
+    &__right{
+        overflow: hidden;
+
+        .os0{
+            position: absolute;
+            width: 50%;
+            height: 200%;
+            bottom: -74%;
+            left: 72%;
+            transform: rotateZ(55deg);
+            background-image: linear-gradient(to top, var(--wall2), var(--wall2b));
+        }
+        .os1{
+            width: 100%;
+            height: 10vw;
+            bottom: 0;
+            background-image: linear-gradient(to top, var(--wall2b), var(--wall2b) , transparent);
+
+        }
+        .os2{
+            width: 100%;
+            height: 1vw;
+            bottom: 0;
+            background-image: linear-gradient(to top, var(--wall3), var(--wall2b));
+        }
+        .os3{
+            width: 10.25vw;
+            height: 4.25vw;
+            bottom: 0;
+            left: 1.75vw;
+            background-image: linear-gradient(to top, var(--wall3), var(--wall2c));
+        }
+        .os4{
+            width: 8.25vw;
+            height: 5vw;
+            top: 2.5vw;
+            left: 2.75vw;
+            background-image: linear-gradient(to top, var(--wall3), var(--wall2c));
+        }
+        .os5{
+            width: 4.5vw;
+            height: 4.5vw;
+            bottom: 0;
+            left: 12vw;
+            background-image: linear-gradient(to top, var(--wall3), var(--wall2c));
+        }
+        .os6{
+            width: 19.5vw;
+            height: 12.35vw;
+            bottom: 0;
+            right: 1.25vw;
+            background-image: linear-gradient(to top, var(--wall2c), var(--wall2c));
+        }
+
+    }
+    &__left{
+        .os1{
+            width: 100%;
+            height: 6vw;
+            bottom: 0;
+            background-image: linear-gradient(to top, var(--wall2c), transparent);
+        }
+    }
+}
+.bb,
+.bt,
+.bbl,
+.bbr,
+.bl{
+    &__back{ background-color: var(--wall2); }
+    &__right{ background-color: var(--wall2); }
+    &__left{ background-color: var(--wall2b); }
+    &__top{ background-color: var(--wall1); }
+    &__bottom{ background-color: var(--wall3); }
+}
+.bb{
+    &__top{ background-color: var(--wall2); }
+}
+
+
+.ventana{
+    $width-el: 22.5vw;
+    $height-el: 9vw;
+    $depth-el: .75vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    position: absolute;
+    top: 0;
+    left: 4.5vw;
+    width: 22.5vw;
+    height: 1.5vw;
+    transform: translateZ(3.6vw);
+
+    &__back{
+        top: .75vw;
+        background-image: radial-gradient(var(--bg2),var(--bg3));
+        opacity: .5;
+        overflow: hidden;
+
+        .lg1{
+            left: 60%;
+        }
+        .lg2{
+            width: 15vw;
+            left: -20%;
+            border-radius: 50%;
+        }
+        .vs{
+            position: absolute;
+            opacity: .65;
+            filter: blur(.25vw);
+        }
+        .vs1{
+            width: 4vw;
+            height: 100%;
+            right: 0;
+            background-image: linear-gradient(to right, var(--wood1),var(--wood3));
+        }
+        .vs2{
+            width: 14vw;
+            height: 2vw;
+            right: 4.5vw;
+            bottom: 0;
+            background-image: linear-gradient(to right, var(--blue1),var(--blue1));
+        }
+        .vs3{
+            width: 6vw;
+            height: 6vw;
+            right: 4.5vw;
+            top: -2vw;
+            border-radius: 50%;
+            background-image: radial-gradient(circle, var(--bg1),var(--bg1));
+            filter: blur(.35vw);
+        }
+        .vs4{
+            width: 2.5vw;
+            height: 2vw;
+            bottom: 0;
+            background-image: radial-gradient(circle, var(--white1),var(--white1));
+            opacity: .5;
+        }
+    }
+
+    &-l,
+    &-c,
+    &-r{
+        $width-el: .5vw;
+        $height-el: 9vw;
+        $depth-el: .25vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        top: .5vw;
+        width: .5vw;
+        height: .5vw;
+
+        &__front{ background-color: var(--white1); }
+        &__back{ background-color: var(--white1); }
+        &__right{ background-color: var(--white2); }
+        &__left{ background-color: var(--white2); }
+        &__top{ background-color: var(--white1); }
+        &__bottom{ background-color: var(--white1); }
+    }
+
+    &-l{ left: 0;}
+    &-c{ left: 50%;}
+    &-r{ right: 0;}
+
+    &-b,
+    &-t{
+        $width-el: 22vw;
+        $height-el: .5vw;
+        $depth-el: .25vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        left: .5vw;
+        top: .5vw;
+        width: 22vw;
+        height: .5vw;
+
+
+        &__front{ background-color: var(--white1); }
+        &__back{ background-color: var(--white1); }
+        &__right{ background-color: var(--white2); }
+        &__left{ background-color: var(--white2); }
+        &__top{ background-color: var(--white2); }
+        &__bottom{ background-color: var(--white1); }
+    }
+    &-t{ transform: translateZ(8.5vw);}
+
+}
+/***************/
+.cama{
+    position: absolute;
+    top: 25vw;
+    left: 1.75vw;
+    width: 15vw;
+    height: 10vw;
+
+    transform: translateZ(.6vw);
+
+    .fs{
+        width: 102%;
+        height: 102%;
+        background-image: linear-gradient( to bottom, var(--floor2), var(--floor2) );
+
+    }
+
+    &-al{
+        $width-el: .75vw;
+        $height-el: 4vw;
+        $depth-el: 5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: .75vw;
+        height: 10vw;
+    }
+    &-ac{
+        $width-el: 13.5vw;
+        $height-el: 1vw;
+        $depth-el: 4.5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        top: .5vw;
+        left: .75vw;
+        width: 13.5vw;
+        height: 9vw;
+
+        transform: translateZ(.5vw);
+    }
+    &-ar{
+        $width-el: .75vw;
+        $height-el: 2.5vw;
+        $depth-el: 5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: .75vw;
+        height: 10vw;
+
+    }
+    &-al,
+    &-ac,
+    &-ar{
+        &__front{ background-color: var(--wood3); }
+        &__back{ background-color: var(--wood2); }
+        &__right{ background-color: var(--wood2); }
+        &__left{ background-color: var(--wood2); }
+        &__top{ background-color: var(--wood1); }
+        &__bottom{ background-color: var(--wood3); }
+    }
+    &-ac{ &__top{ background-image: linear-gradient(to top, var(--wood4), var(--wood2)); } }
+    &-al{ &__right{ background-image: linear-gradient(to bottom, var(--wood2) 60%, var(--wood3)); } }
+
+    &-bc{
+        $width-el: 13.2vw;
+        $height-el: 1vw;
+        $depth-el: 4.4vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        top: .6vw;
+        left: .9vw;
+        width: 13.2vw;
+        height: 8.8vw;
+
+        transform: translateZ(1.6vw);
+
+        &__front{ background-image: linear-gradient(to right, var(--white3) 40%, var(--bg3) 40%); }
+        &__back{ background-image: linear-gradient(to left, var(--white2) 40%, var(--bg2) 40%); }
+        &__right{ background-color: var(--white2); }
+        &__left{ background-color: var(--white1); }
+        &__top{ background-image: linear-gradient(to right, var(--white1) 40%, var(--bg1) 40%); }
+        &__bottom{ background-color: var(--white3); }
+    }
+    &-almos{
+        position: absolute;
+        top: .5vw;
+        left: 1vw;
+        height: 9vw;
+        width: 3vw;
+        transform: translateZ(2.6vw);
+        padding: .25vw;
+
+    }
+        &-almo{
+            $width-el: 2.5vw;
+            $height-el: .35vw;
+            $depth-el: 2vw;
+
+            @include cube($width-el, $height-el, $depth-el);
+
+            position: absolute;
+            width: 2.5vw;
+            height: 3.5vw;
+
+            &:nth-of-type(2){ bottom: .75vw; transform: rotateZ(-10deg); }
+
+            &__front{ background-color: var(--white3); }
+            &__back{ background-color: var(--white2); }
+            &__right{ background-color: var(--white2); }
+            &__left{ background-color: var(--white1); }
+            &__top{ background-color: var(--white1); }
+            &__bottom{ background-color: var(--white3); }
+
+            &__sh{
+                position: absolute;
+                top: -5%;
+                width: 110%;
+                height: 120%;
+                background-color: var(--wall2c);
+                filter: blur(.125vw);
+            }
+        }
+}
+
+/***************/
+.repisa{
+    position: absolute;
+    left: 1.5vw;
+    top: 26vw;
+    width: 2.5vw;
+    height: 8vw;
+    transform: translateZ(10vw);
+
+    cursor: pointer;
+
+    &-base{
+        position: absolute;
+        left: .1vw;
+        width: 3vw;
+        height: 8vw;
+        background-color: var(--white4);
+        transform-origin: bottom left;
+        transform: rotateY(-90deg);
+    }
+
+    &-b,
+    &-t{
+        $width-el: 2.5vw;
+        $height-el: .25vw;
+        $depth-el: 4vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: 4vw;
+        height: 8vw;
+
+        &__front{ background-color: var(--white3); }
+        &__back{ background-color: var(--white1); }
+        &__right{ background-color: var(--white2); }
+        &__left{ background-color: var(--white2); }
+        &__top{ background-color: var(--white1); }
+        &__bottom{ background-color: var(--white4); }
+    }
+    &-t{ transform: translateZ(3vw); }
+
+    &-l,
+    &-c,
+    &-r{
+        $width-el: 2.5vw;
+        $height-el: 2.75vw;
+        $depth-el: .125vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: 4vw;
+        height: .25vw;
+
+        transform: translateZ(.25vw);
+
+        &__front{ background-color: var(--white3); }
+        &__back{ background-color: var(--white1); }
+        &__right{ background-color: var(--white2); }
+        &__left{ background-color: var(--white2); }
+        &__top{ background-color: var(--white2); }
+        &__bottom{ background-color: var(--white4); }
+    }
+    &-l{
+        bottom: 0;
+        &__back{ background-color: var(--white3); }
+
+    }
+    &-c{
+        bottom: calc(50% - .125vw);
+        &__back{ background-color: var(--white3); }
+        &__right{ background-color: var(--white3); }
+    }
+
+
+    &-puertas{
+        width: 100%;
+        height: 100%;
+    }
+    &-puerta{
+        $width-el: .25vw;
+        $height-el: 3.25vw;
+        $depth-el: 1.95vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: .25vw;
+        height: 3.9vw;
+        left: 100%;
+        transition: transform .3s linear ;
+        transform-origin: bottom left;
+
+        &__front{ background-color: var(--white3); }
+        &__back{ background-color: var(--white1); }
+        &__right{ background-color: var(--white2); }
+        &__left{ background-color: var(--white3); }
+        &__top{ background-color: var(--white1); }
+        &__bottom{ background-color: var(--white4); }
+
+        &:nth-of-type(2){ bottom: 0; }
+    }
+
+}
+
+.is-repisa-open{
+    transform: rotateZ(40deg);
+    transform-origin: bottom left;
+    transition: transform .5s linear;
+}
+/***************/
+.buro{
+    position: absolute;
+    left: 1.5vw;
+    top: 20.5vw;
+    width: 3vw;
+    height: 4vw;
+    transform: translateZ(.6vw);
+
+    cursor: pointer;
+
+    &-b,
+    &-c,
+    &-t{
+        $width-el: 3vw;
+        $height-el: .25vw;
+        $depth-el: 2vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: 3vw;
+        height: 5vw;
+
+        &__front{ background-color: var(--wood3); }
+        &__back{ background-color: var(--wood1); }
+        &__right{ background-color: var(--wood2); }
+        &__left{ background-color: var(--wood2); }
+        &__top{ background-color: var(--wood2); }
+        &__bottom{ background-color: var(--wood4); }
+    }
+
+    &-b{
+        &__top{ background-color: var(--wood3b); }
+    }
+    &-t{
+        transform: translateZ(4vw);
+        &__top{ background-color: var(--wood1); }
+    }
+    &-c{
+        transform: translateZ(2vw);
+        &__top{ background-color: var(--wood3b); }
+        &__right{ background-color: var(--wood3b); }
+    }
+
+    &-l,
+    &-r{
+        $width-el: 3vw;
+        $height-el: 4.25vw;
+        $depth-el: .125vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: .25vw;
+        height: 5vw;
+
+
+        &__front{ background-color: var(--wood4); }
+        &__back{ background-color: var(--wood1); }
+        &__right{ background-color: var(--wood2); }
+        &__left{ background-color: var(--wood2); }
+        &__top{ background-color: var(--wood1); }
+        &__bottom{ background-color: var(--wood4); }
+    }
+    &-l{
+        top: 100%;
+        &__back{ background-color: var(--wood3); }
+        &__front{ background-color: var(--wood3); }
+    }
+
+
+    &-puerta{
+        $width-el: .25vw;
+        $height-el: 2vw;
+        $depth-el: 2.125vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: .25vw;
+        height: 4.25vw;
+        left: 100%;
+
+        transform: translateZ(0.125vw);
+
+        &__front{ background-color: var(--wood3); }
+        &__back{ background-color: var(--wood1); }
+        &__right{ background-color: var(--wood2); }
+        &__left{ background-color: var(--wood3); }
+        &__top{ background-color: var(--wood1); }
+        &__bottom{ background-color: var(--wood4); }
+
+        &:nth-of-type(2){ transform: translateZ(2.25vw);}
+    }
+
+}
+
+/***************/
+.bocina{
+    position: absolute;
+    left: 2.75vw;
+    top: 21vw;
+    width: .5vw;
+    height: 3vw;
+    transform: translateZ(5vw);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    cursor: pointer;
+
+    &-l,
+    &-r{
+        $width-el: .5vw;
+        $height-el: 1.75vw;
+        $depth-el: .3vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        width: .5vw;
+        height: .5vw;
+        &__front{ background-color: var(--black3); }
+        &__back{ background-color: var(--black1); }
+        &__right{ background-color: var(--black2); }
+        &__left{ background-color: var(--black2); }
+        &__top{ background-color: var(--black2); }
+        &__bottom{ background-color: var(--black3); }
+    }
+    &-stereo{
+        $width-el: .5vw;
+        $height-el: .75vw;
+        $depth-el: .75vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        width: .5vw;
+        height: 1.5vw;
+
+
+        &__front{ background-color: var(--black3); }
+        &__back{ background-color: var(--black1); }
+        &__right{
+            background-color: var(--black2);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            &::before{
+                content: '';
+                position: absolute;
+                width: .25vw;
+                height: .25vw;
+                border-radius: 50%;
+                background-color: var(--white1);
+            }
+        }
+        &__left{ background-color: var(--black2); }
+        &__top{ background-color: var(--black2); }
+        &__bottom{ background-color: var(--black3); }
+    }
+
+
+}
+.is-bocina-active{ animation: bocina .5s ease infinite;}
+@keyframes bocina {
+    0%, 10%, 50%{ transform: translateZ(0);}
+    40%, 60%, 90%, 100%{ transform: translateZ(-.05vw);}
+}
+.is-librero-open{
+    transform: rotateZ(30deg);
+    transform-origin: bottom left;
+    transition: transform .5s linear;
+}
+
+
+.libro{
+    position: absolute;
+    width: 2vw;
+    height: .5vw;
+
+    $width-el: 2vw;
+    $height-el: 2vw;
+    $depth-el: .25vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    cursor: pointer;
+
+    &:nth-of-type(1){
+        left: 1.9vw;
+        top: 10vw;
+        transform: translateZ(6.9vw);
+    }
+    &:nth-of-type(2){
+        left: 2vw;
+        top: 9.45vw;
+        transform: translateZ(6.8vw);
+    }
+    &:nth-of-type(3){
+        left: 2vw;
+        top: 8.9vw;
+        transform: translateZ(6.8vw);
+    }
+    &:nth-of-type(4){
+        left: 2vw;
+        top: 8vw;
+        transform: translateZ(6.9vw) rotateX(-8deg);
+    }
+
+    &:nth-of-type(5){
+        left: 1.9vw;
+        top: 6.5vw;
+        transform: translateZ(6.9vw) rotateX(-8deg);
+    }
+    &:nth-of-type(6){
+        left: 2vw;
+        top: 5.9vw;
+        transform: translateZ(6.9vw) rotateX(-10deg);
+    }
+    &:nth-of-type(7){
+        left: 2.1vw;
+        top: 5.3vw;
+        transform: translateZ(6.9vw) rotateX(-12deg);
+    }
+    &:nth-of-type(8){
+        left: 2vw;
+        top: 2vw;
+        transform: translateZ(7vw) rotateX(-90deg);
+    }
+
+
+    &:nth-of-type(9){
+        left: 2.1vw;
+        top: 10vw;
+        transform: translateZ(3.9vw);
+    }
+    &:nth-of-type(10){
+        left: 2vw;
+        top: 9.45vw;
+        transform: translateZ(3.8vw);
+    }
+    &:nth-of-type(11){
+        left: 1.9vw;
+        top: 8.9vw;
+        transform: translateZ(3.8vw);
+    }
+    &:nth-of-type(12){
+        left: 2vw;
+        top: 8vw;
+        transform: translateZ(3.9vw) rotateX(-8deg);
+    }
+    &:nth-of-type(13){
+        left: 2.05vw;
+        top: 7.5vw;
+        transform: translateZ(3.9vw) rotateX(-8deg);
+    }
+
+    transition: left 1s;
+
+    &:hover{
+        left: 4vw;
+        transition: left 1s;
+    }
+
+    &--azul{
+        .libro__front{ background-color: var(--blue3); }
+        .libro__back{ background-color: var(--blue3); }
+        .libro__right{ background-color: var(--blue2); }
+        .libro__left{ background-color: var(--white3); }
+        .libro__top{ background-color: var(--white2); }
+        .libro__bottom{ background-color: var(--white2); }
+    }
+    &--verde{
+        .libro__front{ background-color: var(--green3); }
+        .libro__back{ background-color: var(--green3); }
+        .libro__right{ background-color: var(--green2); }
+        .libro__left{ background-color: var(--white3); }
+        .libro__top{ background-color: var(--white2); }
+        .libro__bottom{ background-color: var(--white2); }
+    }
+    &--amarillo{
+        .libro__front{ background-color: var(--bg3); }
+        .libro__back{ background-color: var(--bg3); }
+        .libro__right{ background-color: var(--bg2); }
+        .libro__left{ background-color: var(--white3); }
+        .libro__top{ background-color: var(--white2); }
+        .libro__bottom{ background-color: var(--white2); }
+    }
+    &--blanco{
+        .libro__front{ background-color: var(--white3); }
+        .libro__back{ background-color: var(--white3); }
+        .libro__right{ background-color: var(--white3); }
+        .libro__left{ background-color: var(--white3); }
+        .libro__top{ background-color: var(--white2); }
+        .libro__bottom{ background-color: var(--white2); }
+    }
+
+}
+/***************/
+.librero{
+    position: absolute;
+    left: 1.5vw;
+    top: 11vw;
+    width: 3vw;
+    height: 9vw;
+    transform: translateZ(.6vw);
+
+    cursor: pointer;
+
+    &:nth-of-type(1) { top: 1.5vw; }
+
+    &-base{
+        position: absolute;
+        left: .1vw;
+        width: 12vw;
+        height: 9vw;
+        background-color: var(--wood4);
+        transform-origin: bottom left;
+        transform: rotateY(-90deg);
+    }
+
+    &-b,
+    &-m1,
+    &-m2,
+    &-m3,
+    &-t{
+        $width-el: 3vw;
+        $height-el: .25vw;
+        $depth-el: 4.5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: 3vw;
+        height: 9vw;
+
+        &__front{ background-color: var(--wood3); }
+        &__back{ background-color: var(--wood1); }
+        &__right{ background-color: var(--wood2); }
+        &__left{ background-color: var(--wood2); }
+        &__top{ background-color: var(--wood3); }
+        &__bottom{ background-color: var(--wood4); }
+    }
+
+    &-m1{
+        transform: translateZ(3vw);
+    }
+    &-m2{
+        transform: translateZ(6vw);
+    }
+    &-m3{
+        transform: translateZ(9vw);
+    }
+    &-t{
+        transform: translateZ(12vw);
+        &__top{ background-image: linear-gradient(60deg, var(--wood1) 36%, var(--wood2) 40%); }
+    }
+
+    &-l,
+    &-r{
+        $width-el: 3vw;
+        $height-el: 12.25vw;
+        $depth-el: .125vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: .25vw;
+        height: 5vw;
+
+
+        &__front{ background-color: var(--wood3b); }
+        &__back{ background-color: var(--wood1); }
+        &__right{ background-color: var(--wood2); }
+        &__left{ background-color: var(--wood2); }
+        &__top{ background-color: var(--wood1); }
+        &__bottom{ background-color: var(--wood4); }
+    }
+    &-r{
+        &__top{ background-color: var(--wood2); }
+    }
+
+    &-l{
+        top: 100%;
+        &__back{ background-color: var(--wood3); }
+        &__front{ background-color: var(--wood3); }
+    }
+    &-l1,
+    &-l2,
+    &-l3,
+    &-l4{
+        $width-el: 3vw;
+        $height-el: 3vw;
+        $depth-el: .125vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        top: calc(50% - .125vw);
+        position: absolute;
+        width: .25vw;
+        height: 5vw;
+
+        transform: translateZ(3vw);
+
+        &__front{ background-color: var(--wood3b); }
+        &__back{ background-color: var(--wood3b); }
+        &__right{ background-color: var(--wood2); }
+        &__left{ background-color: var(--wood2); }
+        &__top{ background-color: var(--wood1); }
+        &__bottom{ background-color: var(--wood4); }
+    }
+    &-l2{
+        transform: translateZ(6vw);
+        top: calc(33% - .125vw);
+    }
+    &-l3{
+        transform: translateZ(6vw);
+        top: calc(66% - .125vw);
+    }
+    &-l4{
+        transform: translateZ(9vw);
+        top: calc(50% - .125vw);
+    }
+
+    &-r1,
+    &-r2,
+    &-r3{
+        $width-el: .25vw;
+        $height-el: 12.25vw;
+        $depth-el: 1.45vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        left: 3vw;
+        width: .25vw;
+        height: 3vw;
+
+
+        &__front{ background-color: var(--wood3b); }
+        &__back{ background-color: var(--wood3b); }
+        &__right{ background-color: var(--wood2); }
+        &__left{ background-color: var(--wood2); }
+        &__top{ background-color: var(--wood1); }
+        &__bottom{ background-color: var(--wood4); }
+    }
+    &-r1{
+        transition: transform .5s linear;
+        transform-origin: bottom left;
+    }
+    &-r2{
+        top: calc(33% + .075vw);
+    }
+    &-r3{
+        bottom: calc(0% - .125vw);
+    }
+
+    &:nth-of-type(2) {
+        .librero-t .librero-t__top{ background-image: linear-gradient(55deg, var(--wood1) 40%, var(--wood1) 40%); }
+        .librero-r .librero-r__top{ background-color: var(--wood1); }
+    }
+}
+
+.sillon{
+    position: absolute;
+    left: 9vw;
+    top: 2vw;
+    width: 14vw;
+    height: 4vw;
+    transform: translateZ(.6vw);
+
+    .fs{ width: 100%; }
+
+    &-l,
+    &-c,
+    &-c2,
+    &-r{
+        $width-el: 1vw;
+        $height-el: 3vw;
+        $depth-el: 2vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: 1vw;
+        height: 4vw;
+
+        &__front{ background-color: var(--blue3); }
+        &__back{ background-color: var(--blue3); }
+        &__right{ background-color: var(--blue2); }
+        &__left{ background-color: var(--blue3); }
+        &__top{ background-color: var(--blue1); }
+        &__bottom{ background-color: var(--blue3); }
+    }
+
+    &-r{
+        right: 0;
+    }
+    &-c,
+    &-c2{
+        left: 1vw;
+        $width-el: 5.95vw;
+        $height-el: 2vw;
+        $depth-el: 1.95vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+    }
+    &-c2{ left: 7vw; }
+    &-b,
+    &-b2{
+
+        $width-el: 5.95vw;
+        $height-el: 4.5vw;
+        $depth-el: .5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: 5.95vw;
+        height: 1vw;
+        left: 1vw;
+
+        transform: rotateX(10deg);
+
+        &__front{ background-color: var(--blue3); }
+        &__back{ background-color: var(--blue3); }
+        &__right{ background-color: var(--blue2); }
+        &__left{ background-color: var(--blue2); }
+        &__top{ background-color: var(--blue1); }
+        &__bottom{ background-color: var(--blue3); }
+    }
+    &-b2{ left: 7vw; }
+
+}
+
+
+.arbustos{
+    transform: rotateZ(25deg);
+    width: 1vw;
+    height: 3.5vw;
+    position: absolute;
+    left: 22vw;
+    top: 40vw;
+
+    transform: rotateZ(26deg) translateZ(.6vw);
+
+    .fs{
+        left: -.5vw;
+        top: -.75vw;
+        opacity: .5;
+    }
+}
+
+.arbusto,
+.arbusto2{
+    position: absolute;
+    transform: translateZ(.6vw) rotateX(90deg) rotateZ(22.5deg);
+
+    &:nth-of-type(2){ top: 2.5vw;}
+
+    &-el{
+        $width: 1vw;
+        $height: $width;
+        $depth: .75vw;
+        @include wheel($width, $height, $depth);
+
+        &__front{ background-color: var(--black3); }
+        &__back{ background-color: var(--black2); }
+        &__right{ background-color: var(--black3); }
+        &__left{ background-color: var(--black2); }
+        &__top{ background-color: var(--black1); }
+        &__bottom{ background-color: var(--black3); }
+    }
+}
+.arbusto2{
+    top: 1.25vw;
+    &-el{
+        $width: .25vw;
+        $height: $width;
+        $depth: 2.5vw;
+        @include wheel($width, $height, $depth);
+
+        &__front{ background-color: var(--floor3); }
+        &__back{ background-color: var(--floor2); }
+        &__right{ background-color: var(--floor3); }
+        &__left{ background-color: var(--floor2); }
+        &__top{ background-color: var(--floor1); }
+        &__bottom{ background-color: var(--floor3); }
+    }
+}
+
+
+.maceta{
+    position: absolute;
+    right: 2vw;
+    top: 2vw;
+    width: 3vw;
+    height: 3vw;
+    transform: translateZ(.61vw);
+
+    &-base{
+        position: absolute;
+        left: .5vw;
+        top: .5vw;
+        width: 2vw;
+        height: 2vw;
+        transform: translateZ(1.5vw);
+        background-color: var(--white1);
+    }
+    &-hoja{
+        position: absolute;
+        width: .5vw;
+        height: 1.35vw;
+        border-radius: 50%;
+        transform: translateZ(.85vw) rotateX(90deg) rotateY(-25deg);
+        background-color: var(--green1);
+
+        &:nth-of-type(1){
+            left: .1vw; top: .1vw;
+            transform: translateZ(.8vw) rotateX(90deg) rotateY(-65deg);
+        }
+        &:nth-of-type(2){
+            left: .5vw; top: .2vw;
+            background-color: var(--green2);
+        }
+        &:nth-of-type(3){
+            left: .95vw; top: 0vw;
+            transform: translateZ(.75vw) rotateX(90deg) rotateY(-30deg);
+            background-color: var(--green3);
+        }
+        &:nth-of-type(4){
+            left: 1.25vw; top: .4vw;
+            background-color: var(--green2);
+        }
+        &:nth-of-type(5){ left: 1.5vw; top: .6vw; }
+        &:nth-of-type(6){
+            left: .35vw; top: .56vw;
+            transform: translateZ(.65vw) rotateX(90deg) rotateY(-55deg);
+
+        }
+        &:nth-of-type(7){ left: .55vw; top: 1.46vw; }
+        &:nth-of-type(8){
+            left: .935vw; top: 1.2vw;
+            transform: translateZ(.75vw) rotateX(90deg) rotateY(-40deg);
+        }
+        &:nth-of-type(9){
+            left: 1vw; top: 1.2vw;
+            background-color: var(--green3);
+        }
+        &:nth-of-type(10){
+            left: 1.5vw; top: 0vw;
+            transform: translateZ(.85vw) rotateX(90deg) rotateY(-65deg);
+            background-color: var(--green3);
+
+        }
+        &:nth-of-type(11){
+            left: .1vw; top: .1vw;
+            transform: translateZ(.5vw) rotateX(90deg) rotateY(-85deg);
+        }
+        &:nth-of-type(12){
+            left: .5vw; top: .2vw;
+            background-color: var(--green2);
+        }
+        &:nth-of-type(13){
+            left: .95vw; top: 0vw;
+            transform: translateZ(.75vw) rotateX(90deg) rotateY(90deg);
+            background-color: var(--green3);
+        }
+        &:nth-of-type(14){
+            left: 1.25vw; top: .4vw;
+            transform: translateZ(.5vw) rotateX(90deg) rotateY(90deg);
+
+        }
+        &:nth-of-type(15){
+            left: 1.35vw; top: .6vw;
+            transform: translateZ(.75vw) rotateX(90deg) rotateY(-100deg);
+            background-color: var(--green2);
+
+        }
+    }
+
+
+    &-l,
+    &-r{
+        $width-el: .5vw;
+        $height-el: 2vw;
+        $depth-el: 1.5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        width: .5vw;
+        height: 3vw;
+
+        &__front{ background-color: var(--white3); }
+        &__back{ background-color: var(--white3); }
+        &__right{ background-color: var(--white2); }
+        &__left{ background-color: var(--white3); }
+        &__top{ background-color: var(--white1); }
+        &__bottom{ background-color: var(--white3); }
+    }
+    &-r{ right: 0; }
+
+    &-b,
+    &-t{
+        $width-el: 2vw;
+        $height-el: 2vw;
+        $depth-el: .25vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+
+        position: absolute;
+        left: .5vw;
+        width: 2vw;
+        height: .5vw;
+
+        &__front{ background-color: var(--white3); }
+        &__back{ background-color: var(--white3); }
+        &__right{ background-color: var(--white2); }
+        &__left{ background-color: var(--white3); }
+        &__top{ background-color: var(--white1); }
+        &__bottom{ background-color: var(--white3); }
+    }
+    &-b{ bottom: 0; }
+
+}
+.manija{
+    $width-el: 1vw;
+    $height-el: .25vw;
+    $depth-el: .125vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+
+    position: absolute;
+    width: 1vw;
+    height: .25vw;
+
+    &__front{ background-color: var(--white3); }
+    &__back{ background-color: var(--white1); }
+    &__right{ background-color: var(--white1); }
+    &__left{ background-color: var(--white3); }
+    &__top{ background-color: var(--white2); }
+    &__bottom{ background-color: var(--white3); }
+}
