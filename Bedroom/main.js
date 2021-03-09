@@ -17,7 +17,7 @@ let base = (e) => {
 }
 
 b.addEventListener("pointermove", base);
-*
+*/
 
 let bocina = document.querySelector("#bocina");
 let bocinaA = document.querySelectorAll(".bocina-a");
