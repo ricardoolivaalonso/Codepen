@@ -1,0 +1,799 @@
+:root{
+    --pink: #F0466D;
+    --pink-a: #da3a5f;
+
+    --green: #18D09E;
+    --green-a: #17b68a;
+
+    --purple: #381084;
+    --purple-a: #2a0869;
+
+    --white: #F2F2F2;
+    --white-a: #e8e7e7;
+}
+
+$type: ease-in-out;
+$time-leg: 600ms;
+$time-a: 600ms;
+$time-b: 300ms;
+/*********************/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	user-select: none;
+    outline: none;
+    appearance: none;
+    transform-style: preserve-3d;
+    -webkit-tap-highlight-color: transparent;
+}
+/***********************/
+// Tags
+/***********************/
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background-color: var(--pink);
+
+    animation: colors $type 10000ms  infinite;
+}
+/**/
+.svgs{
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%);
+}
+.svg-icon {
+    width: 30px;
+    height: 30px;
+    &:hover{ transform: scale(1.1);}
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+    fill: white;
+}
+
+.svg-icon circle {
+    stroke: white;
+    stroke-width: 1;
+}
+.s{ display: none; }
+/**/
+.main{
+    width: 60vw;
+    height: 40vw;
+}
+.c{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    animation: c $type $time-b infinite alternate;
+}
+.boy{
+    position: absolute;
+    left: 22vw;
+    bottom: 6vw;
+    width: 11.5vw;
+    height: 28vw;
+
+    animation: boy $type $time-b infinite alternate;
+}
+.shadow{
+    position: absolute;
+    bottom: 4vw;
+    width: 10vw;
+    left: 22.5vw;
+    height: 2vw;
+    opacity: .8;
+    border-radius: 50%;
+    background-color: var(--pink-a);
+
+    animation: shadow $type $time-leg/4 infinite alternate;
+}
+.torso{
+    position: absolute;
+    bottom: 5.2vw;
+    right: 1.5vw;
+    width: 8.9vw;
+    height: 22vw;
+
+    background-image: linear-gradient(96deg, transparent 2.6vw, var(--white) 2.6vw);
+    border-top-left-radius: 5.1vw;
+    border-top-right-radius: 2vw;
+    border-bottom-left-radius: 2.5vw;
+    border-bottom-right-radius: 1.5vw;
+
+    animation: torso $type $time-b infinite alternate;
+}
+.face{
+    position: absolute;
+    left: 5.5vw;
+    top: 5.6vw;
+    width: 4vw;
+    height: 3.25vw;
+    transform-origin: bottom right;
+    transform: rotateZ(3deg);
+
+    animation: face $type $time-b infinite alternate;
+
+    &__eye-l,
+    &__eye-r{
+
+        position: absolute;
+        top: -.5vw;
+        width: 1.5vw;
+        height: 1.5vw;
+        border-radius: 50%;
+
+        border-left: .25vw solid var(--purple);
+        border-top: .25vw solid var(--purple);
+        border-right: .25vw solid transparent;
+        border-bottom: .25vw solid transparent;
+        transform: rotateZ(-135deg);
+    }
+    &__eye-r{ right: 0; }
+    &__nose{
+        position: absolute;
+        top: .25vw;
+        left: 1.4vw;
+        width: 1.25vw;
+        height: 1.25vw;
+
+        border-left: .6vw solid var(--pink);
+        border-top: .6vw solid transparent;
+        border-bottom: .6vw solid transparent;
+
+        transform: rotateZ(-90deg);
+    }
+    &__mouth{
+        position: absolute;
+        bottom: 0;
+        left: 1.6vw;
+        width: 1.25vw;
+        height: 1.5vw;
+
+        &::before,
+        &::after{
+
+            content: '';
+            position: absolute;
+            width: 1vw;
+            height: 1.5vw;
+            border-radius: 50%;
+
+            border-left: .3vw solid var(--purple);
+            border-top: .3vw solid var(--purple);
+            border-right: .3vw solid transparent;
+            border-bottom: .3vw solid transparent;
+            transform: rotateZ(75deg);
+        }
+        &::after{
+            top: .55vw;
+            right: -.025vw;
+            transform: rotateZ(-180deg);
+            width: 1.5vw;
+            height: 1vw;
+        }
+    }
+    &__bubble{
+        position: absolute;
+        left: 2.5vw;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-radius: 50% 50% 50% 50% / 100% 50% 50% 0%  ;
+        background-color: var(--green);
+
+        animation: bubble $type 5000ms infinite;
+        z-index: 100;
+        mix-blend-mode: difference;
+
+    }
+}
+.cap{
+    position: absolute;
+    left: 0;
+    top: .5vw;
+    width: 10vw;
+    height: 4.15vw;
+    transform-origin: bottom right;
+    transform: rotateZ(3deg);
+
+    &__bottom{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 1vw;
+        border-radius: 1vw;
+        background-color: var(--green);
+
+        animation: cap-bottom $type $time-b infinite alternate;
+    }
+    &__center{
+        position: absolute;
+        bottom: .25vw;
+        right: .25vw;
+        width: 2.25vw;
+        height: 2.4vw;
+
+        border-top-left-radius: 1.5vw;
+        border-top-right-radius: 1.75vw;
+        border-bottom-left-radius: .5vw;
+        background-color: var(--white);
+
+        animation: cap-center $type $time-b infinite alternate;
+    }
+    &__top{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 6.8vw;
+        height: 100%;
+
+        border-top-left-radius: 1.5vw;
+        border-top-right-radius: 2vw;
+        border-bottom-left-radius: .25vw;
+        border-bottom-right-radius: .25vw;
+        background-color: var(--green);
+
+        animation: cap-top $type $time-b infinite alternate;
+
+        &::before{
+            content: '';
+            position: absolute;
+            width: .5vw;
+            height: .35vw;
+            background-color: var(--white);
+            left: calc(50% - .25vw);
+            top: -.35vw;
+            border-top-left-radius: .25vw;
+            border-top-right-radius: .25vw;
+
+        }
+    }
+}
+.hair-a__b{
+    animation: hair-bb $type $time-b infinite alternate;
+}
+.hair-a,
+.hair-b{
+    position: absolute;
+    left: 0;
+    top: 1.85vw;
+    width: 11vw;
+    height: 5.5vw;
+    transform-origin: top left;
+    transform: rotateZ(3deg);
+
+    animation: hair-a $type $time-b infinite alternate;
+
+    &--i{
+        position: absolute;
+        border-radius: 1vw;
+        background-color: var(--purple);
+    }
+    &__a{
+        top: .9vw;
+        right: .2vw;
+        width: 3.1vw;
+        height: 1.1vw;
+    }
+    &__b{
+        top: .9vw;
+        left: 8.5vw;
+        width: 2.35vw;
+        height: 1.1vw;
+        transform-origin: bottom left;
+        transform: rotateZ(-45deg);
+    }
+    &__c{
+        top: .25vw;
+        left: 7.4vw;
+        width: 1.1vw;
+        height: 1.75vw;
+    }
+}
+.hair-b{
+    &__a{
+        top: 1.6vw;
+        left: 2.5vw;
+        width: 3.5vw;
+        height: 1.1vw;
+    }
+    &__b{
+        top: 2vw;
+        left: 3vw;
+        width: 1.5vw;
+        height: 1.5vw;
+        border-radius: 50%;
+    }
+    &__c{
+        top: 3.1vw;
+        left: 2.25vw;
+        width: 1.75vw;
+        height: 1.75vw;
+        border-radius: 50%;
+    }
+    &__d{
+        top: 2vw;
+        left: 3.25vw;
+        width: 1vw;
+        height: 3.25vw;
+    }
+}
+.ear{
+    position: absolute;
+    top: 6.5vw;
+    left: 1.85vw;
+    width: 8.75vw;
+    height: 1.75vw;
+
+    transform-origin: top left;
+    transform: rotateZ(3deg);
+    animation: ear $type $time-b infinite alternate;
+
+    &-l,
+    &-r{
+        position: absolute;
+        width: 1.75vw;
+        height: 1.75vw;
+
+        background-color: var(--white);
+        border-top-left-radius: 1vw;
+        border-bottom-left-radius: 1vw;
+        border-bottom-right-radius: 1vw;
+
+        animation: ear-l $type $time-b infinite alternate;
+    }
+    &-l{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &::before,
+        &::after{
+            content: '';
+            position: absolute;
+            width: .175vw;
+            height: 60%;
+            border-radius: .5vw;
+            background-color: var(--purple);
+            transform: rotateZ(45deg);
+        }
+        &::after{
+            width: 60%;
+            height: .175vw;
+        }
+    }
+    &-r{
+        right: 0;
+        border-radius: 50%;
+        background-color: var(--white-a);
+    }
+}
+.jacket{
+    position: absolute;
+    bottom: 6vw;
+    left: .85vw;
+    width: 9.4vw;
+    height: 5.25vw;
+    transform-origin: bottom left;
+    transform: rotateZ(3deg);
+
+    animation: jacket $type $time-a infinite alternate;
+
+    background-image:
+        linear-gradient(
+            92deg,
+            transparent .5vw,
+            var(--green) .5vw,
+            var(--green) 5.45vw,
+            transparent 5.45vw,
+            transparent 8.25vw,
+            var(--green) 8.25vw
+
+        );
+
+    border-top-left-radius: 1.5vw;
+    border-top-right-radius: .5vw;
+    border-bottom-left-radius: 1.5vw;
+    border-bottom-right-radius: .5vw;
+}
+.pants{
+    position: absolute;
+    bottom: 5.25vw;
+    left: 1.4vw;
+    width: 8.5vw;
+    height: 1.5vw;
+    transform-origin: bottom left;
+    transform: rotateZ(3deg);
+
+    background-color: var(--purple);
+    border-bottom-left-radius: 2vw;
+    border-bottom-right-radius: 2vw;
+}
+.t-shirt{
+    position: absolute;
+    bottom: 6.5vw;
+    left: 5.4vw;
+    width: 4vw;
+    height: 4vw;
+    transform-origin: bottom left;
+    transform: rotateZ(3deg);
+
+    background-image:
+        repeating-linear-gradient(
+            to bottom,
+            var(--pink) 0,
+            var(--pink) .5vw,
+            var(--white) .5vw,
+            var(--white) 1vw
+        );
+    &::after{
+        content: '';
+        position: absolute;
+        top: -2vw;
+        left: .8vw;
+        width: 3vw;
+        height: 3vw;
+        border-radius: 50%;
+        background-color: var(--white);
+
+        animation: t-shirt $type $time-a infinite alternate;
+    }
+}
+.arm-l{
+
+    position: absolute;
+    bottom: 5vw;
+    left: -.5vw;
+    width: 4vw;
+    height: 4vw;
+    transform-origin: top left;
+    transform: rotateZ(-30deg);
+
+    border-radius: 50%;
+
+    animation: arm-l $type $time-a infinite alternate;
+
+    border-left: .75vw solid var(--green-a);
+    border-top: .75vw solid var(--green-a);
+    border-right: .75vw solid transparent;
+    border-bottom: .75vw solid transparent;
+
+    &::before{
+        content: '';
+        position: absolute;
+        width: 1vw;
+        height: 1vw;
+        bottom: -.5vw;
+        left: 0;
+        border-left: .25vw solid var(--purple);
+        transform: rotateZ(30deg);
+
+    }
+}
+.arm-r{
+
+    position: absolute;
+    bottom: 5vw;
+    right: .5vw;
+    width: 4vw;
+    height: 4vw;
+    transform-origin: top left;
+    transform: rotateZ(-30deg);
+
+    border-radius: 50%;
+
+    animation: arm-r $type $time-a infinite alternate;
+
+    border-left: .75vw solid transparent;
+    border-top: .75vw solid transparent;
+    border-right: .75vw solid var(--green-a);
+    border-bottom: .75vw solid var(--green-a);
+}
+.leg{
+    position: absolute;
+    bottom: -.2vw;
+    width: 3.35vw;
+    height: 5.5vw;
+
+    &-l{
+        left: 1vw;
+        animation: leg-l $type $time-leg infinite alternate;
+
+        .leg-top{ animation: leg-top-l $type $time-leg infinite alternate ; }
+        .leg-bottom{ animation: leg-bottom-l $type $time-leg infinite alternate ; }
+        .leg-foot{ animation: leg-foot-l $type $time-leg infinite alternate ; }
+    }
+    &-r{
+        left: 3vw;
+        animation: leg-r $type $time-leg infinite alternate 0ms;
+
+        .leg-top{
+            animation: leg-top-r $type $time-leg infinite alternate 0ms;
+            background-color: var(--purple-a);
+        }
+        .leg-bottom{
+            animation: leg-bottom-r $type $time-leg infinite alternate 0ms;
+            background-color: var(--purple-a);
+
+        }
+        .leg-foot{
+            animation: leg-foot-r $type $time-leg infinite alternate 0ms;
+            &::before,
+            &::after{
+                background-color: var(--white-a);
+            }
+        }
+    }
+    &-top{
+        position: absolute;
+        top: 0;
+        right: -.5vw;
+        width: 1vw;
+        height: 3vw;
+        transform-origin: top right;
+        transform: rotateZ(25deg);
+        background-color: var(--purple);
+
+        border-top-left-radius: .5vw;
+        border-top-right-radius: .5vw;
+    }
+    &-bottom{
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 100%;
+        height: 3vw;
+        transform-origin: top right;
+        transform: rotateZ(5deg);
+
+        background-color: var(--purple);
+    }
+    &-foot{
+        position: absolute;
+        top: 50%;
+        left: -.75vw;
+        width: 2.75vw;
+        height: 1vw;
+        transform-origin: top right;
+        transform: rotateZ(-30deg);
+        overflow: hidden;
+
+        &::before{
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50%;
+            height: 100%;
+            transform: skewX(-5deg);
+            background-color: var(--white);
+            border-top-left-radius: .25vw;
+            border-top-right-radius: .25vw;
+
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            top: 10%;
+            right: 0;
+            width: 60%;
+            height: 200%;
+            border-radius: 50%;
+            background-color: var(--white);
+        }
+
+    }
+}
+/*****************************************/
+@keyframes colors {
+    0%, 50%{
+        --green: #F0466D;
+        --green-a: #da3a5f;
+        --pink: #18D09E;
+        --pink-a: #17b68a;
+
+    }
+    51%, 100%{
+        --pink: #F0466D;
+        --pink-a: #da3a5f;
+        --green: #18D09E;
+        --green-a: #17b68a;
+    }
+}
+@keyframes c {
+    0%, 10%{ transform: rotateZ(-2deg) translateY(0); }
+    90%, 100%{ transform: rotateZ(2deg) translateY(-.1vw); }
+}
+@keyframes boy {
+    0%{ transform: translateX(-.5vw) translateY(-.1vw); }
+    100%{ transform:translateX(1vw) translateY(.1vw); }
+}
+@keyframes shadow {
+    0%{ width: 12vw; left: 21vw; }
+    100%{ width: 12.5vw; left: 21.5vw; }
+}
+@keyframes torso {
+    0%, 20%{
+        width: 8.9vw;
+        background-image: linear-gradient(96deg, transparent 2.6vw, var(--white) 2.6vw);
+    }
+    80%, 100%{
+        width: 8.8vw;
+        background-image: linear-gradient(96deg, transparent 2.65vw, var(--white) 2.65vw);
+    }
+}
+@keyframes face {
+    0%, 20%{ left: 5.4vw; transform: scaleX(1);}
+    80%, 100%{ left: 5.6vw;transform: scaleX(.925);}
+}
+@keyframes bubble {
+    0%, 20%{
+        left: 2.5vw;
+        width: 0;
+        height: 0;
+        opacity: .6;
+        border-radius: 55% 45% 67% 33% / 99% 38% 62% 1% ;
+    }
+    25%, 30%{
+        width: 5vw;
+        height: 5vw;
+        border-radius: 55% 45% 67% 33% / 99% 43% 57% 1% ;
+    }
+    35%, 40%{
+        width: 10vw;
+        height: 10vw;
+        border-radius: 55% 45% 67% 33% / 99% 38% 62% 1% ;
+    }
+    45%, 50%{
+        width: 15vw;
+        height: 15vw;
+        border-radius: 55% 45% 67% 33% / 99% 43% 57% 1% ;
+
+    }
+    55%, 60%{
+        width: 20vw;
+        height: 20vw;
+        border-radius: 55% 45% 67% 33% / 99% 38% 62% 1% ;
+    }
+    65%, 70%{
+        width: 30vw;
+        height: 30vw;
+        border-radius: 55% 45% 67% 33% / 99% 43% 57% 1% ;
+
+    }
+    75%, 80%{
+        width: 35vw;
+        height: 35vw;
+        border-radius: 55% 45% 67% 33% / 99% 38% 62% 1% ;
+    }
+    85%, 98%{
+        width: 40vw;
+        height: 40vw;
+        opacity: .9;
+        left: 2.5vw;
+        border-radius: 55% 45% 67% 33% / 99% 43% 57% 1% ;
+    }
+    100%{
+        left: 3vw;
+        width: 75vw;
+        height: 75vw;
+        opacity: 1;
+        border-radius: 55% 45% 67% 33% / 99% 38% 62% 1% ;
+    }
+}
+@keyframes cap-bottom {
+    0%, 10%{ width: 100%; }
+    90%, 100%{ width: 98%; }
+}
+@keyframes cap-top {
+    0%, 10%{ width: 6.8vw; }
+    90%, 100%{ width: 6.6vw; }
+}
+@keyframes cap-center {
+    0%, 10%{ right: .5vw; }
+    90%, 100%{ right: .35vw; }
+}
+@keyframes hair-a {
+    0%, 20%{ left: -.3vw; top: 1.85vw; }
+    80%, 100%{ left: 0; top: 1.95vw; }
+}
+@keyframes hair-bb {
+    0%, 20%{ transform: rotateZ(-45deg); }
+    80%, 100%{ transform: rotateZ(-40deg); }
+}
+@keyframes ear {
+    0%, 10%{ left: 1.6vw; }
+    90%, 100%{ left: 1.9vw; }
+}
+@keyframes ear-l {
+    0%, 10%{ width: 1.675vw; }
+    90%, 100%{ width: 1.75vw; }
+}
+@keyframes jacket {
+    0%, 20%{
+        width: 9.4vw;
+        background-image:
+            linear-gradient(
+                92deg,
+                transparent .5vw,
+                var(--green) .5vw,
+                var(--green) 5.45vw,
+                transparent 5.45vw,
+                transparent 8.25vw,
+                var(--green) 8.25vw
+
+            );
+    }
+    80%, 100%{
+        width: 9.2vw;
+        background-image:
+            linear-gradient(
+                92deg,
+                transparent .5vw,
+                var(--green) .5vw,
+                var(--green) 5.55vw,
+                transparent 5.55vw,
+                transparent 8.35vw,
+                var(--green) 8.35vw
+
+            );
+    }
+}
+@keyframes t-shirt {
+    0%, 10%{ left: .6vw;}
+    90%, 100%{ left: .85vw; }
+}
+@keyframes arm-l {
+    0%, 20%{ left: -.55vw; }
+    80%, 100%{ left: -.1vw; }
+}
+@keyframes arm-r {
+    0%, 20%{ right: .25vw; }
+    80%, 100%{ right: .8vw; }
+}
+// -----------
+@keyframes leg-l {
+    0%, 20%{ left: 1.5vw; }
+    80%, 100%{ left: 3vw; }
+}
+@keyframes leg-top-l {
+    0%{ transform: rotateZ(35deg) translateY(0vw); height: 3.5vw; }
+    100%{ transform: rotateZ(-45deg) translateY(-.85vw); height: 4vw; }
+}
+@keyframes leg-bottom-l{
+    0%, 7%, 93%, 100%{ transform: rotateZ(0deg); }
+    40%, 60%{ transform: rotateZ(70deg); }
+}
+@keyframes leg-foot-l{
+    0%{ transform: rotateZ(-35deg) translateY(0); }
+    100%{ transform: rotateZ(25deg) translateY(2.2vw); left: .65vw; }
+}
+// -----------
+@keyframes leg-r {
+    0%, 20%{ left: 3vw; }
+    80%, 100%{ left: 1.5vw; }
+}
+@keyframes leg-top-r {
+    0%{ transform: rotateZ(-45deg) translateY(-.85vw); height: 3.5vw}
+    100%{ transform: rotateZ(35deg) translateY(0); height: 4vw; }
+}
+@keyframes leg-bottom-r{
+    0%, 7%, 93%, 100%{ transform: rotateZ(0deg); }
+    40%, 60%{ transform: rotateZ(70deg); }
+}
+@keyframes leg-foot-r{
+    0%{ transform: rotateZ(25deg) translateY(2.2vw); left: .65vw; }
+    100%{ transform: rotateZ(-35deg) translateY(0);  }
+}
