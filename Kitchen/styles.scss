@@ -1,0 +1,1475 @@
+$bg-1: #EEE3E7;
+$bg-2: #c7bfc0;
+$black-1: #57524E;
+$black-2: #3D3C3A;
+$black-3: #251B18;
+$pink-1: #e87c80;
+$pink-2: #e05e63;
+$pink-3: #BE595D;
+// $pink-1: #d3e0e2;
+// $pink-2: darken($pink-1, 8);
+// $pink-3: darken($pink-1, 18);
+$white-1: #ebeae9;
+$white-2: #DCD7D3;
+$white-3: #b5b1b1;
+// $brown-1: #BE9A6A;
+// $brown-2: #A4815B;
+// $brown-3: #986c3b;
+$brown-1: #57524E;
+$brown-2: #3D3C3A;
+$brown-3: #251B18;
+$green-1: #65C34C;
+$green-2: #53b43a;
+$green-3: #419f29;
+$orange: #e48d78;
+$cyan-1: #acdaf7;
+$cyan-2: darken($cyan-1, 5);
+/***********************/
+@mixin cylinder($base, $sides, $degree, $pi, $width, $color) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	position: absolute;
+
+    &__side{
+        position: absolute;
+        height: ( 2 * $pi * ($base / 2) ) / $sides ;
+        width: $width;
+        background-color: darken($color, 15);
+
+        @for $var from 1 to ($sides + 1) {
+            &:nth-of-type(#{$var}){ transform: rotateX( $var * $degree / $sides ) translateZ($base / 2); }
+        }
+        @for $var from 1 to 20 {
+            &:nth-of-type(#{$var}){ background-color: darken($color, $var * 1.5); }
+        }
+        @for $var from 1 to 20 {
+            &:nth-last-of-type(#{$var}){ background-color: darken($color, $var * 1.5); }
+        }
+    }
+    &__top,
+    &__bottom{
+        position: absolute;
+        width: $base;
+        height: $base;
+        border-radius: 50%;
+        transform: rotateY(90deg) translateZ( $width / 2 );
+    }
+    &__bottom{ transform: rotateY(90deg) translateZ( $width / -2 );}
+}
+@mixin cube($width, $height, $depth) {
+    &__front{ @include cube-front($width, $height, $depth); }
+    &__back{ @include cube-back($width, $height, $depth); }
+    &__right{ @include cube-right($width, $height, $depth); }
+    &__left{ @include cube-left($width, $height, $depth); }
+    &__top{ @include cube-top($width, $height, $depth);}
+    &__bottom{ @include cube-bottom($width, $height, $depth); }
+}
+//----------------------
+@mixin cube-front($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: bottom left;
+    transform: rotateX(-90deg) translateZ( -($height - ($depth * 2) ) );
+}
+@mixin cube-back($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-$width) translateY(-$height) ;
+}
+@mixin cube-right($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ($width) translateX(-$depth * 2) translateY(-$height);
+}
+@mixin cube-left($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-$height);
+}
+@mixin cube-top($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: translateZ($height) ;
+}
+@mixin cube-bottom($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: rotateY(180deg) translateX(-$width);
+}
+@mixin face-ani($animation, $time, $side, $width-el, $height-el, $depth-el) {
+
+    animation: #{$animation} #{$time} infinite ease;
+
+    @keyframes #{$animation} {
+        0%, 15%, 45%, 60%, 62%, 68%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-bottom" { @include cube-bottom($width-el, $height-el, $depth-el); }
+
+        }
+        20%, 40%, 58%, 64%, 70%, 100%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-bottom" { @include cube-bottom($width-el, $height-el, $depth-el); }
+        }
+    }
+}
+@mixin cube-color($color) {
+    &__front{ background-color: darken($color, 5); }
+    &__back{ background-color: darken($color, 10) }
+    &__right{ background-color: darken($color, 10) }
+    &__left{ background-color: darken($color, 20); }
+    &__top{ background-color: $color; }
+    &__bottom{ background-color: darken($color, 20);}
+}
+/***********************/
+/***********************/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    transform-style: preserve-3d;
+
+	user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    font-family: sans-serif;
+}
+/***********************/
+/***********************/
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+
+    overflow: hidden;
+	cursor: pointer;
+    background-color: $bg-1;
+}
+.face{ position: absolute; }
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/***********************/
+/***********************/
+.main{
+    position: absolute;
+    width: 45vw;
+    height: 30vw;
+    transform:
+        perspective(30000px)
+        rotateX(65deg)
+        rotateZ(35deg)
+        translateZ(-10vw)
+    ;
+    transition: transform 500ms linear;
+}
+@keyframes main {
+    to{
+        transform:
+            perspective(30000px)
+            rotateX(65deg)
+            rotateZ(395deg)
+            translateZ(-10vw)
+        ;
+    }
+}
+.shadow{
+    background-color: $bg-2;
+    position: absolute;
+    transform: translateZ(-.1vw);
+
+    &--1{
+        width: 105%;
+        height: 125%;
+        bottom: -.5vw;
+        left: -.5vw;
+        box-shadow:
+            .125vw .125vw .5vw $bg-2,
+            -.125vw .125vw .5vw $bg-2,
+            .125vw -.125vw .5vw $bg-2,
+            -.125vw -.125vw .5vw $bg-2
+        ;
+    }
+    &--2{
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: darken($bg-2, 20);
+        box-shadow:
+            .125vw .125vw .5vw darken($bg-2, 40),
+            -.125vw .125vw .5vw darken($bg-2, 40),
+            .125vw -.125vw .5vw darken($bg-2, 40),
+            -.125vw -.125vw .5vw darken($bg-2, 40)
+        ;
+    }
+}
+/*---------------------*/
+.floor{
+    $width-el: 45vw;
+    $height-el: 1vw;
+    $depth-el: 15vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+
+    &__front{
+        background-color: $black-2;
+        background-image: repeating-linear-gradient(to right, $black-2 0, $black-2 1vw, darken($black-2, 10) 1vw, darken($black-2, 5) 1.1vw, darken($black-2, 5) 1.2vw);
+        border-bottom: .5vw solid darken($black-2, 10);
+    }
+    &__back{
+        background-color: $black-3;
+        border-bottom: .5vw solid darken($black-3, 5);
+    }
+    &__right{
+        background-color: $black-3;
+        border-bottom: .5vw solid darken($black-3, 5);
+    }
+    &__left{
+        background-color: $black-1;
+        border-bottom: .5vw solid darken($black-1, 5);
+    }
+    &__top{
+        background-color: $black-1;
+        background-image:
+            linear-gradient(-40deg, transparent 4vw, rgba($black-3, .3) 4vw),
+            linear-gradient(-40deg, transparent 19.25vw, rgba($black-3, .3) 19.5vw),
+            linear-gradient(-40deg, transparent 3.8vw, rgba($black-3, .45) 3.8vw),
+            radial-gradient(transparent 15vw, rgba($black-3, .4) 16vw),
+            linear-gradient(-40deg, transparent 19.4vw, rgba($black-3, .3) 19.4vw),
+            repeating-linear-gradient(to right, transparent 0, transparent 1vw, darken($black-1, 12) 1vw, darken($black-1, 5) 1.1vw, darken($black-1, 5) 1.2vw)
+        ;
+        background-size:
+            24vw 21.75vw,
+            30vw 15vw,
+            7vw 7.5vw,
+            30vw 100%,
+            30vw 100%,
+            100% 100%
+        ;
+        background-position: top right;
+        background-repeat: no-repeat;
+    }
+    &__bottom{
+        background-color: $black-3;
+        border-bottom: .5vw solid darken($black-3, 5);
+    }
+}
+.wall-t{
+    $width-el: 30vw;
+    $height-el: 20vw;
+    $depth-el: .5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateZ(1vw);
+
+    &__front{
+        background-color: darken($pink-1, 2);
+        background-image:
+            linear-gradient(to bottom, transparent, darken($pink-3, 10)),
+            linear-gradient(to top, darken($pink-3, 3), $pink-3 10%, transparent 70%),
+            linear-gradient(to right, darken($pink-3, 9), transparent),
+            linear-gradient(45deg, rgba($pink-3, .8) 21.75vw, transparent 21.75vw),
+            linear-gradient(45deg, rgba($pink-3, .8) 21.75vw, transparent 21.75vw),
+            linear-gradient(45deg, rgba($pink-3, .8) 21.75vw, transparent 21.75vw),
+            linear-gradient(to top, rgba(darken($pink-3, 10), .5), $pink-3 20%, $pink-2),
+            linear-gradient(65deg, rgba($pink-2, .7) 8.5vw, transparent 8.5vw)
+        ;
+        background-size:
+            100% 3vw,
+            100% 10%,
+            3vw 14vw,
+            100% 7vw,
+            100% 7vw,
+            100% 7vw,
+            24vw 14vw,
+            100% 100%
+        ;
+        background-position:
+            0 100%,
+            0 100%,
+            0 100%,
+            0 43%,
+            0 66%,
+            0 100%,
+            0 5.5vw,
+            0 0
+        ;
+        background-repeat: no-repeat;
+    }
+    &__back{
+        background-color: $pink-3;
+        background-image: linear-gradient(to top, darken($pink-3, 12), darken($pink-3, 3) 10%, transparent 30%);
+    }
+    &__right{
+        background-color: $pink-3;
+        background-image: linear-gradient(to top, darken($pink-3, 15), transparent 30%);
+    }
+    &__left{ background-color: $pink-1; }
+    &__top{
+        background-color: $pink-1;
+        background-image: linear-gradient(to top, lighten($pink-1, 2), transparent);
+    }
+    &__bottom{ background-color: $pink-3; }
+}
+.wall-la,
+.wall-lb{
+    $width-el: 1vw;
+    $height-el: 20vw;
+    $depth-el: 4vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+
+    position: absolute;
+    right: 30vw;
+    transform: translateZ(1vw);
+}
+.wall-la{ top: 0; }
+.wall-lb{ bottom: 0; }
+
+.wall-lc{
+    $width-el: 1vw;
+    $height-el: 5vw;
+    $depth-el: 7vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+
+    position: absolute;
+    top: 8vw;
+    right: 30vw;
+    transform: translateZ(16vw);
+
+    // &__front{ background-color: $pink-2; }
+    // &__back{ background-color: $pink-3; }
+    &__right{ background-color: $pink-3; }
+    &__left{ background-color: $pink-1; }
+    &__top{
+        background-color: $pink-1;
+        background-image: linear-gradient(to left, lighten($pink-1, 2), transparent);
+    }
+    &__bottom{ background-color: $pink-3; }
+}
+.wall-la,
+.wall-lb{
+    &__front{
+        background-color: $pink-2;
+        background-image: linear-gradient(to bottom, lighten($pink-1, 1), transparent);
+    }
+    &__back{
+        background-color: $pink-3;
+        background-image: linear-gradient(to top, darken($pink-3, 12), darken($pink-3, 3) 10%, transparent 30%);
+    }
+    &__right{
+        background-color: $pink-3;
+        background-image: linear-gradient(to top, darken($pink-3, 10), transparent );
+        background-size: 100% 20%;
+        background-position: 0 100%;
+        background-repeat: no-repeat;
+    }
+    &__left{
+        background-color: $pink-1;
+        background-image: linear-gradient(to top, darken($pink-1, 7), transparent);
+        background-size: 100% 20%;
+        background-position: 0 100%;
+        background-repeat: no-repeat;
+    }
+    &__top{
+        background-color: $pink-1;
+        background-image: linear-gradient(to left, lighten($pink-1, 2), transparent);
+    }
+    &__bottom{ background-color: $pink-3; }
+}
+.door{
+    width: 2vw;
+    height: 14vw;
+    position: absolute;
+    right: 29.5vw;
+    top: 8vw;
+    transform: translateZ(1vw);
+    background-color: rgba($black-3, .3);
+}
+    .door-l,
+    .door-r{
+        $width-el: 2vw;
+        $height-el: 15vw;
+        $depth-el: .5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+
+        position: absolute;
+
+        &__front{
+            background-color: $white-2;
+            background-image: linear-gradient(to top, darken($white-2, 15), darken($white-2, 5) 10%, transparent);
+        }
+        &__back{ background-color: darken($white-3, 8); }
+        &__right{
+            background-color: $white-3;
+            background-image: linear-gradient(to top, darken($white-2, 15), darken($white-2, 5) 10%, transparent);
+        }
+        &__left{
+            background-color: $white-1;
+            background-image: linear-gradient(to top, darken($white-1, 8), darken($white-1, 3) 10%, transparent);
+        }
+        &__top{ background-color: darken($white-1, 5); }
+        &__bottom{ background-color: $white-3; }
+    }
+    .door-l{ top: 0; }
+    .door-r{ bottom: 0; }
+    .door-t{
+        $width-el: 2vw;
+        $height-el: 1vw;
+        $depth-el: 6vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+        position: absolute;
+        top: 1vw;
+        transform: translateZ(14vw);
+
+        &__front{ background-color: $white-2; }
+        &__back{ background-color: darken($white-3, 5); }
+        &__right{ background-color: $white-3; }
+        &__left{ background-color: $white-1; }
+        &__top{ background-color: darken($white-1, 5); }
+        &__bottom{ background-color: $white-3; }
+    }
+    .door-1,
+    .door-2{
+        position: absolute;
+        left: .5vw;
+        width: 1vw;
+        height: 6vw;
+    }
+    .door-1{ top: 1vw; }
+    .door-2{
+        bottom: 1vw;
+        transform-origin: bottom left;
+        transition: transform 1000ms linear;
+    }
+    .is-door-open{
+        transform: rotateZ(45deg);
+        transition: transform 1000ms linear;
+    }
+        .door-1r,
+        .door-1l{
+            $width-el: 1vw;
+            $height-el: 14vw;
+            $depth-el: .25vw;
+
+            @include cube($width-el, $height-el, $depth-el);
+            width: $width-el;
+            height: $depth-el * 2;
+            position: absolute;
+
+            &__front{ background-color: $white-2; }
+            &__back{ background-color: darken($white-3, 10); }
+            &__right{ background-color: $white-3; }
+            &__left{ background-color: $white-1; }
+            &__top{ background-color: $white-1; }
+            &__bottom{ background-color: $white-3; }
+        }
+        .door-1l{ bottom: 0; }
+        .door-1b,
+        .door-1c,
+        .door-1c2,
+        .door-1t{
+            $width-el: 1vw;
+            $height-el: .5vw;
+            $depth-el: 2.5vw;
+
+            @include cube($width-el, $height-el, $depth-el);
+            width: $width-el;
+            height: $depth-el * 2;
+            position: absolute;
+            top: .5vw;
+
+            &__front{ background-color: $white-2; }
+            &__back{ background-color: darken($white-3, 5); }
+            &__right{ background-color: darken($white-3, 5); }
+            &__left{ background-color: $white-1; }
+            &__top{ background-color: $white-1; }
+            &__bottom{ background-color: $white-3; }
+        }
+        .door-1c{ transform: translateZ(4.5vw); }
+        .door-1c2{ transform: translateZ(9vw); }
+        .door-1t{ transform: translateZ(13.5vw); }
+        .door__glass{
+            position: absolute;
+            top: .5vw;
+            left: 50%;
+            width: 14vw;
+            height: 5vw;
+
+            transform-origin: left;
+            transform: rotateY(-90deg);
+            background-color: rgba($white-3, .2);
+            overflow: hidden;
+
+            &::after,
+            &::before{
+                content: '';
+                position: absolute;
+
+                width: 10vw;
+                height: 10vw;
+                border-radius: 50%;
+                background-color: rgba($white-1, .075);
+
+                box-shadow:
+                    .5vw .5vw 1vw rgba($white-1, .025),
+                    -.5vw .5vw 1vw rgba($white-1, .025),
+                    .5vw -.5vw 1vw rgba($white-1, .025),
+                    -.5vw -.5vw 1vw rgba($white-1, .025)
+                ;
+            }
+            &::after{
+                left: 0vw;
+                top: 2vw;
+            }
+            &::before{
+                bottom: 2vw;
+                right: 1vw;
+                width: 5vw;
+                height: 5vw;
+                opacity: .5;
+
+            }
+        }
+.fence{
+    width: 1vw;
+    height: 30vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateZ(1vw);
+    background-color: rgba($black-3, .3);
+}
+    .fence__shadow-c,
+    .fence__shadow{
+        position: absolute;
+        width: 6vw;
+        height: 30vw;
+        overflow: hidden;
+        left: 1vw;
+    }
+        .fence__shadow{
+            left: 0;
+            transform-origin: bottom left;
+            transform: skewY(-25deg);
+            background-image: repeating-linear-gradient(to top, rgba($black-2, .6) 0, rgba($black-2, .6) 1vw, transparent 1.125vw, transparent 2vw);
+            border-right: .5vw solid rgba($black-2, .8);
+            padding-right: 1vw;
+        }
+    .fence-r,
+    .fence-l{
+        $width-el: 1vw;
+        $height-el: 8vw;
+        $depth-el: .25vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+        position: absolute;
+    }
+    .fence-l{ bottom: 0; }
+    .fence-b,
+    .fence-t{
+        $width-el: 1vw;
+        $height-el: .5vw;
+        $depth-el: 14.5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+        position: absolute;
+        top: .5vw;
+    }
+    .fence-b{
+        transform: translateZ(1vw);
+        &__top{ background-image: radial-gradient(rgba($brown-3, .8), transparent); }
+    }
+    .fence-t{
+        transform: translateZ(7vw);
+        &__top{ background-image: linear-gradient(to right, lighten($brown-1, 8), transparent); }
+    }
+    .fence-l,
+    .fence-r,
+    .fence-b,
+    .fence-t,
+    .fence-m{
+        &__front{
+            background-color: $brown-2;
+            background-image: linear-gradient(to top, rgba($brown-3, .5), transparent);
+        }
+        &__back{ background-color: $brown-3; }
+        &__right{ background-color: $brown-3; }
+        &__left{
+            background-color: $brown-1;
+            background-image: linear-gradient(to bottom, lighten($brown-1, 8), transparent);
+        }
+        &__top{ background-color: $brown-1; }
+        &__bottom{ background-color: $brown-3; }
+    }
+    .fence-m{
+        $width-el: .5vw;
+        $height-el: 5.5vw;
+        $depth-el: .25vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+        position: absolute;
+        transform: translateZ(1.5vw);
+        top: 2vw;
+        left: .25vw;
+
+        @for $var from 1 to 20 {
+            &:nth-last-of-type(#{$var}){ top: $var * 1.96vw; }
+        }
+    }
+
+.table{
+    width: 18vw;
+    height: 8vw;
+    position: absolute;
+    bottom: 8vw;
+    right: 5.75vw;
+    transform: translateZ(1vw);
+    background-color: rgba($black-3, .35);
+    box-shadow:
+        .25vw .25vw .25vw rgba($black-3, .125),
+        -.25vw .25vw .25vw rgba($black-3, .125),
+        .25vw -.25vw .25vw rgba($black-3, .125),
+        -.25vw -.25vw .25vw rgba($black-3, .125)
+    ;
+}
+    .table-b{
+        $width-el: 17.5vw;
+        $height-el: 5.5vw;
+        $depth-el: 3.75vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+        position: absolute;
+
+        &__front{
+            background-color: $brown-2;
+            background-image:
+                linear-gradient(to right, rgba($brown-3, .5) 2.75vw, transparent 2.75vw),
+                repeating-linear-gradient(to bottom, $brown-2 0, $brown-2 .6vw, darken($brown-3, 5) .60vw, darken($brown-3, 10) .65vw, darken($black-2, 5) .7vw),
+            ;
+        }
+        &__back{
+            background-color: $brown-3;
+            background-image:
+                linear-gradient(to left, rgba( darken($brown-3, 20), .5) 11.5vw, transparent 11.5vw),
+                repeating-linear-gradient(to bottom, darken($brown-3, 8) 0, darken($brown-3, 8) .6vw, darken($brown-3, 15) .60vw, darken($brown-3, 20) .65vw, darken($black-3, 5) .7vw)
+            ;
+        }
+        &__right{
+            background-color: $brown-3;
+            background-image: repeating-linear-gradient(to bottom, $brown-3 0, $brown-3 .6vw, darken($brown-3, 10) .60vw, darken($brown-3, 20) .65vw, darken($black-2, 5) .7vw);
+        }
+        &__left{
+            background-color: $brown-3;
+            background-image: repeating-linear-gradient(to bottom, darken($brown-2, 10) 0, darken($brown-2, 10) .6vw, darken($brown-3, 10) .60vw, darken($brown-3, 20) .65vw, darken($black-2, 5) .7vw);
+        }
+        &__top{ background-color: $brown-1; }
+        &__bottom{ background-color: $brown-3; }
+
+        .face{ border-bottom: .35vw solid darken($black-3, 5); }
+    }
+    .table-t{
+        $width-el: 18vw;
+        $height-el: .5vw;
+        $depth-el: 4vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+        position: absolute;
+        transform: translateZ(5.5vw);
+
+        &__front{
+            background-color: $white-2;
+            background-image: linear-gradient(to right, rgba($white-3, .7) 3vw, transparent 3vw);
+        }
+        &__back{ background-color: $white-3; }
+        &__right{ background-color: $white-3; }
+        &__left{ background-color: $white-1; }
+        &__top{
+            background-color: $white-1;
+            background-image: linear-gradient(-40deg, transparent 9.5vw, rgba($white-3, .4) 9.5vw);
+        }
+        &__bottom{ background-color: $white-3; }
+    }
+.tablet{
+    $width-el: 2.5vw;
+    $height-el: .15vw;
+    $depth-el: 1vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    transform: translateZ(7vw);
+    bottom: 10vw;
+    left: 22vw;
+
+    &__front{ background-color: $black-2;}
+    &__back{ background-color: $black-3; }
+    &__right{ background-color: $black-3; }
+    &__left{ background-color: $black-1; }
+    &__top{
+        border: .125vw solid $black-1;
+        background-image: repeating-linear-gradient(to bottom, $cyan-1 0, $cyan-1 .25vw, $cyan-2 .25vw, $cyan-2 .5vw);
+        background-size: 100% 200%;
+        background-position: 0 0;
+        animation: tablet 150ms linear infinite;
+    }
+    &__bottom{ background-color: $black-3; }
+}
+@keyframes tablet { to{ background-position: 0 100%; } }
+.ha-c{
+    width: 24vw;
+    height: 6.5vw;
+    position: absolute;
+    top: 1vw;
+    left: 15vw;
+    transform: translateZ(1vw);
+
+    background-color: rgba($black-3, .35);
+    box-shadow:
+        .25vw .25vw .5vw rgba($black-3, .125),
+        -.25vw .25vw .5vw rgba($black-3, .125),
+        .25vw -.25vw .5vw rgba($black-3, .125),
+        -.25vw -.25vw .5vw rgba($black-3, .125)
+    ;
+}
+    .ha1,
+    .hac,
+    .ha2{
+        position: absolute;
+        width: 8vw;
+        height: 6.5vw;
+    }
+    .ha1{
+        left: 0;
+        .ha-t{
+            &__top{
+                background-image:
+                    linear-gradient(to right, rgba($white-3, .2) 6.25vw, transparent 6.5vw),
+                    linear-gradient(to top, transparent 4vw, rgba($white-3, .6) 4.5vw)
+                ;
+            }
+        }
+        .ha-l{
+            &__right{
+                background-color: darken($white-3, 15);
+            }
+        }
+        .ha-doorr{
+            &__front{
+                border-color: darken($white-1, 3);
+                background-image:
+                    linear-gradient(to right, rgba($brown-3, .5) 2vw, transparent 2.25vw),
+                    repeating-linear-gradient(to bottom, $brown-2 0, darken($brown-2, 10) .6vw, darken($white-2, 5) .6vw, darken($white-2, 5) .7vw),
+                ;
+            }
+        }
+        .ha-doorl{
+            // transform: rotateZ(20deg);
+            transform-origin: bottom left;
+            &__front{ border-color: darken($white-1, 8); }
+            &__back{ background-color: darken($white-3, 8); }
+        }
+    }
+    .hac{
+        left: 8vw;
+        .ha-t__top{
+            border-top: .35vw solid darken($white-3, 5);
+            background-color: $black-3;
+            background-image: linear-gradient(to bottom, darken($black-3, 8) 1.5vw, transparent 1.5vw);
+        }
+        .ha-doorf{ transition: transform 500ms linear 2800ms; }
+    }
+    .is-hac-open{
+        transform: rotateX(-25deg);
+        transition: transform 500ms linear ;
+    }
+    .ha2{
+        right: 0;
+        .ha-t{
+            &__top{ background-image: linear-gradient(to top, transparent 4vw, rgba($white-3, .4) 4.5vw); }
+        }
+        .ha-doorr{
+            transform-origin: bottom right;
+            transition: transform 1000ms linear;
+            &__back{ background-color: darken($white-3, 8); }
+        }
+        .is-hadoor-open{
+            transform: rotateZ(-30deg);
+            transition: transform 1000ms linear;
+        }
+        .ha-r{
+            &__left{
+                background-color: darken($white-3, 15);
+            }
+            &__right{
+                background-image: linear-gradient(45deg, rgba($white-1, .1) 4.25vw, transparent 4.25vw);
+            }
+        }
+    }
+        .ha-l,
+        .ha-r{
+            $width-el: .75vw;
+            $height-el: 6vw;
+            $depth-el: 3vw;
+
+            @include cube($width-el, $height-el, $depth-el);
+            width: $width-el;
+            height: $depth-el * 2;
+            position: absolute;
+        }
+        .ha-r{ right: 0; }
+        .ha-bc{
+            $width-el: 6.75vw;
+            $height-el: 6vw;
+            $depth-el: .5vw;
+
+            @include cube($width-el, $height-el, $depth-el);
+            width: $width-el;
+            height: $depth-el * 2;
+            position: absolute;
+            left: .5vw;
+        }
+        .ha-b{
+            $width-el: 6.75vw;
+            $height-el: .75vw;
+            $depth-el: 2.75vw;
+
+            @include cube($width-el, $height-el, $depth-el);
+            width: $width-el;
+            height: $depth-el * 2;
+            position: absolute;
+            left: .5vw;
+            top: .5vw;
+        }
+        .ha-t{
+            $width-el: 8vw;
+            $height-el: .75vw;
+            $depth-el: 3vw;
+
+            @include cube($width-el, $height-el, $depth-el);
+            width: $width-el;
+            height: $depth-el * 2;
+            position: absolute;
+
+            transform: translateZ(6vw);
+        }
+        .ha-l,
+        .ha-r,
+        .ha-bc,
+        .ha-b,
+        .ha-t{
+            &__front{ background-color: $white-1; }
+            &__back{ background-color: $white-3; }
+            &__right{ background-color: $white-3; }
+            &__left{ background-color: $white-1; }
+            &__top{ background-color: $white-1; }
+            &__bottom{ background-color: $white-3; }
+        }
+        .ha-bc{ &__front{ background-color: darken($white-3, 10); } }
+        .ha-r{ &__left{ background-color: $white-3; } }
+        .ha-b{ &__top{ background-color: darken($white-3, 3); } }
+
+        .ha-doorr,
+        .ha-doorl{
+            $width-el: 3.9vw;
+            $height-el: 6.75vw;
+            $depth-el: .25vw;
+
+            @include cube($width-el, $height-el, $depth-el);
+            width: $width-el;
+            height: $depth-el * 2;
+            position: absolute;
+            bottom: -6.25vw;
+
+            &__front{
+                background-image:
+                    repeating-linear-gradient(to bottom, darken($brown-1, 15), darken($brown-1, 15) .6vw, darken($white-2, 5) .6vw, darken($white-2, 5) .7vw),
+                ;
+                border-top: .8vw solid $white-1;
+                border-left: .125vw solid $white-1;
+                border-right: .125vw solid $white-1;
+                border-bottom: .4vw solid $white-1;
+            }
+            &__back{ background-color: $white-3; }
+            &__right{ background-color: $white-3; }
+            &__left{ background-color: $white-2; }
+            &__top{ background-color: $white-1; }
+            &__bottom{ background-color: $white-3; }
+        }
+        .ha-doorr{ right: 0; }
+        .ha-doorf{
+            $width-el: 8vw;
+            $height-el: 6.75vw;
+            $depth-el: .25vw;
+
+            @include cube($width-el, $height-el, $depth-el);
+            width: $width-el;
+            height: $depth-el * 2;
+            position: absolute;
+            bottom: -6.25vw;
+
+            &__front{
+                background-color: rgba($black-3, .85);
+                border-top: .75vw solid $white-1;
+                border-left: .2vw solid $white-1;
+                border-right: .2vw solid $white-1;
+                border-bottom: .35vw solid $white-1;
+            }
+            &__back{ background-color: rgba($black-3, .55); }
+            &__right{ background-color: $white-3; }
+            &__left{ background-color: $white-1; }
+            &__top{ background-color: $white-1; }
+            &__bottom{ background-color: $white-3; }
+        }
+.cupboards{
+    position: absolute;
+    top: 1vw;
+    left: 15.1vw;
+    width: 24vw;
+    height: 3vw;
+    transform: translateZ(12vw);
+}
+    .cupboard-l,
+    .cupboard-r,
+    .cupboard-tl,
+    .cupboard-tr{
+        $width-el: 8.5vw;
+        $height-el: .25vw;
+        $depth-el: 1.5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+        position: absolute;
+
+        &__front{ background-color: $white-2; }
+        &__back{ background-color: $white-3; }
+        &__right{ background-color: $white-3; }
+        &__left{ background-color: $white-1; }
+        &__top{ background-color: $white-1; }
+        &__bottom{ background-color: $white-3; }
+    }
+    .cupboard-l{
+        &__top{
+            background-color: darken($white-1, 12);
+            background-image: linear-gradient(to right, rgba($white-3, .5) 4vw, transparent 4.25vw);
+            border-top: 1vw solid darken($white-1, 20);
+        }
+    }
+    .cupboard-tl{
+        &__top{
+            background-color: $white-1;
+            background-image: linear-gradient(to right, rgba($white-3, .2) 2.75vw, transparent 3vw);
+            border-top: 1vw solid darken($white-1, 12);
+        }
+    }
+    .cupboard-r{
+        &__top{
+            background-color: darken($white-1, 10);
+            background-image: linear-gradient(to right, rgba($white-3, .5) 2vw, transparent 2.25vw);
+            border-top: 1vw solid darken($white-2, 10);
+        }
+    }
+    .cupboard-tr{
+        &__top{
+            background-color: $white-1;
+            background-image: linear-gradient(to right, rgba($white-3, .2) 2vw, transparent 2.25vw);
+            border-top: 1vw solid darken($white-1, 7);
+        }
+    }
+    .cupboard-r{ right: 0; }
+    .cupboard-tl{ transform: translateZ(3vw); }
+    .cupboard-tr{ right: 0; transform: translateZ(3vw); }
+    .cupboard-m{
+        $width-el: 7vw;
+        $height-el: 5vw;
+        $depth-el: 1.5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+        position: absolute;
+        left: 8.5vw;
+        top: .025vw;
+        transform: translateZ(-1vw);
+
+        &__front{
+            background-color: rgba($black-3, .7);
+            border: .5vw solid $white-2;
+            border-right: 3.5vw solid $white-2;
+        }
+        &__back{ background-color: darken($white-3, 10); }
+        &__right{ background-color: darken($white-3, 3); }
+        &__left{ background-color: $white-3; }
+        &__top{
+            background-color: $white-1;
+            border-top: 1vw solid darken($white-1, 10);
+        }
+        &__bottom{ background-color: $white-3; }
+    }
+
+.micro{
+    $width-el: 5vw;
+    $height-el: 3vw;
+    $depth-el: 1.5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    right: 7.5vw;
+    top: 1vw;
+    transform: translateZ(7.75vw);
+
+    box-shadow:
+        .25vw .25vw .35vw rgba($black-1, .125),
+        -.25vw .25vw .35vw rgba($black-1, .125),
+        .25vw -.25vw .35vw rgba($black-1, .125),
+        -.25vw -.25vw .35vw rgba($black-1, .125)
+    ;
+    &__front{
+        background-image: linear-gradient(-45deg, $black-3 1vw, lighten($black-3, 1) 1vw, lighten($black-3, 1) 1.5vw, $black-3 1.5vw);
+        border: .25vw solid darken($white-1, 4);
+        border-right: 1.5vw solid darken($white-1, 4);
+    }
+    &__back{ background-color: darken($white-3, 10); }
+    &__right{ background-color: darken($white-3, 10); }
+    &__left{ background-color: darken($white-3, 5); }
+    &__top{
+        background-color: $white-2;
+        border-top: 2vw solid darken($white-2, 20);
+    }
+    &__bottom{ background-color: $white-3; }
+}
+.box{
+    $width-el: 1vw;
+    $height-el: 1.5vw;
+    $depth-el: .5vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    left: 16vw;
+    top: 1.25vw;
+    transform: translateZ(12.25vw);
+
+    &__front{ background-color: $white-2; }
+    &__back{ background-color: darken($white-3, 12); }
+    &__right{ background-color: darken($white-3, 4); }
+    &__left{ background-color: $white-3; }
+    &__top{ border: .15vw solid $white-1; }
+    &__bottom{ background-color: $white-3; }
+
+    &--2{ left: 17.5vw; top: 1.4;}
+    &--3{ left: 37vw;}
+    &--4{ left: 21vw; top: 1.3; }
+    &--5{ left: 32vw; transform: translateZ(15.25vw);}
+    &--6{ left: 33.5vw; transform: translateZ(15.25vw) rotateZ(10deg);}
+    &--7{ left: 20.5vw; transform: translateZ(15.25vw);}
+    &--8{ left: 16.5vw; transform: translateZ(15.25vw) rotateZ(10deg);}
+    &--9{ left: 32.5vw; }
+}
+.bursts{
+    position: absolute;
+    left: 0;
+    height: 100%;
+}
+    .burst{
+        position: absolute;
+        width: 3vw;
+        height: 3.5vw;
+        left: 2vw;
+        bottom: 1vw;
+        transform: translateZ(1.1vw);
+
+        background-color: rgba($black-2, .75);
+        border-radius: .5vw;
+        padding-top: .75vw;
+        &:nth-of-type(2){ top: 1vw; }
+    }
+    .burst__leaf{
+        position: absolute;
+        width: .5vw;
+        height: 1.35vw;
+        border-radius: 50%;
+        transform: translateZ(-.85vw) rotateX(90deg) rotateY(-25deg);
+        background-color: $green-1;
+
+        &:nth-of-type(1){
+            left: .1vw; top: .1vw;
+            transform: translateZ(-.8vw) rotateX(90deg) rotateY(-65deg);
+        }
+        &:nth-of-type(2){
+            left: .5vw; top: .2vw;
+            background-color: $green-2;
+        }
+        &:nth-of-type(3){
+            left: .95vw; top: 0vw;
+            transform: translateZ(-.75vw) rotateX(90deg) rotateY(-30deg);
+            background-color: var(--green3);
+        }
+        &:nth-of-type(4){
+            left: 1.25vw; top: .4vw;
+            background-color: $green-2;
+        }
+        &:nth-of-type(5){ left: 1.5vw; top: .6vw; }
+        &:nth-of-type(6){
+            left: .35vw; top: .56vw;
+            transform: translateZ(-.65vw) rotateX(90deg) rotateY(-55deg);
+        }
+        &:nth-of-type(7){ left: .55vw; top: 1.46vw; }
+        &:nth-of-type(8){
+            left: .935vw; top: 1.2vw;
+            transform: translateZ(-.75vw) rotateX(90deg) rotateY(-40deg);
+        }
+        &:nth-of-type(9){
+            left: 1vw; top: 1.2vw;
+            background-color: var(--green3);
+        }
+        &:nth-of-type(10){
+            left: 1.5vw; top: 0vw;
+            transform: translateZ(-.85vw) rotateX(90deg) rotateY(-65deg);
+            background-color: var(--green3);
+        }
+        &:nth-of-type(11){
+            left: .1vw; top: .1vw;
+            transform: translateZ(-.5vw) rotateX(90deg) rotateY(-85deg);
+        }
+        &:nth-of-type(12){
+            left: .5vw; top: .2vw;
+            background-color: $green-2;
+        }
+        &:nth-of-type(13){
+            left: .95vw; top: 0vw;
+            transform: translateZ(-.75vw) rotateX(90deg) rotateY(90deg);
+            background-color: var(--green3);
+        }
+        &:nth-of-type(14){
+            left: 1.25vw; top: .4vw;
+            transform: translateZ(-.5vw) rotateX(90deg) rotateY(90deg);
+        }
+        &:nth-of-type(15){
+            left: 1.35vw; top: .6vw;
+            transform: translateZ(-.75vw) rotateX(90deg) rotateY(-100deg);
+            background-color: $green-2;
+        }
+    }
+    .circle{
+        $sides: 36;
+        $degree: 360deg;
+        $width: 2.75vw;
+
+        width: 2vw;
+        height: 2vw;
+        border-radius: 50%;
+
+        &-a{
+            $base: 3vw;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $white-1);
+
+            &__top{ background-color:darken($white-3, 20); }
+            &__bottom{ border: .5vw solid $white-1; }
+        }
+        &-b{
+            $base: 2vw;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $white-1);
+            &__bottom{
+                background-color: darken($green-3, 5);
+                transform: rotateY(90deg) translateZ(-1.25vw);
+            }
+        }
+    }
+.pot{
+    position: absolute;
+    top: 2.125vw;
+    left: 25.25vw;
+    transform: translateZ(7.76vw);
+
+    .circle{
+        $sides: 36;
+        $degree: 360deg;
+        $width: 2vw;
+
+        width: 3.85vw;
+        height: 3.85vw;
+        border-radius: 50%;
+        background-color: darken($black-3, 10);
+
+        &-a{
+            $base: 3.5vw;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $white-1);
+
+            &__top{ background-color:darken($white-3, 20); }
+            &__bottom{ border: .3vw solid $white-1; }
+        }
+        &-b{
+            $base: 2.9vw;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $white-1);
+            &__bottom{
+                transform: rotateY(90deg) translateZ(-.75vw);
+                background-image: linear-gradient(to bottom, darken($orange, 8) 1.25vw, $orange 1.35vw);
+            }
+        }
+    }
+}
+.cup{
+    position: absolute;
+    top: 2vw;
+    left: 16vw;
+    transform: translateZ(7.76vw);
+
+    &--2{ left: 20vw; }
+
+    .circle{
+        $sides: 36;
+        $degree: 360deg;
+        $width: 1.15vw;
+
+        width: 1.15vw;
+        height: 1.15vw;
+        border-radius: 50%;
+        background-color: darken($white-3, 5);
+
+        &-a{
+            $base: 1.15vw;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $white-1);
+
+            &__top{ background-color:darken($white-3, 20); }
+            &__bottom{ border: .125vw solid $white-1; }
+        }
+        &-b{
+            $base: .9vw;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $white-1);
+
+        }
+    }
+}
+.chair{
+    position: absolute;
+    width: 3vw;
+    height: 3vw;
+    left: 25vw;
+    bottom: 3vw;
+    transform: translateZ(1vw);
+    background-color: rgba($black-2, .4);
+
+    &--2{
+        left: 34vw;
+        transform: translateZ(1vw) rotateZ(15deg);
+    }
+}
+    .chair-t{
+        $width-el: 3vw;
+        $height-el: .5vw;
+        $depth-el: 1.5vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+        position: absolute;
+        transform: translateZ(4vw);
+
+        &__front{ background-color: $white-2; }
+        &__back{ background-color: $white-3; }
+        &__right{ background-color: $white-3; }
+        &__left{ background-color: $white-1; }
+        &__top{ background-color: $white-1; }
+        &__bottom{ background-color: $white-3; }
+    }
+    .chair-lb,
+    .chair-lt,
+    .chair-rb,
+    .chair-rt{
+        $width-el: .25vw;
+        $height-el: 4vw;
+        $depth-el: .125vw;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        height: $depth-el * 2;
+        position: absolute;
+
+        &__front{ background-color: $white-2; }
+        &__back{ background-color: $white-3; }
+        &__right{ background-color: $white-3; }
+        &__left{ background-color: $white-1; }
+        &__top{ background-color: $white-1; }
+        &__bottom{ background-color: $white-3; }
+    }
+    .chair-lb{
+        left: 0; bottom: 0;
+        transform: rotateX(5deg) rotateY(5deg);
+    }
+    .chair-lt{
+        left: 0; top: 0;
+        transform: rotateX(-5deg) rotateY(5deg);
+    }
+    .chair-rb{
+        right: 0; bottom: 0;
+        transform: rotateX(5deg) rotateY(-5deg);
+
+    }
+    .chair-rt{
+        right: 0; top: 0;
+        transform: rotateX(-5deg) rotateY(-5deg);
+
+    }
+.pic{
+    $width-el: .25vw;
+    $height-el: 2.5vw;
+    $depth-el: 1vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    bottom: 3.125vw;
+    left: 15vw;
+    transform: translateZ(13.25vw);
+
+    &__front{ background-color: $white-1;}
+    &__back{ background-color: $white-3; }
+    &__right{
+        background-color: $white-2;
+        padding: .2vw;
+    }
+    &__left{ background-color: $white-3; }
+    &__top{ background-color: $white-1; }
+    &__bottom{ background-color: $white-3; }
+    &__text{
+        width: calc(100% - .5vw);
+        height: calc(100% - .5vw);
+        padding: .125vw;
+
+        font-size: .45vw;
+        font-weight: bolder;
+        text-transform: uppercase;
+        line-height: 1.2;
+        border: .1vw solid $black-1;
+        color: $black-1;
+    }
+}
+.lamp{
+    $width-el: 3vw;
+    $height-el: .75vw;
+    $depth-el: 7vw;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    bottom: 8vw;
+    right: 29vw;
+    transform: translateZ(17.5vw);
+
+    &__front{
+        background-color: $white-2;
+        background-image: linear-gradient(to top, darken($white-2, 15), darken($white-2, 5) 10%, transparent);
+    }
+    &__back{ background-color: darken($white-3, 8); }
+    &__right{
+        background-color: $white-3;
+    }
+    &__left{
+        background-color: $white-1;
+        background-image: linear-gradient(to top, darken($white-1, 8), darken($white-1, 3) 10%, transparent);
+    }
+    &__top{ background-color: darken($white-1, 5); }
+    &__bottom{ background-color: $white-3; }
+
+}
+
+/***********************/
+/***********************/
