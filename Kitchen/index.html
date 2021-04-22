@@ -6,20 +6,25 @@
   </head>
   <body>
     <audio id="a1">
-      <source src="door.mp3" type="audio/mpeg">
+      <source src="https://rawcdn.githack.com/ricardoolivaalonso/Codepen/0283d2e98cec2eb2be3911bece095000272bb1ca/Kitchen/audio/door.mp3" type="audio/mpeg">
     </audio>
     <audio id="a2">
-      <source src="hadoor.mp3" type="audio/mpeg">
+      <source src="https://rawcdn.githack.com/ricardoolivaalonso/Codepen/0283d2e98cec2eb2be3911bece095000272bb1ca/Kitchen/audio/hadoor.mp3" type="audio/mpeg">
     </audio>
     <audio id="a3">
-      <source src="tablet.mp3" type="audio/mpeg">
+      <source src="https://rawcdn.githack.com/ricardoolivaalonso/Codepen/0283d2e98cec2eb2be3911bece095000272bb1ca/Kitchen/audio/tablet.mp3" type="audio/mpeg">
     </audio>
     <audio id="a4">
-      <source src="hac.mp3" type="audio/mpeg">
+      <source src="https://rawcdn.githack.com/ricardoolivaalonso/Codepen/0283d2e98cec2eb2be3911bece095000272bb1ca/Kitchen/audio/hac.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="a5">
+      <source src="https://rawcdn.githack.com/ricardoolivaalonso/Codepen/0283d2e98cec2eb2be3911bece095000272bb1ca/Bedroom/sounds/buro.mp3" type="audio/mpeg">
     </audio>
     <div class="main" id="h">
       <div class="shadow shadow--1"></div>
       <div class="shadow shadow--2"></div>
+      <div class="shadow shadow--3"></div>
+      <div class="shadow shadow--4"></div>
       <div class="floor">
         <div class="floor__front face"> </div>
         <div class="floor__back face"> </div>
@@ -28,7 +33,7 @@
         <div class="floor__top face"> </div>
         <div class="floor__bottom face"></div>
       </div>
-      <div class="wall-t">
+      <div class="wall-t"> 
         <div class="wall-t__front face"> </div>
         <div class="wall-t__back face"> </div>
         <div class="wall-t__right face"> </div>
@@ -366,6 +371,7 @@
         </div>
       </div>
       <div class="tablet" id="tablet">
+        <div class="tablet__heart" id="heart"></div>
         <div class="tablet__front face"> </div>
         <div class="tablet__back face"> </div>
         <div class="tablet__right face"> </div>
@@ -416,7 +422,7 @@
             <div class="ha-t__bottom face"> </div>
           </div>
           <div class="ha-doors">
-            <div class="ha-doorl">
+            <div class="ha-doorl" id="hadool">
               <div class="ha-doorl__front face"> </div>
               <div class="ha-doorl__back face"> </div>
               <div class="ha-doorl__right face"> </div>
@@ -547,7 +553,7 @@
           </div>
         </div>
       </div>
-      <div class="cupboards">   
+      <div class="cupboards" id="cup">   
         <div class="cupboard-l">
           <div class="cupboard-l__front face"> </div>
           <div class="cupboard-l__back face"> </div>
@@ -588,14 +594,6 @@
           <div class="cupboard-m__top face"> </div>
           <div class="cupboard-m__bottom face"> </div>
         </div>
-      </div>
-      <div class="micro">
-        <div class="micro__front face"> </div>
-        <div class="micro__back face"> </div>
-        <div class="micro__right face"> </div>
-        <div class="micro__left face"> </div>
-        <div class="micro__top face"> </div>
-        <div class="micro__bottom face"> </div>
       </div>
       <div class="bursts">
         <div class="burst"> 
@@ -838,203 +836,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="pot">
-        <div class="circle flex">
-          <div class="circle-a"> 
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__bottom"></div>
-            <div class="circle-a__top"></div>
-          </div>
-          <div class="circle-b"> 
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__bottom"></div>
-          </div>
-        </div>
-      </div>
-      <div class="cup">
-        <div class="circle flex">
-          <div class="circle-a"> 
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__side"></div>
-            <div class="circle-a__bottom"></div>
-            <div class="circle-a__top"></div>
-          </div>
-          <div class="circle-b"> 
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-            <div class="circle-b__side"></div>
-          </div>
-        </div>
-      </div>
-      <div class="box">
-        <div class="box__front face"> </div>
-        <div class="box__back face"> </div>
-        <div class="box__right face"> </div>
-        <div class="box__left face"> </div>
-        <div class="box__top face"> </div>
-        <div class="box__bottom face"> </div>
-      </div>
-      <div class="box box--5">
-        <div class="box__front face"> </div>
-        <div class="box__back face"> </div>
-        <div class="box__right face"> </div>
-        <div class="box__left face"> </div>
-        <div class="box__top face"> </div>
-        <div class="box__bottom face"> </div>
-      </div>
-      <div class="box box--7">
-        <div class="box__front face"> </div>
-        <div class="box__back face"> </div>
-        <div class="box__right face"> </div>
-        <div class="box__left face"> </div>
-        <div class="box__top face"> </div>
-        <div class="box__bottom face"> </div>
-      </div>
-      <div class="box box--8">
-        <div class="box__front face"> </div>
-        <div class="box__back face"> </div>
-        <div class="box__right face"> </div>
-        <div class="box__left face"> </div>
-        <div class="box__top face"> </div>
-        <div class="box__bottom face"> </div>
       </div>
       <div class="pic">
         <div class="pic__front face"> </div>

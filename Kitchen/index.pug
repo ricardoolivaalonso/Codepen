@@ -1,0 +1,570 @@
+doctype html
+html(lang='en')
+    head
+        meta(name="viewport" content="width=device-width, user-scalable=no")
+        link(rel="stylesheet" type="text/css" href="styles.css")    
+    body
+
+        audio#a1: source(src="https://rawcdn.githack.com/ricardoolivaalonso/Codepen/0283d2e98cec2eb2be3911bece095000272bb1ca/Kitchen/audio/door.mp3",type="audio/mpeg")
+        audio#a2: source(src="https://rawcdn.githack.com/ricardoolivaalonso/Codepen/0283d2e98cec2eb2be3911bece095000272bb1ca/Kitchen/audio/hadoor.mp3",type="audio/mpeg")
+        audio#a3: source(src="https://rawcdn.githack.com/ricardoolivaalonso/Codepen/0283d2e98cec2eb2be3911bece095000272bb1ca/Kitchen/audio/tablet.mp3",type="audio/mpeg")
+        audio#a4: source(src="https://rawcdn.githack.com/ricardoolivaalonso/Codepen/0283d2e98cec2eb2be3911bece095000272bb1ca/Kitchen/audio/hac.mp3",type="audio/mpeg")
+        audio#a5: source(src="https://rawcdn.githack.com/ricardoolivaalonso/Codepen/0283d2e98cec2eb2be3911bece095000272bb1ca/Bedroom/sounds/buro.mp3",type="audio/mpeg")
+                
+        div.main#h
+            div.shadow.shadow--1
+            div.shadow.shadow--2
+            div.shadow.shadow--3
+            div.shadow.shadow--4
+
+            div.floor
+                div.floor__front.face 
+                div.floor__back.face 
+                div.floor__right.face 
+                div.floor__left.face 
+                div.floor__top.face 
+                div.floor__bottom.face
+            div.wall-t  
+                div.wall-t__front.face 
+                div.wall-t__back.face 
+                div.wall-t__right.face 
+                div.wall-t__left.face 
+                div.wall-t__top.face 
+                div.wall-t__bottom.face
+            div.wall-la
+                div.wall-la__front.face 
+                div.wall-la__back.face 
+                div.wall-la__right.face 
+                div.wall-la__left.face 
+                div.wall-la__top.face 
+                div.wall-la__bottom.face
+            div.wall-lb
+                div.wall-lb__front.face 
+                div.wall-lb__back.face 
+                div.wall-lb__right.face 
+                div.wall-lb__left.face 
+                div.wall-lb__top.face 
+                div.wall-lb__bottom.face
+            div.wall-lc
+                div.wall-lc__front.face 
+                div.wall-lc__back.face 
+                div.wall-lc__right.face 
+                div.wall-lc__left.face 
+                div.wall-lc__top.face 
+                div.wall-lc__bottom.face
+            div.door
+                div.door-l
+                    div.door-l__front.face 
+                    div.door-l__back.face 
+                    div.door-l__right.face 
+                    div.door-l__left.face 
+                    div.door-l__top.face 
+                    div.door-l__bottom.face
+                div.door-r
+                    div.door-r__front.face 
+                    div.door-r__back.face 
+                    div.door-r__right.face 
+                    div.door-r__left.face 
+                    div.door-r__top.face 
+                    div.door-r__bottom.face
+                div.door-t
+                    div.door-t__front.face 
+                    div.door-t__back.face 
+                    div.door-t__right.face 
+                    div.door-t__left.face 
+                    div.door-t__top.face 
+                    div.door-t__bottom.face
+                div.door-1
+                    div.door__glass
+                    div.door-1r
+                        div.door-1r__front.face 
+                        div.door-1r__back.face 
+                        div.door-1r__right.face 
+                        div.door-1r__left.face 
+                        div.door-1r__top.face 
+                        div.door-1r__bottom.face
+                    div.door-1l
+                        div.door-1l__front.face 
+                        div.door-1l__back.face 
+                        div.door-1l__right.face 
+                        div.door-1l__left.face 
+                        div.door-1l__top.face 
+                        div.door-1l__bottom.face
+                    div.door-1b
+                        div.door-1b__front.face 
+                        div.door-1b__back.face 
+                        div.door-1b__right.face 
+                        div.door-1b__left.face 
+                        div.door-1b__top.face 
+                        div.door-1b__bottom.face
+                    div.door-1c
+                        div.door-1c__front.face 
+                        div.door-1c__back.face 
+                        div.door-1c__right.face 
+                        div.door-1c__left.face 
+                        div.door-1c__top.face 
+                        div.door-1c__bottom.face
+                    div.door-1c2
+                        div.door-1c2__front.face 
+                        div.door-1c2__back.face 
+                        div.door-1c2__right.face 
+                        div.door-1c2__left.face 
+                        div.door-1c2__top.face 
+                        div.door-1c2__bottom.face
+                    div.door-1t
+                        div.door-1t__front.face 
+                        div.door-1t__back.face 
+                        div.door-1t__right.face 
+                        div.door-1t__left.face 
+                        div.door-1t__top.face 
+                        div.door-1t__bottom.face
+                div.door-2#door
+                    div.door__glass
+                    div.door-1r
+                        div.door-1r__front.face 
+                        div.door-1r__back.face 
+                        div.door-1r__right.face 
+                        div.door-1r__left.face 
+                        div.door-1r__top.face 
+                        div.door-1r__bottom.face
+                    div.door-1l
+                        div.door-1l__front.face 
+                        div.door-1l__back.face 
+                        div.door-1l__right.face 
+                        div.door-1l__left.face 
+                        div.door-1l__top.face 
+                        div.door-1l__bottom.face
+                    div.door-1b
+                        div.door-1b__front.face 
+                        div.door-1b__back.face 
+                        div.door-1b__right.face 
+                        div.door-1b__left.face 
+                        div.door-1b__top.face 
+                        div.door-1b__bottom.face
+                    div.door-1c
+                        div.door-1c__front.face 
+                        div.door-1c__back.face 
+                        div.door-1c__right.face 
+                        div.door-1c__left.face 
+                        div.door-1c__top.face 
+                        div.door-1c__bottom.face
+                    div.door-1c2
+                        div.door-1c2__front.face 
+                        div.door-1c2__back.face 
+                        div.door-1c2__right.face 
+                        div.door-1c2__left.face 
+                        div.door-1c2__top.face 
+                        div.door-1c2__bottom.face
+                    div.door-1t
+                        div.door-1t__front.face 
+                        div.door-1t__back.face 
+                        div.door-1t__right.face 
+                        div.door-1t__left.face 
+                        div.door-1t__top.face 
+                        div.door-1t__bottom.face
+            div.fence
+                div.fence__shadow-c
+                    div.fence__shadow
+                div.fence-l
+                    div.fence-l__front.face 
+                    div.fence-l__back.face 
+                    div.fence-l__right.face 
+                    div.fence-l__left.face 
+                    div.fence-l__top.face 
+                    div.fence-l__bottom.face 
+                div.fence-r
+                    div.fence-r__front.face 
+                    div.fence-r__back.face 
+                    div.fence-r__right.face 
+                    div.fence-r__left.face 
+                    div.fence-r__top.face 
+                    div.fence-r__bottom.face 
+                div.fence-b
+                    div.fence-b__front.face 
+                    div.fence-b__back.face 
+                    div.fence-b__right.face 
+                    div.fence-b__left.face 
+                    div.fence-b__top.face 
+                    div.fence-b__bottom.face 
+                div.fence-t
+                    div.fence-t__front.face 
+                    div.fence-t__back.face 
+                    div.fence-t__right.face 
+                    div.fence-t__left.face 
+                    div.fence-t__top.face 
+                    div.fence-t__bottom.face 
+                div.fence-mc
+                    - var n = 0
+                    while n < 15
+                        div.fence-m
+                            div.fence-m__front.face 
+                            div.fence-m__back.face 
+                            div.fence-m__right.face 
+                            div.fence-m__left.face 
+                            div.fence-m__top.face 
+                            div.fence-m__bottom.face 
+                        - n++
+            div.table.flex
+                div.table-t
+                    div.table-t__front.face 
+                    div.table-t__back.face 
+                    div.table-t__right.face 
+                    div.table-t__left.face 
+                    div.table-t__top.face 
+                    div.table-t__bottom.face 
+                div.table-b
+                    div.table-b__front.face 
+                    div.table-b__back.face 
+                    div.table-b__right.face 
+                    div.table-b__left.face 
+                    div.table-b__top.face 
+                    div.table-b__bottom.face 
+            div.tablet#tablet
+                div.tablet__heart#heart
+                div.tablet__front.face 
+                div.tablet__back.face 
+                div.tablet__right.face 
+                div.tablet__left.face 
+                div.tablet__top.face 
+                div.tablet__bottom.face
+            div.ha-c
+                div.ha1
+                    div.ha-l
+                        div.ha-l__front.face 
+                        div.ha-l__back.face 
+                        div.ha-l__right.face 
+                        div.ha-l__left.face 
+                        div.ha-l__top.face 
+                        div.ha-l__bottom.face 
+                    div.ha-r
+                        div.ha-r__front.face 
+                        div.ha-r__back.face 
+                        div.ha-r__right.face 
+                        div.ha-r__left.face 
+                        div.ha-r__top.face 
+                        div.ha-r__bottom.face 
+                    div.ha-bc
+                        div.ha-bc__front.face 
+                        div.ha-bc__back.face 
+                        div.ha-bc__right.face 
+                        div.ha-bc__left.face 
+                        div.ha-bc__top.face 
+                        div.ha-bc__bottom.face 
+                    div.ha-b
+                        div.ha-b__front.face 
+                        div.ha-b__back.face 
+                        div.ha-b__right.face 
+                        div.ha-b__left.face 
+                        div.ha-b__top.face 
+                        div.ha-b__bottom.face 
+                    div.ha-t
+                        div.ha-t__front.face 
+                        div.ha-t__back.face 
+                        div.ha-t__right.face 
+                        div.ha-t__left.face 
+                        div.ha-t__top.face 
+                        div.ha-t__bottom.face 
+                    div.ha-doors
+                        div.ha-doorl#hadool
+                            div.ha-doorl__front.face 
+                            div.ha-doorl__back.face 
+                            div.ha-doorl__right.face 
+                            div.ha-doorl__left.face 
+                            div.ha-doorl__top.face 
+                            div.ha-doorl__bottom.face 
+                        div.ha-doorr
+                            div.ha-doorr__front.face 
+                            div.ha-doorr__back.face 
+                            div.ha-doorr__right.face 
+                            div.ha-doorr__left.face 
+                            div.ha-doorr__top.face 
+                            div.ha-doorr__bottom.face 
+                div.hac
+                    div.ha-l
+                        div.ha-l__front.face 
+                        div.ha-l__back.face 
+                        div.ha-l__right.face 
+                        div.ha-l__left.face 
+                        div.ha-l__top.face 
+                        div.ha-l__bottom.face 
+                    div.ha-r
+                        div.ha-r__front.face 
+                        div.ha-r__back.face 
+                        div.ha-r__right.face 
+                        div.ha-r__left.face 
+                        div.ha-r__top.face 
+                        div.ha-r__bottom.face 
+                    div.ha-bc
+                        div.ha-bc__front.face 
+                        div.ha-bc__back.face 
+                        div.ha-bc__right.face 
+                        div.ha-bc__left.face 
+                        div.ha-bc__top.face 
+                        div.ha-bc__bottom.face 
+                    div.ha-b
+                        div.ha-b__front.face 
+                        div.ha-b__back.face 
+                        div.ha-b__right.face 
+                        div.ha-b__left.face 
+                        div.ha-b__top.face 
+                        div.ha-b__bottom.face 
+                    div.ha-t
+                        div.ha-t__front.face 
+                        div.ha-t__back.face 
+                        div.ha-t__right.face 
+                        div.ha-t__left.face 
+                        div.ha-t__top.face 
+                        div.ha-t__bottom.face 
+                    div.ha-doors
+                        div.ha-doorf#hac
+                            div.ha-doorf__front.face 
+                            div.ha-doorf__back.face 
+                            div.ha-doorf__right.face 
+                            div.ha-doorf__left.face 
+                            div.ha-doorf__top.face 
+                            div.ha-doorf__bottom.face 
+                div.ha2
+                    div.ha-l
+                        div.ha-l__front.face 
+                        div.ha-l__back.face 
+                        div.ha-l__right.face 
+                        div.ha-l__left.face 
+                        div.ha-l__top.face 
+                        div.ha-l__bottom.face 
+                    div.ha-r
+                        div.ha-r__front.face 
+                        div.ha-r__back.face 
+                        div.ha-r__right.face 
+                        div.ha-r__left.face 
+                        div.ha-r__top.face 
+                        div.ha-r__bottom.face 
+                    div.ha-bc
+                        div.ha-bc__front.face 
+                        div.ha-bc__back.face 
+                        div.ha-bc__right.face 
+                        div.ha-bc__left.face 
+                        div.ha-bc__top.face 
+                        div.ha-bc__bottom.face 
+                    div.ha-b
+                        div.ha-b__front.face 
+                        div.ha-b__back.face 
+                        div.ha-b__right.face 
+                        div.ha-b__left.face 
+                        div.ha-b__top.face 
+                        div.ha-b__bottom.face 
+                    div.ha-t
+                        div.ha-t__front.face 
+                        div.ha-t__back.face 
+                        div.ha-t__right.face 
+                        div.ha-t__left.face 
+                        div.ha-t__top.face 
+                        div.ha-t__bottom.face 
+                    div.ha-doors
+                        div.ha-doorl
+                            div.ha-doorl__front.face 
+                            div.ha-doorl__back.face 
+                            div.ha-doorl__right.face 
+                            div.ha-doorl__left.face 
+                            div.ha-doorl__top.face 
+                            div.ha-doorl__bottom.face 
+                        div.ha-doorr#hadoor
+                            div.ha-doorr__front.face 
+                            div.ha-doorr__back.face 
+                            div.ha-doorr__right.face 
+                            div.ha-doorr__left.face 
+                            div.ha-doorr__top.face 
+                            div.ha-doorr__bottom.face 
+            div.cupboards#cup    
+                div.cupboard-l
+                    div.cupboard-l__front.face 
+                    div.cupboard-l__back.face 
+                    div.cupboard-l__right.face 
+                    div.cupboard-l__left.face 
+                    div.cupboard-l__top.face 
+                    div.cupboard-l__bottom.face 
+                div.cupboard-r
+                    div.cupboard-r__front.face 
+                    div.cupboard-r__back.face 
+                    div.cupboard-r__right.face 
+                    div.cupboard-r__left.face 
+                    div.cupboard-r__top.face 
+                    div.cupboard-r__bottom.face 
+                div.cupboard-tl
+                    div.cupboard-tl__front.face 
+                    div.cupboard-tl__back.face 
+                    div.cupboard-tl__right.face 
+                    div.cupboard-tl__left.face 
+                    div.cupboard-tl__top.face 
+                    div.cupboard-tl__bottom.face 
+                div.cupboard-tr
+                    div.cupboard-tr__front.face 
+                    div.cupboard-tr__back.face 
+                    div.cupboard-tr__right.face 
+                    div.cupboard-tr__left.face 
+                    div.cupboard-tr__top.face 
+                    div.cupboard-tr__bottom.face 
+                div.cupboard-m
+                    div.cupboard-m__front.face 
+                    div.cupboard-m__back.face 
+                    div.cupboard-m__right.face 
+                    div.cupboard-m__left.face 
+                    div.cupboard-m__top.face 
+                    div.cupboard-m__bottom.face 
+            div.bursts
+                div.burst 
+                    div.circle.flex
+                        div.circle-a  
+                            - var n = 0
+                            while n < 36
+                                div.circle-a__side
+                                - n++
+                            div.circle-a__bottom
+                            div.circle-a__top
+                        div.circle-b  
+                            - var n = 0
+                            while n < 36
+                                div.circle-b__side
+                                - n++ 
+                            div.circle-b__bottom
+                                - var i = 0
+                                while i < 36
+                                    div.burst__leaf
+                                    - i++ 
+                div.burst 
+                    div.circle.flex
+                        div.circle-a  
+                            - var n = 0
+                            while n < 36
+                                div.circle-a__side
+                                - n++
+                            div.circle-a__bottom
+                            div.circle-a__top
+                        div.circle-b  
+                            - var n = 0
+                            while n < 36
+                                div.circle-b__side
+                                - n++ 
+                            div.circle-b__bottom
+                                - var i = 0
+                                while i < 36
+                                    div.burst__leaf
+                                    - i++ 
+            //- div.pot
+                div.circle.flex
+                    div.circle-a  
+                        - var n = 0
+                        while n < 36
+                            div.circle-a__side
+                            - n++
+                        div.circle-a__bottom
+                        div.circle-a__top
+                    div.circle-b  
+                        - var n = 0
+                        while n < 36
+                            div.circle-b__side
+                            - n++ 
+                        div.circle-b__bottom
+            div.pic
+                div.pic__front.face 
+                div.pic__back.face 
+                div.pic__right.face 
+                    - var b = '<br>'
+                    span.pic__text.face i!{b}luv!{b}ccs
+                div.pic__left.face 
+                div.pic__top.face 
+                div.pic__bottom.face 
+            div.chair
+                div.chair-t
+                    div.chair-t__front.face 
+                    div.chair-t__back.face 
+                    div.chair-t__right.face 
+                    div.chair-t__left.face 
+                    div.chair-t__top.face 
+                    div.chair-t__bottom.face 
+                div.chair-lb
+                    div.chair-lb__front.face 
+                    div.chair-lb__back.face 
+                    div.chair-lb__right.face 
+                    div.chair-lb__left.face 
+                    div.chair-lb__top.face 
+                    div.chair-lb__bottom.face 
+                div.chair-lt
+                    div.chair-lt__front.face 
+                    div.chair-lt__back.face 
+                    div.chair-lt__right.face 
+                    div.chair-lt__left.face 
+                    div.chair-lt__top.face 
+                    div.chair-lt__bottom.face 
+                div.chair-rb
+                    div.chair-rb__front.face 
+                    div.chair-rb__back.face 
+                    div.chair-rb__right.face 
+                    div.chair-rb__left.face 
+                    div.chair-rb__top.face 
+                    div.chair-rb__bottom.face 
+                div.chair-rt
+                    div.chair-rt__front.face 
+                    div.chair-rt__back.face 
+                    div.chair-rt__right.face 
+                    div.chair-rt__left.face 
+                    div.chair-rt__top.face 
+                    div.chair-rt__bottom.face 
+            div.chair.chair--2
+                div.chair-t
+                    div.chair-t__front.face 
+                    div.chair-t__back.face 
+                    div.chair-t__right.face 
+                    div.chair-t__left.face 
+                    div.chair-t__top.face 
+                    div.chair-t__bottom.face 
+                div.chair-lb
+                    div.chair-lb__front.face 
+                    div.chair-lb__back.face 
+                    div.chair-lb__right.face 
+                    div.chair-lb__left.face 
+                    div.chair-lb__top.face 
+                    div.chair-lb__bottom.face 
+                div.chair-lt
+                    div.chair-lt__front.face 
+                    div.chair-lt__back.face 
+                    div.chair-lt__right.face 
+                    div.chair-lt__left.face 
+                    div.chair-lt__top.face 
+                    div.chair-lt__bottom.face 
+                div.chair-rb
+                    div.chair-rb__front.face 
+                    div.chair-rb__back.face 
+                    div.chair-rb__right.face 
+                    div.chair-rb__left.face 
+                    div.chair-rb__top.face 
+                    div.chair-rb__bottom.face 
+                div.chair-rt
+                    div.chair-rt__front.face 
+                    div.chair-rt__back.face 
+                    div.chair-rt__right.face 
+                    div.chair-rt__left.face 
+                    div.chair-rt__top.face 
+                    div.chair-rt__bottom.face 
+            div.lamp
+                div.lamp__front.face 
+                div.lamp__back.face 
+                div.lamp__right.face 
+                div.lamp__left.face 
+                div.lamp__top.face 
+                div.lamp__bottom.face        
+    
+        script(src="index.js")                        
+                            
+                            
+                        
+                    
+        
+                        
+                                
+        
+    
+                
+                
+                
+                
+                
