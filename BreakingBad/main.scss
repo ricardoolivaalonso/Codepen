@@ -1,0 +1,1257 @@
+$bg-1: #76b9e9;
+$bg-2: #518bb5;
+
+$brown-1: #eeeada;
+$brown-2: #dfd9c1;
+$brown-3: #b9b49f;
+$brown-4: #535149;
+
+$black-1: #222222;
+$black-2: #0f0f0f;
+$black-3: #000000;
+
+$white-1: #fffeff;
+$white-2: #e2e2e2;
+$white-3: #d1cece;
+
+$orange-1: #ff6e49;
+$orange-2: #cd4d2c;
+$orange-3: #b12400;
+
+$blue-1: #4a778c;
+$blue-2: #1d3746;
+$blue-3: #121f2e;
+
+$meta: #388dbb;
+
+/***********************/
+@mixin cylinder($base, $sides, $degree, $pi, $width, $color) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	position: absolute;
+
+    &__side{
+        position: absolute;
+        height: ( 2 * $pi * ($base / 2) ) / $sides ;
+        width: $width;
+        background-color: darken($color, 15);
+
+        @for $var from 1 to ($sides + 1) {
+            &:nth-of-type(#{$var}){ transform: rotateX( $var * $degree / $sides ) translateZ($base / 2); }
+        }
+        // @for $var from 1 to 20 {
+        //     &:nth-of-type(#{$var}){ background-color: darken($color, $var * 1.5); }
+        // }
+        // @for $var from 1 to 20 {
+        //     &:nth-last-of-type(#{$var}){ background-color: darken($color, $var * 1.5); }
+        // }
+    }
+    &__top,
+    &__bottom{
+        position: absolute;
+        width: $base;
+        height: $base;
+        border-radius: 50%;
+        transform: rotateY(90deg) translateZ( $width / 2 );
+    }
+    &__bottom{ transform: rotateY(90deg) translateZ( $width / -2 );}
+}
+@mixin cube($width, $height, $depth) {
+    &__front{ @include cube-front($width, $height, $depth); }
+    &__back{ @include cube-back($width, $height, $depth); }
+    &__right{ @include cube-right($width, $height, $depth); }
+    &__left{ @include cube-left($width, $height, $depth); }
+    &__top{ @include cube-top($width, $height, $depth);}
+    &__bottom{ @include cube-bottom($width, $height, $depth); }
+}
+//----------------------
+@mixin cube-front($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: bottom left;
+    transform: rotateX(-90deg) translateZ( -($height - ($depth * 2) ) );
+}
+@mixin cube-back($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-$width) translateY(-$height) ;
+}
+@mixin cube-right($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ($width) translateX(-$depth * 2) translateY(-$height);
+}
+@mixin cube-left($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-$height);
+}
+@mixin cube-top($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: translateZ($height) ;
+}
+@mixin cube-bottom($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: rotateY(180deg) translateX(-$width);
+}
+@mixin face-ani($animation, $time, $side, $width-el, $height-el, $depth-el) {
+
+    animation: #{$animation} #{$time} infinite ease;
+
+    @keyframes #{$animation} {
+        0%, 15%, 45%, 60%, 62%, 68%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-bottom" { @include cube-bottom($width-el, $height-el, $depth-el); }
+
+        }
+        20%, 40%, 58%, 64%, 70%, 100%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-bottom" { @include cube-bottom($width-el, $height-el, $depth-el); }
+        }
+    }
+}
+@mixin cube-color($color) {
+    &__front{ background-color: darken($color, 5); }
+    &__back{ background-color: darken($color, 10) }
+    &__right{ background-color: darken($color, 10) }
+    &__left{ background-color: darken($color, 20); }
+    &__top{ background-color: $color; }
+    &__bottom{ background-color: darken($color, 20);}
+}
+/***********************/
+/***********************/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    transform-style: preserve-3d;
+
+	user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    font-family: sans-serif;
+}
+/***********************/
+/***********************/
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+
+    overflow: hidden;
+    background-color: $bg-1;
+}
+.face{ position: absolute; }
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/***********************/
+/***********************/
+.main{
+    width: 20vmin;
+    height: 40vmin;
+    transform:
+        perspective(30000px)
+        scale(1.2)
+        rotateX(55deg)
+        rotateZ(35deg)
+        translateZ(-10vmin)
+    ;
+    transition: 100ms linear;
+    cursor: grab;
+
+}
+.shake{
+    width: 100%;
+    height: 100%;
+    animation: shake 2500ms cubic-bezier(.17,.67,.52,.94) infinite;
+}
+.truck{
+    position: absolute;
+    width: 20vmin;
+    height: 40vmin;
+    animation: truck 1000ms cubic-bezier(.17,.67,.52,.94) infinite;
+}
+.shadows{
+    position: absolute;
+    width: 20vmin;
+    height: 40vmin;
+}
+    .shadow{
+        position: absolute;
+        height: 100%;
+        transform-origin: bottom left;
+        box-shadow: 0 0 1vmin $bg-2;
+
+        &-1{
+            width: 50%;
+            left: 100%;
+            transform: skewY(-15deg);
+            background-color: $bg-2;
+            filter: blur(.35vmin);
+        }
+        &-2{
+            width: 150%;
+
+            transform: skewY(-15deg);
+            background-color: $bg-2;
+            filter: blur(.35vmin);
+        }
+        &-3{
+            width: 100%;
+            background-image:
+                linear-gradient(
+                    to right,
+                    rgba(darken($bg-2, 5), .85),
+                    rgba(darken($bg-2, 20), .85),
+                    rgba(darken($bg-2, 15), .85)
+                );
+            filter: blur(.5vmin);
+        }
+    }
+
+/***********************/
+/***********************/
+.a0{
+    $width-el: 20vmin;
+    $height-el: 3vmin;
+    $depth-el: .75vmin;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+
+    position: absolute;
+    top: -1.5vmin;
+    left: 0;
+    transform: translateZ(2.75vmin) rotateX(25deg);
+
+    &__front{
+        background-color: darken($brown-1, 10);
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        padding: 0 2.5vmin;
+
+        .f-light{
+            position: relative;
+
+            width: 1vmin;
+            height: 1vmin;
+            background-color: $orange-3;
+            border-radius: 50%;
+        }
+    }
+    &__back{ background-color: darken($brown-3, 15); }
+    &__right{ background-color: darken($brown-3, 10); }
+    &__left{ background-color: darken($brown-1, 5); }
+    &__top{ background-color: darken($brown-3, 5); }
+    &__bottom{ background-color: $brown-4; }
+}
+.a1{
+    $width-el: 20vmin;
+    $height-el: 3vmin;
+    $depth-el: 1vmin;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateZ(2vmin);
+
+    &__front{
+        background-color: $brown-1;
+
+        &-a{
+            display: flex;
+            justify-content: space-between;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 3.275vmin;
+            padding: 1vmin 2.5vmin;
+
+            transform-origin: bottom;
+            transform: rotateX(-25deg);
+            background-image: linear-gradient(to bottom, darken($brown-2, 5), darken($brown-2, 10));
+
+            .f-light{
+                position: relative;
+
+                width: 1.15vmin;
+                height: 1.15vmin;
+                background-color: $orange-2;
+                border-radius: 50%;
+            }
+        }
+    }
+    &__back{
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 3.275vmin;
+
+            transform-origin: bottom;
+            transform: rotateX(-25deg);
+            background-color: $brown-4;
+        }
+    }
+    &__right{
+        background-color: darken($brown-3,15);
+
+        &::before{
+            content: '';
+            position: absolute;
+            right: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(-65deg, transparent 1.6vmin, darken($brown-3,15) 1.6vmin);
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            left: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(65deg, transparent 1.6vmin, darken($brown-3,15) 1.6vmin);
+        }
+    }
+    &__left{
+        background-color: darken($brown-1,5);
+
+
+        &::before{
+            content: '';
+            position: absolute;
+            left: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(65deg, transparent 1.6vmin, darken($brown-1,5) 1.6vmin);
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            right: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(-65deg, transparent 1.6vmin, darken($brown-1,5) 1.6vmin);
+        }
+    }
+    &__top{
+        background-color: $brown-2;
+        top: -1.35vmin;
+        height: 3.35vmin;
+    }
+    &__bottom{ background-color: $brown-4; }
+}
+.a2{
+    $width-el: 20vmin;
+    $height-el: 3vmin;
+    $depth-el: 8vmin;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+
+    position: absolute;
+    bottom: 9vmin;
+    left: 0;
+    transform: translateZ(2vmin);
+
+    &__front{
+        background-color: $brown-1;
+
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 3.275vmin;
+
+            transform-origin: bottom;
+            transform: rotateX(-25deg);
+            background-color: $brown-4;
+        }
+    }
+    &__back{
+        background-color: $brown-3;
+
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 3.275vmin;
+
+            transform-origin: bottom;
+            transform: rotateX(-25deg);
+            background-color: $brown-4;
+        }
+    }
+    &__right{
+        background-color: darken($brown-3,15);
+
+        &::before{
+            content: '';
+            position: absolute;
+            left: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(65deg, transparent 1.6vmin, darken($brown-3,15) 1.6vmin);
+
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            right: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(-65deg, transparent 1.6vmin, darken($brown-3,15) 1.6vmin);
+        }
+    }
+    &__left{
+        background-color:  darken($brown-1,5);
+
+        &::before{
+            content: '';
+            position: absolute;
+            left: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(65deg, transparent 1.6vmin,  darken($brown-1,5) 1.6vmin);
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            right: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(-65deg, transparent 1.6vmin,  darken($brown-1,5) 1.6vmin);
+        }
+    }
+    &__top{
+        background-color: $brown-2;
+        top: -1.35vmin;
+        height: 18.75vmin;
+    }
+    &__bottom{ background-color: $brown-4; }
+}
+.a3{
+    $width-el: 20vmin;
+    $height-el: 3vmin;
+    $depth-el: 4vmin;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+
+    position: absolute;
+    bottom: 32vmin;
+    left: 0;
+    transform: translateZ(2vmin);
+
+    &__front{
+        background-color: $brown-1;
+
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 3.275vmin;
+
+            transform-origin: bottom;
+            transform: rotateX(-25deg);
+            background-color: $brown-4;
+        }
+    }
+    &__back{
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 3.5vmin;
+
+            transform-origin: bottom;
+            transform: rotateX(-25deg);
+            background-color: darken($brown-3, 25);
+        }
+    }
+    &__right{
+        background-color: darken($brown-3,15);
+
+        &::before{
+            content: '';
+            position: absolute;
+            left: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(65deg, transparent 1.6vmin, darken($brown-3,15) 1.6vmin);
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            right: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(-65deg, transparent 1.6vmin, darken($brown-3,15) 1.6vmin);
+        }
+    }
+    &__left{
+        background-color:  darken($brown-1,5);
+
+        &::before{
+            content: '';
+            position: absolute;
+            right: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(-65deg, transparent 1.6vmin,  darken($brown-1,5) 1.6vmin);
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            left: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(65deg, transparent 1.6vmin,  darken($brown-1,5) 1.6vmin);
+        }
+    }
+    &__top{
+        background-color: $brown-2;
+        bottom: -1.35vmin;
+        height: 9.35vmin;
+    }
+    &__bottom{ background-color: $brown-4; }
+}
+.wheel-a,
+.wheel-b,
+.wheel-c,
+.wheel-d{
+    position: absolute;
+    bottom: 2.75vmin;
+    left: -4.5vmin;
+    height: 5vmin;
+    width: 5vmin;
+    transform-origin: bottom right;
+    transform: rotateY(90deg);
+
+    .circle{
+        $sides: 36;
+        $degree: 360deg;
+        $width: 2vmin;
+
+        width: 2vmin;
+        height: 2vmin;
+        border-radius: 50%;
+
+        &-a{
+            $base: 5vmin;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $black-1);
+
+            &__top{ border: .5vmin solid $black-1; }
+            &__bottom{ border: .5vmin solid $black-3; }
+        }
+        &-b{
+            $base: 4vmin;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $black-1);
+
+            &__bottom{
+                border: .25vmin solid $white-3;
+                background-color: $black-2;
+            }
+            &__top{
+                border: .25vmin solid $white-1;
+                background-color: $black-1;
+            }
+        }
+    }
+}
+.wheel-b{ bottom: 25.75vmin; }
+.wheel-c{
+    bottom: 2.75vmin;
+    left: 12.5vmin;
+}
+.wheel-d{
+    bottom: 25.75vmin;
+    left: 12.5vmin;
+}
+
+.b1{
+    $width-el: 20vmin;
+    $height-el: 5vmin;
+    $depth-el: 21.35vmin;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+
+    position: absolute;
+    bottom: -1.35vmin;
+    left: 0;
+    transform: translateZ(5vmin);
+
+    &__front{
+        background-color: darken($brown-1, 5);
+
+        display: grid;
+        grid-template-columns: auto 1fr  auto;
+        padding-top: 1.5vmin;
+        grid-column-gap: 1.25vmin;
+
+        .f-light{
+            position: relative;
+            top: 1.5vmin;
+            width: 2.5vmin;
+            height: 1vmin;
+            background-color: $orange-2;
+
+            box-shadow:
+                inset 0 0 .25vmin darken($orange-2, 10),
+                inset 0 0 1vmin rgba($orange-3, .15)
+            ;
+        }
+    }
+    &__back{
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 5.25vmin;
+
+            transform-origin: bottom;
+            transform: rotateX(-15deg);
+            background-color: darken($brown-3, 10);
+        }
+    }
+    &__right{
+        // background-color: $brown-3;
+        background-image: linear-gradient(
+            to top,
+            darken($brown-3, 10) 1vmin,
+            $orange-3 1vmin,
+            $orange-3 2vmin,
+            darken($brown-3, 5) 2vmin
+        );
+
+        &::before{
+            content: '';
+            position: absolute;
+            right: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(-75deg, transparent 1.675vmin, darken($brown-3, 5) 1.675vmin);
+        }
+    }
+    &__left{
+        background-color: $brown-1;
+        background-image: linear-gradient(
+            to top,
+            darken($brown-1, 4) 1vmin,
+            $orange-1 1vmin,
+            $orange-1 2vmin,
+            darken($brown-1, 1) 2vmin
+        );
+        &::before{
+            content: '';
+            position: absolute;
+            left: -1.75vmin;
+            width: 1.75vmin;
+            height: 100%;
+            background-image: linear-gradient(75deg, transparent 1.675vmin, $brown-1 1.675vmin);
+
+        }
+    }
+    &__top{
+        background-color: $brown-2;
+        height: 44.125vmin;
+        top: -1.4vmin;
+    }
+    &__bottom{ background-color: $brown-4; }
+}
+
+.c1{
+    $width-el: 20vmin;
+    $height-el: 10vmin;
+    $depth-el: 22vmin;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+
+    position: absolute;
+    bottom: -1.35vmin;
+    left: 0;
+    transform: translateZ(10vmin);
+
+    &__front{
+        &-a{
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 10.45vmin;
+
+            transform-origin: bottom;
+            transform: rotateX(15deg);
+            background-color: $brown-1;
+
+            .f-lights{
+                display: grid;
+                grid-template-columns: repeat(5,1fr);
+                align-items: start;
+                padding: .9vmin .75vmin .6vmin;
+            }
+                .f-light{
+                    justify-self: center;
+                    width: 1vmin;
+                    height: 1vmin;
+                    background-color: $orange-2;
+                    border-radius: .25vmin;
+
+                    box-shadow:
+                        inset 0 0 .25vmin darken($orange-2, 10),
+                        inset 0 0 .5vmin rgba($orange-3, .15)
+                    ;
+                }
+            .f-window{
+                width: 100%;
+                margin: .5vmin 0 .25vmin;
+                background-image: linear-gradient(to right, darken($blue-1, 3), darken($blue-1, 8));
+                box-shadow:
+                    inset 0 0 .5vmin $blue-2,
+                    inset 0 0 .75vmin rgba($blue-3, .25)
+                ;
+                overflow: hidden;
+
+                &::before{
+                    content: '';
+                    position: absolute;
+                    width: 100%;
+                    height: .675vmin;
+                    background-color: rgba($blue-2, .35);
+                }
+                .f-reflexa{
+                    position: absolute;
+                    left: 1vmin;
+                    top: 5vmin;
+                    width: 6vmin;
+                    height: 5vmin;
+
+                    border-radius: 50%;
+                    background-color: rgba($white-1, .05);
+                    filter: blur(.35vmin);
+                    display: none;
+                }
+                .f-reflexb{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 1.65vmin;
+                    height: 100%;
+                    border-radius: 0;
+                    background-image: linear-gradient(to right, rgba($white-1, .075), rgba($white-1, .05));
+                    filter: blur(.1vmin);
+                }
+                .f-washers{
+                    position: absolute;
+                    width: 100%;
+                    height: 1.25vmin;
+                    bottom: 0;
+                    background-color: rgba($blue-2, .2);
+                }
+                    .f-washer{
+                        position: absolute;
+                        width: 4vmin;
+                        height: .3vmin;
+                        background-color: $black-1;
+                        &:nth-of-type(1){
+                            transform-origin: bottom right;
+                            right: 52%;
+                            animation: washer-r 800ms cubic-bezier(.17,.67,.52,.94) alternate infinite;
+                        }
+                        &:nth-of-type(2){
+                            transform-origin: bottom left;
+                            left: 51.5%;
+                            animation: washer-l 800ms cubic-bezier(.17,.67,.52,.94) alternate infinite;
+
+                        }
+                    }
+            }
+
+
+            .f-line{
+                width: 100%;
+                height: .5vmin;
+                background-color: $orange-2;
+            }
+        }
+    }
+    &__back{
+        background-color: $brown-3;
+
+        &::before{
+            content: '';
+            position: absolute;
+            width: calc(100% - 4vmin);
+            top: 2.85vmin;
+            left: 2vmin;
+            height: 6.25vmin;
+            background-color: $blue-2;
+            box-shadow:
+                inset 0 0 .5vmin darken($blue-3, 10),
+                inset 0 0 1vmin rgba(darken($blue-3, 10), .5)
+            ;
+        }
+    }
+    &__right{
+        background-image: linear-gradient(-75deg, darken($brown-3, 2) 42.5vmin, transparent 42.5vmin);
+
+        &::before{
+            content: '';
+            position: absolute;
+            top: .75vmin;
+            width: 100%;
+            height: 1vmin;
+            background-image:
+                linear-gradient(
+                    -75deg,
+                    $orange-3 40.25vmin,
+                    transparent 40.25vmin
+                );
+        }
+    }
+    &__left{
+        background-image: linear-gradient(75deg, $brown-1 42.5vmin, transparent 42.5vmin);
+
+        &::before{
+            content: '';
+            position: absolute;
+            top: .75vmin;
+            width: 100%;
+            height: 1vmin;
+            background-image:
+                linear-gradient(
+                    75deg,
+                    $orange-1 40.25vmin,
+                    transparent 40.25vmin
+                );
+        }
+    }
+    &__top{
+        background-image: linear-gradient(to right, lighten($brown-2, 2), darken($brown-2, 3));
+        height: 41.25vmin;
+    }
+    &__bottom{ background-color: $brown-4; }
+}
+
+.d1-l,
+.d1-r{
+    $width-el: .35vmin;
+    $height-el: .5vmin;
+    $depth-el: 15vmin;
+
+    position: absolute;
+    top: 3vmin;
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    transform: translateZ(20.5vmin);
+
+    &__front{ background-color: $black-3; }
+    &__back{ background-color: $black-1; }
+    &__right{ background-color: $black-3; }
+    &__left{ background-color: $black-1; }
+    &__top{ background-color: $black-1; }
+    &__bottom{ background-color: $black-3; }
+}
+.d1-l{
+    left: 1vmin;
+    &__bottom{
+        &::before{
+            content: '';
+            position: absolute;
+            top: 1vmin;
+            right: 0;
+            width: 2vmin;
+            height: 28vmin;
+            border: .5vmin solid $brown-3;
+            border-left-width: .9vmin;
+
+            transform-origin: bottom right;
+            transform: translateZ(.45vmin)  skewY(25deg);
+        }
+    }
+}
+.d1-r{
+    right: 1vmin;
+    &__bottom{
+        &::before{
+            content: '';
+            position: absolute;
+            top: 1vmin;
+            right: 0;
+            width: 1.5vmin;
+            height: 28vmin;
+            border: .75vmin solid $brown-3;
+            border-left-width: 0;
+            transform-origin: bottom right;
+            transform: translateZ(.45vmin)  skewY(25deg);
+        }
+    }
+}
+
+.d1-fa{
+    $width-el: .35vmin;
+    $height-el: .5vmin;
+    $depth-el: .35vmin;
+
+    position: absolute;
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    transform: translateZ(20vmin);
+
+    &__front{ background-color: $black-3; }
+    &__back{ background-color: $black-1; }
+    &__right{ background-color: $black-3; }
+    &__left{ background-color: $black-1; }
+    &__top{ background-color: $black-1; }
+    &__bottom{ background-color: $black-3; }
+
+    &:nth-of-type(1){
+        top: 4vmin;
+        left: 1vmin;
+    }
+    &:nth-of-type(2){
+        top: 4vmin;
+        right: 1vmin;
+    }
+    &:nth-of-type(3){
+        top: 31vmin;
+        left: 1vmin;
+    }
+    &:nth-of-type(4){
+        top: 31vmin;
+        right: 1vmin;
+    }
+}
+// ===========================================
+.f-airs{
+    display: grid;
+    grid-template-rows: auto;
+    width: 100%;
+    height: 100%;
+    padding: 4vmin;
+}
+.f-air{
+    $width-el: 5vmin;
+    $height-el: 1vmin;
+    $depth-el: 4vmin;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: 8vmin;
+    justify-self: center;
+    transform: translateZ(.1vmin);
+
+    &::before{
+        content: '';
+        position: absolute;
+        width: 120%;
+        height: 110%;
+        bottom: 0;
+        background-image: linear-gradient(-35deg, transparent .5vmin, $brown-3 .5vmin);
+    }
+    &__front{
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            transform-origin: bottom left;
+            transform: rotateX(66deg);
+            width: 100%;
+            height: 2.6vmin;
+            background-image: linear-gradient(to bottom, $white-1, darken($white-1, 3));
+        }
+    }
+    &__back{ background-color: darken($white-3, 8); }
+    &__right{ background-image: linear-gradient(-25deg, darken($white-3, 4) 3.25vmin, transparent 3.35vmin); }
+    &__left{ background-image: linear-gradient(25deg, $white-2 3.25vmin, transparent 3.35vmin); }
+    &__top{
+        background-image: linear-gradient(to right, $white-2, darken($white-2, 3));
+        height: 5.5vmin;
+    }
+    &__bottom{ background-color: $white-2; }
+}
+.f-sunr{
+    width: 4vmin;
+    height: 4vmin;
+    justify-self: center;
+    transform: translateZ(.1vmin);
+
+    box-shadow: inset 0 0 .25vmin $black-2;
+    background-image: linear-gradient(to right, darken($brown-4, 25), darken($brown-4, 15));
+
+    &::before{
+        content: '';
+        position: absolute;
+        left: 100%;
+        width: 3vmin;
+        height: 100%;
+        bottom: 0;
+        background-image: linear-gradient(-45deg, transparent 2vmin, $brown-3 2vmin);
+    }
+    &-t{
+        position: absolute;
+        bottom: -.1vmin;
+        width: 100%;
+        height: 100%;
+
+        transform-origin: bottom;
+        transform: rotateX(-70deg);
+        background-image: linear-gradient(to top, $white-1, darken($white-1, 5));
+    }
+}
+.f-hoods{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: .25vmin;
+    padding-top: .5vmin;
+}
+    .f-hood{
+        $width-el: 6vmin;
+        $height-el: .25vmin;
+        $depth-el: 1.5vmin;
+
+        @include cube($width-el, $height-el, $depth-el);
+        width: $width-el;
+        justify-self: center;
+
+        &__front{ background-color: darken($black-3, 20); }
+        &__back{ background-color: darken($black-1, 20); }
+        &__right{ background-color: darken($black-3, 20); }
+        &__left{ background-color: darken($black-1, 20); }
+        &__top{ background: repeating-linear-gradient($black-1 0, $black-1 .25vmin, $black-2 .25vmin, $black-2 .35vmin);}
+        &__bottom{ background-color: darken($black-3, 20); }
+    }
+.f-swindows{
+    height: 100%;
+    width: 100%;
+    padding: 2.85vmin 1vmin .8vmin 0;
+    display: grid;
+    grid-template-columns: auto auto 2fr auto 1fr .5fr;
+    grid-column-gap: .5vmin;
+
+    &--reverse{
+        padding: 2.85vmin 0 .8vmin 1vmin;
+        grid-template-columns: auto auto 1fr auto 1.5fr .5fr;
+        direction: rtl;
+
+        .f-swindow{
+            background-color: $blue-1;
+            box-shadow:
+                inset 0 0 .35vmin darken($blue-2, 12),
+                inset 0 0 1vmin rgba(darken($blue-2, 12), .5)
+            ;
+            &:nth-of-type(1){
+                background-image: linear-gradient(75deg, $blue-1 2.75vmin, transparent 2.75vmin);
+            }
+        }
+    }
+}
+    .f-swindow{
+        height: 100%;
+        width: 100%;
+        background-color: $blue-2;
+        box-shadow:
+            inset 0 0 .5vmin darken($blue-3, 10),
+            inset 0 0 1vmin rgba(darken($blue-3, 10), .5)
+        ;
+        &:nth-of-type(1){
+            width: 3vmin;
+            background-color: transparent;
+            background-image: linear-gradient(-75deg, $blue-2 2.75vmin, transparent 2.75vmin);
+            box-shadow: none;
+        }
+        &:nth-of-type(2){ width: 5vmin;}
+        &:nth-of-type(3){ height: 50%;}
+        &:nth-of-type(4){
+            width: 10vmin;
+            background-color: transparent;
+            box-shadow: none;
+        }
+    }
+    .f-sdoor{
+        position: absolute;
+        top: 1.85vmin;
+        right: 19vmin;
+        height: 14vmin;
+        width: 6vmin;
+        transform: translateY(1vmin);
+
+        background-color: $brown-2;
+        border-radius: .75vmin;
+        border: .1vmin solid $brown-4;
+        box-shadow:
+            inset 0 0 .35vmin darken($brown-3, 12),
+            inset 0 0 1vmin rgba(darken($brown-3, 12), .5)
+        ;
+    }
+
+.f-a{
+    $width-el: .25vmin;
+    $height-el: .25vmin;
+    $depth-el: 3.175vmin;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+
+    position: absolute;
+    left: 50%;
+    bottom: 1vmin;
+    transform: translateX(-50%);
+
+    &__front{ background-color: $black-1; }
+    &__back{ background-color: $black-3; }
+    &__right{ background-color: $black-3; }
+    &__left{ background-color: $black-1; }
+    &__top{ background-color: $black-2; }
+    &__bottom{ background-color: $black-3; }
+}
+.f-bubble{
+    position: absolute;
+    left: .5vmin;
+    top: .5vmin;
+    width: 1vmin;
+    height: 1vmin;
+    transform-origin: center;
+    transform: translateZ(-1vmin) rotateY(90deg) rotateX(90deg) ;
+    background-color: $meta;
+    border-radius: 50%;
+    animation: bubble 1000ms cubic-bezier(.17,.67,.52,.94) infinite;
+    filter: blur(.25vmin);
+
+    @for $var from 1 to 10 {
+        &:nth-of-type(#{$var}){ animation-delay: 20ms * $var; }
+    }
+
+}
+// *********************************
+// *********************************
+@keyframes shake{
+    0%, 90%, 100%{ transform: translateY(0);}
+    20%{ transform: translateY(1vmin);}
+    30%{ transform: translateY(3vmin);}
+    40%{ transform: translateY(1.95vmin);}
+    50%{ transform: translateY(1vmin);}
+    60%{ transform: translateY(1.85vmin);}
+    70%{ transform: translateY(.95vmin);}
+    80%{ transform: translateY(-1vmin);}
+}
+@keyframes truck{
+    0%, 20%, 40%, 60%, 80%, 100%{
+        transform-origin: center;
+        transform: translateZ(0) rotateY(-.65deg) rotateX(-.65deg);
+    }
+    10%, 30%, 50%, 70%, 90%{
+        transform-origin: center;
+        transform: translateZ(.125vmin) rotateY(.5deg) rotateX(.5deg);
+    }
+}
+@keyframes bubble{
+    0%{
+        width: 0;
+        height: 0;
+        left: .5vmin;
+        top: .5vmin;
+        opacity: 0;
+        transform: translateZ(-1vmin) rotateY(90deg) rotateX(90deg);
+    }
+    20%{
+        width: .25vmin;
+        height: .25vmin;
+        left: 2vmin;
+        transform: translateZ(1vmin) rotateY(90deg) rotateX(90deg);
+    }
+    30%{
+        width: .5vmin;
+        height: 1vmin;
+        left: 3vmin;
+        transform: translateZ(2vmin) rotateY(90deg) rotateX(90deg);
+    }
+    50%{
+        left: 1.5vmin;
+        transform: translateZ(3vmin) rotateY(90deg) rotateX(90deg);
+    }
+    60%{
+        width: 2vmin;
+        height: 3vmin;
+        left: 5vmin;
+        transform: translateZ(5vmin) rotateY(90deg) rotateX(90deg);
+        opacity: .75;
+    }
+    80%{
+        width: 1vmin;
+        height: 2vmin;
+        left: 6vmin;
+        transform: translateZ(5.5vmin) rotateY(90deg) rotateX(90deg);
+        opacity: .5;
+    }
+    100%{
+        width: 1vmin;
+        height: 1.5vmin;
+        left: 7vmin;
+        transform: translateZ(7vmin) rotateY(90deg) rotateX(90deg);
+        opacity: .1;
+    }
+}
+@keyframes washer-r{
+    to{ transform: rotateZ(80deg); }
+}
+@keyframes washer-l{
+    to{ transform: rotateZ(-80deg); }
+}
