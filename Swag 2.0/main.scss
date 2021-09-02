@@ -1,0 +1,682 @@
+$gray: #7e8181;
+$black: #161616;
+$white: #ffffff;
+$unit: 1vmin;
+
+$time: 1250ms;
+$type: cubic-bezier(.07,.87,1,.2);
+/*********************/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	user-select: none;
+    outline: none;
+    appearance: none;
+    transform-style: preserve-3d;
+    -webkit-tap-highlight-color: transparent;
+}
+/***********************/
+// Tags
+/***********************/
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+
+	font-family: 'Molle', cursive;
+    background-color: $gray;
+	color: $white;
+}
+/**/
+.svgs{
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%);
+	z-index: 20;
+}
+.svg-icon {
+    width: 30px;
+    height: 30px;
+
+    &:hover{ cursor: pointer; transform: scale(1.1);}
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+    fill: white;
+}
+.svg-icon circle {
+    stroke: white;
+    stroke-width: 1;
+}
+.s{ display: none; }
+
+.main-title{
+    position: absolute;
+    top: $unit * 6;
+    left: 50%;
+	transform: translateX(-50%);
+
+    font-size: $unit * 12;
+    line-height: 1;
+}
+/**/
+.main{
+    width: $unit * 107;
+    height: $unit * 80;
+
+	z-index: 10;
+}
+.cup{
+    position: absolute;
+    left: 36.5%;
+    top: 22%;
+    width: $unit * 27.75;
+    height: $unit * 36;
+
+    &__smoke-1,
+    &__smoke-2,
+    &__smoke-3{
+        position: absolute;
+        width: 100%;
+        height: $unit * 20;
+
+		opacity: 0;
+        background-image: radial-gradient(circle,$white 50%,transparent);
+        border-radius: 50%;
+        filter: blur($unit * 1.75);
+    }
+    &__smoke-2{ animation-delay: 125ms; }
+    &__smoke-3{ animation-delay: 250ms; }
+
+    &__handle{
+        position: absolute;
+        top: 28%;
+        left: 56%;
+        width: $unit * 18;
+        height: $unit * 20;
+
+        border: $unit *.65 solid $black;
+        border-radius: $unit * 8;
+        background-color: $white;
+
+        &::before{
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-50%);
+            width: $unit * 10;
+            height: $unit * 12;
+
+            border: $unit *.65 solid $black;
+            border-radius: $unit * 8;
+            background-color: $gray;
+        }
+    }
+    &__center{
+        position: absolute;
+        top: 14%;
+        width: 100%;
+        height: $unit * 26;
+        overflow: hidden;
+
+        border-left: $unit * .9 solid $black;
+        border-right: $unit * .9 solid $black;
+        background-color: $white;
+    }
+    &__top,
+    &__bottom{
+        position: absolute;
+        width: 100%;
+        height: $unit * 10;
+
+        border-radius: 50%;
+        border: $unit * .9 solid $black;
+        background-color: $white;
+    }
+    &__top{
+        top: 0;
+        border-bottom-color: transparent;
+    }
+    &__bottom{
+        bottom: 0;
+        border-top-color: transparent;
+    }
+	/*======================*/
+    .eyes{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        left: 0;
+    }
+        .eye-l{
+            position: absolute;
+            top: 20%;
+            left: 0;
+            width: $unit * 2.75;
+            height: $unit * 4.75;
+
+            border-radius: $unit * 3;
+            background-color: $black;
+            overflow: hidden;
+
+            &::before{
+                content: '';
+                position: absolute;
+                right: $unit * .25;
+                top: $unit * .95;
+                width: $unit * 2;
+                height: $unit * 2;
+
+                border: $unit * 1 solid transparent;
+                border-right: $unit * 1.5 solid $white;
+                border-radius: 35%;
+            }
+        }
+        .eye-r{
+            position: absolute;
+            top: 14%;
+            left: 28%;
+            width: $unit * 4;
+            height: $unit * 6;
+
+            border-radius: $unit * 2;
+            background-color: $black;
+            overflow: hidden;
+
+            &::before{
+                content: '';
+                position: absolute;
+                right: $unit * .25;
+                top: $unit * 1.25;
+                width: $unit * 2;
+                height: $unit * 2;
+
+                border: $unit * 1.25 solid transparent;
+                border-right: $unit * 1.65 solid $white;
+                border-radius: 35%;
+            }
+        }
+        .nose{
+            position: absolute;
+            top: 30%;
+            left: 7%;
+            width: $unit * 4.65;
+            height: $unit * 4.25;
+
+            border-radius: $unit * 1.75;
+            background-color: darken($black, 5);
+        }
+}
+.shadow{
+    position: absolute;
+    width: $unit * 36;
+    height: $unit * .75;
+    background-color: $black;
+
+    left: 50%;
+    top: 86.75%;
+    transform: translateX(-57%);
+}
+.leg-l,
+.leg-r{
+    position: absolute;
+    width: $unit * 14;
+    height: $unit * 19;
+
+    &__top{
+        position: absolute;
+        right: $unit * 1.2;
+        width: $unit * 3;
+        height: $unit * 9;
+
+        background-color: $black;
+        border-bottom-left-radius: $unit * .45;
+    }
+    &__bottom{
+        position: absolute;
+        top: 92%;
+        width: 100%;
+        height: $unit * 8;
+        background-color: $black;
+		border-bottom-right-radius: $unit * 2;
+
+        &::after{
+            content: '';
+            position: absolute;
+            left: -10%;
+            bottom: $unit * 1.5;
+            width: 120%;
+            height: $unit * 5;
+
+            border-radius: 50%;
+            background-color: $black;
+        }
+    }
+    &__shoes{
+        position: absolute;
+        top: 60%;
+        right: $unit * -1;
+        width: $unit * 6;
+        height: $unit * 5.4;
+
+        transform-origin: bottom right;
+        transform: skewX(5deg);
+
+        border-top-left-radius: $unit * 3;
+        border-top-right-radius: $unit * 1;
+        background-color: $white;
+        border: $unit * .5 solid $black;
+
+        &::before{
+            content: '';
+            position: absolute;
+            bottom: $unit * -.5;
+            right: $unit * 3.5;
+            width: $unit * 6;
+            height: $unit * 4;
+            transform: skewX(-5deg);
+
+            border-bottom-left-radius: $unit * 1;
+            border-top-left-radius: $unit * 6;
+            border-top-right-radius: $unit * 3;
+            background-color: $white;
+            border: $unit * .5 solid $black;
+            border-right-color: transparent;
+        }
+
+    }
+}
+.leg-l{
+    top: 64%;
+    left: 32%;
+    transform-origin: top;
+
+    &__top,
+    &__bottom{ background-color: darken($black, 5); }
+    &__bottom{
+        transform-origin: top;
+        &::after{ background-color: darken($black, 5); }
+    }
+    &__shoes{
+        transform-origin: top;
+        background-color: darken($white, 10);
+
+        &::before{ background-color: darken($white, 10); }
+    }
+}
+.leg-r{
+    top: 64%;
+    left: 45%;
+    transform-origin: top;
+
+    animation-delay: $time/2;
+
+    &__bottom{
+        transform-origin: top;
+        animation-delay: $time/2;
+    }
+    &__shoes{
+        transform-origin: top;
+		animation-delay: $time/2;
+    }
+}
+.screen,
+.screen-1,
+.screen-2,
+.screen-3,
+.screen-4{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 11;
+}
+.screen{
+    background-image: radial-gradient(ellipse, transparent 30%, transparent 50%, rgba($black, .35), rgba($black, .85) 90%) ;
+    background-size: 100%;
+    background-repeat: no-repeat;
+
+    animation: screen 150ms $type infinite;
+}
+.screen-1{
+    animation: screen-1 200ms $type infinite;
+
+    background-image:
+        radial-gradient(circle, rgba($black, .15) 30%, transparent 50%),
+        radial-gradient(circle, rgba($black, .17) 30%, transparent 60%),
+        radial-gradient(circle, rgba($black, .20) 20%, transparent 65%),
+        radial-gradient(circle, rgba($black, .1) 40%, transparent 60%),
+        radial-gradient(circle, rgba($black, .27) 30%, transparent 70%),
+        radial-gradient(circle, rgba($black, .12) 36%, transparent 60%),
+        radial-gradient(circle, rgba($black, .17) 36%, transparent 60%),
+        radial-gradient(circle, rgba($black, .22) 36%, transparent 60%),
+        radial-gradient(circle, rgba($black, .15) 36%, transparent 60%),
+        radial-gradient(circle, rgba($black, .19) 36%, transparent 60%),
+
+        radial-gradient(circle, rgba($black, .15) 30%, transparent 50%),
+        radial-gradient(circle, rgba($black, .17) 30%, transparent 60%),
+        radial-gradient(circle, rgba($black, .10) 20%, transparent 65%)
+
+    ;
+    background-repeat: no-repeat;
+    background-size:
+        $unit * 10 $unit * 10,
+        $unit * 5 $unit * 5,
+        $unit * 3 $unit * 3,
+        $unit * .5 $unit * 100,
+        $unit * 1 $unit * 1,
+        $unit * 5 $unit * 5,
+        $unit * 2 $unit * 2,
+        $unit * 7 $unit * 6,
+        $unit * 5 $unit * 3,
+        $unit * 2 $unit * 2,
+
+        $unit * 7 $unit * 6,
+        $unit * 5 $unit * 3,
+        $unit * 2 $unit * 2
+    ;
+    background-position:
+        $unit * 10 $unit * 10,
+        $unit * 40 $unit * 20,
+        $unit * 30 $unit * 5,
+        $unit * 60 $unit * 0,
+        $unit * 100 $unit * 70,
+        $unit * 180 $unit * 90,
+        $unit * 70 $unit * 10,
+        $unit * 30 $unit * 90,
+        $unit * 190 $unit * 30,
+        $unit * 90 $unit * 50,
+
+        $unit * 140 $unit * 10,
+        $unit * 120 $unit * 20,
+        $unit * 190 $unit * 5,
+    ;
+}
+.screen-2{
+    animation: screen-2 200ms $type infinite;
+
+    background-image:
+        radial-gradient(circle, rgba($black, .15) 30%, transparent 50%),
+        radial-gradient(circle, rgba($black, .1) 30%, transparent 60%),
+        radial-gradient(circle, rgba($black, .10) 20%, transparent 65%),
+        radial-gradient(circle, rgba($black, .15) 10%, transparent 60%),
+        radial-gradient(circle, rgba($black, .27) 20%, transparent 70%),
+        radial-gradient(circle, rgba($black, .12) 36%, transparent 60%),
+        radial-gradient(circle, rgba($black, .27) 36%, transparent 60%),
+        radial-gradient(circle, rgba($black, .22) 36%, transparent 60%),
+        radial-gradient(circle, rgba($black, .25) 36%, transparent 60%),
+        radial-gradient(circle, rgba($black, .2) 36%, transparent 60%),
+
+        radial-gradient(circle, rgba($black, .15) 30%, transparent 50%),
+        radial-gradient(circle, rgba($black, .2) 30%, transparent 60%),
+        radial-gradient(circle, rgba($black, .10) 20%, transparent 65%)
+
+    ;
+    background-repeat: no-repeat;
+    background-size:
+        $unit * 1 $unit * 1,
+        $unit * .5 $unit * 100,
+        $unit * 2 $unit * 200,
+        $unit * 7 $unit * 7,
+        $unit * 20 $unit * 20,
+        $unit * 2 $unit * 2,
+        $unit * 1 $unit * 1,
+        $unit * 4 $unit * 4,
+        $unit * .5 $unit * 100,
+        $unit * 2 $unit * 1,
+
+        $unit * 3 $unit * 3,
+        $unit * 1 $unit * 1,
+        $unit * 4 $unit * 4
+    ;
+    background-position:
+        $unit * 10 $unit * 40,
+        $unit * 180 $unit * 0,
+        $unit * 30 $unit * 0,
+        $unit * 40 $unit * 20,
+        $unit * 80 $unit * 80,
+        $unit * 140 $unit * 80,
+        $unit * 170 $unit * 30,
+        $unit * 130 $unit * 50,
+        $unit * 190 $unit * 35,
+        $unit * 180 $unit * 15,
+
+        $unit * 32 $unit * 12,
+        $unit * 23 $unit * 23,
+        $unit * 10 $unit * 57,
+    ;
+}
+.screen-3{
+    animation: screen-3 200ms $type infinite;
+
+    background-image:
+        radial-gradient(circle, rgba($black, .3) 30%, transparent 70%),
+        radial-gradient(circle, rgba($black, .23) 30%, transparent 70%),
+        radial-gradient(circle, rgba($black, .15) 30%, transparent 75%),
+        radial-gradient(circle, rgba($black, .14) 30%, transparent 60%),
+        radial-gradient(circle, rgba($black, .12) 20%, transparent 70%),
+        radial-gradient(circle, rgba($black, .2) 36%, transparent 60%),
+        radial-gradient(circle, rgba($black, .13) 36%, transparent 60%),
+        radial-gradient(circle, rgba($black, .18) 36%, transparent 70%),
+        radial-gradient(circle, rgba($black, .15) 36%, transparent 70%),
+        radial-gradient(circle, rgba($black, .19) 36%, transparent 70%),
+
+        radial-gradient(circle, rgba($black, .1) 30%, transparent 50%),
+        radial-gradient(circle, rgba($black, .1) 30%, transparent 60%),
+        radial-gradient(circle, rgba($black, .15) 20%, transparent 65%)
+
+    ;
+    background-repeat: no-repeat;
+    background-size:
+        $unit * 1 $unit * 1,
+        $unit * .35 $unit * 100,
+        $unit * 2 $unit * 20,
+        $unit * 3 $unit * 3,
+        $unit * 5 $unit * 5,
+        $unit * 2 $unit * 2,
+        $unit * 3 $unit * 1,
+        $unit * 3 $unit * 4,
+        $unit * .35 $unit * 200,
+        $unit * .5 $unit * 100,
+
+        $unit * 7 $unit * 7,
+        $unit * 4 $unit *4,
+        $unit * 14 $unit * 4
+    ;
+    background-position:
+        $unit * 30 $unit * 40,
+        $unit * 180 $unit * 10,
+        $unit * 130 $unit * 80,
+        $unit * 160 $unit * 20,
+        $unit * 80 $unit * 60,
+        $unit * 140 $unit * 50,
+        $unit * 170 $unit * 32,
+        $unit * 30 $unit * 55,
+        $unit * 150 $unit * 52,
+        $unit * 60 $unit * 34,
+
+        $unit * 132 $unit * 12,
+        $unit * 123 $unit * 23,
+        $unit * 110 $unit * 57,
+    ;
+}
+.screen-4{
+    animation: screen-4 250ms $type infinite;
+
+    background-image:
+        radial-gradient(circle, rgba($black, .8) 40%, transparent 70%),
+        radial-gradient(circle, rgba($black, .3) 34%, transparent 70%),
+        radial-gradient(circle, rgba($black, .25) 30%, transparent 75%),
+        radial-gradient(circle, rgba($black, .1) 30%, transparent 60%),
+        radial-gradient(circle, rgba($black, .2) 20%, transparent 70%),
+        radial-gradient(circle, rgba($black, .18) 30%, transparent 60%),
+        radial-gradient(circle, rgba($black, .8) 30%, transparent 60%),
+        radial-gradient(circle, rgba($black, .3) 36%, transparent 70%),
+        radial-gradient(circle, rgba($black, .15) 36%, transparent 70%),
+        radial-gradient(circle, rgba($black, .19) 36%, transparent 70%)
+
+    ;
+    background-repeat: no-repeat;
+    background-size:
+        $unit * 1 $unit * 5,
+        $unit * .5 $unit * 10,
+        $unit * 2 $unit * 20,
+        $unit * .35 $unit * 100,
+        $unit * 20 $unit * 20,
+        $unit * 4 $unit * 4,
+        $unit * 1 $unit * 1,
+        $unit * 2 $unit * 4,
+        $unit * .25 $unit * 200,
+        $unit * 1 $unit * 1
+    ;
+    background-position:
+        $unit * 10 $unit * 80,
+        $unit * 80 $unit * 5,
+        $unit * 50 $unit * 85,
+        $unit * 20 $unit * 50,
+        $unit * 100 $unit * 40,
+        $unit * 120 $unit * 40,
+        $unit * 160 $unit * 32,
+        $unit * 70 $unit * 55,
+        $unit * 50 $unit * 45,
+        $unit * 80 $unit * 60
+
+    ;
+}
+
+
+/* https://lukeroberts.tv/walk-cycles.php?pn=2 */
+
+/*************************/
+.is-title-active{ animation: main-title 150ms $type infinite; }
+@keyframes main-title {
+    0%, 45%, 90%{ top: $unit * 6; left: 49.9%; opacity: .8; }
+    55%, 60%{ top: $unit * 6.4; left: 50.1%; opacity: 1; }
+}
+.is-main-active{ animation: main 200ms $type infinite; }
+@keyframes main {
+    0%, 10%, 50%, 60%{ transform: translateX(0); }
+    25%, 35%, 75%, 85%{ transform: translateX($unit * .5); }
+}
+.is-cup-active{ animation: cup $time $type infinite; }
+@keyframes cup {
+    0%, 10%, 50%, 60%{
+        top: 22%;
+        transform: scale(1);
+    }
+    25%, 35%, 75%, 85%{
+        top: 26.25%;
+        transform: scale(.985);
+    }
+}
+.is-handle-active{ animation: handle $time $type infinite; }
+@keyframes handle {
+    0%, 10%, 50%, 60%{
+        left: 56%;
+        width: $unit * 18;
+        height: $unit * 20;
+    }
+    25%, 35%, 75%, 85%{
+        left: 54.5%;
+        width: $unit * 17.75;
+        height: $unit * 19.75;
+    }
+}
+.is-smoke-active{ animation: smoke 8000ms linear infinite; }
+@keyframes smoke {
+    0%, 20%{
+        opacity: 0;
+        transform: translateY(0);
+    }
+    60%{
+        opacity: 1;
+        transform: translateY(-100vh);
+    }
+    90%, 100%{
+        opacity: 0;
+        transform: translateY(-110vh);
+    }
+}
+.is-eyes-active{ animation: eyes $time $type infinite; }
+@keyframes eyes {
+    0%, 10%, 50%, 60%{ left: -1.5%; }
+    25%, 35%, 75%, 85%{ left: 0; }
+}
+.is-nose-active{ animation: nose $time $type infinite;}
+@keyframes nose {
+    0%, 10%, 50%, 60%{ left: 6.5%; }
+    25%, 35%, 75%, 85%{ left: 9%; }
+}
+.is-shadow-active{ animation: shadow $time$type infinite; }
+@keyframes shadow {
+    0%, 40%, 80%{ width: $unit * 42; }
+    20%, 60%{ width: $unit * 35; }
+}
+.is-legl-active{ animation: leg $time $type infinite;}
+.is-legr-active{ animation: leg $time $type infinite $time/2;}
+@keyframes leg {
+    0%, 10%{ transform: translateX(0) scale(1) rotateZ(0deg); }
+    25%, 35%{ transform: translateX($unit * -1) scale(.975) rotateZ(-18.5deg);}
+    50%, 60%{ transform: translateX($unit * -2.75) scale(.95) rotateZ(-28.5deg);}
+    75%, 85%{ transform: translateX(0) scale(.975) rotateZ(10deg);}
+}
+.is-legbl-active{ animation: leg__bottom $time $type infinite;}
+.is-legbr-active{ animation: leg__bottom $time $type infinite $time/2;}
+@keyframes leg__bottom {
+    0%, 10%, 100%{ transform: rotateZ(0deg); }
+    25%, 35%{ transform: rotateZ(-25deg); }
+    50%, 60%{ transform: rotateZ(-40deg); }
+    75%, 85%{ transform: rotateZ(0deg); }
+}
+.is-shoesl-active{ animation: leg__shoes $time $type infinite; }
+.is-shoesr-active{ animation: leg__shoes $time $type infinite $time/2; }
+@keyframes leg__shoes {
+    0%, 10%, 100%{
+        top: 60%;
+        right: $unit * -.5;
+        transform: scale(1) rotateZ(0deg);
+    }
+    25%, 35%{
+        top: 60%;
+        right: $unit * -1.5;
+        transform: scale(.975) rotateZ(35deg);
+
+    }
+    50%, 60%{
+        top: 57%;
+        right: $unit * -2.15;
+        transform: scale(.925) rotateZ(50deg);
+    }
+    75%, 85%{
+        top: 60%;
+        right: $unit * -.5;
+        transform: scale(.975) rotateZ(-10deg);
+    }
+}
+@keyframes screen {
+    0%, 45%, 90%, 100%{ background-image: radial-gradient(ellipse, transparent 30%, transparent 50%, rgba($black, .35), rgba($black, .85) 90%); }
+    55%, 60%{ background-image: radial-gradient(ellipse, transparent 30%, transparent 49%, rgba($black, .35), rgba($black, .85) 87.5%) ;}
+}
+@keyframes screen-1 {
+    0%, 45%, 90%, 100%{ top: $unit * -1; left: -1; opacity: 0; }
+    55%, 60%{ top: $unit * 1; left: $unit * 1; opacity: .6; }
+}
+@keyframes screen-2 {
+    0%, 45%, 90%, 100%{ left: 0; opacity: 0; }
+    55%, 60%{ left: $unit * -10; opacity: 1; }
+}
+@keyframes screen-3 {
+    0%, 45%, 90%, 100%{ top: 0; left: $unit * 10; opacity: 0; }
+    55%, 60%{ top: $unit * 2; left: $unit * 20; opacity: .7; }
+}
+@keyframes screen-4 {
+    0%, 45%, 90%, 100%{ top: $unit * 1; left: $unit * 0; opacity: .2; }
+    55%, 60%{ top: $unit * 1; left: $unit * 1; opacity: .7; }
+}
