@@ -1,0 +1,1714 @@
+$unit: 1.75vmin;
+//
+$bg-1: darken(#181a19, 6);
+$bg-2: darken($bg-1, 1);
+
+$green-1: #546b5a;
+$green-2: #344036;
+$green-3: #242d2a;
+$green-4: #191d20;
+$green-5: darken(#111419, 3);
+
+$white-1: #dfddd6;
+$white-2: darken($white-1, 10);
+$white-3: darken($white-2, 5);
+
+$light-1: #ebe1b0;
+$light-2: #84956c;
+$light-3: #439483;
+
+$neon: #abf1f1;
+$orange: #ff9770;
+$yellow: #e8fe84;
+
+$gray-1: #b0b0b0;
+$gray-2: darken($gray-1, 10);
+$gray-3: darken($gray-2, 5);
+
+$blue-1: #1896de;
+$blue-2: #104d90;
+
+$red-1: #e02e24;
+$red-2: #70261d;
+$red-3: #3e2823;
+
+/***********************/
+@mixin cylinder($base, $sides, $degree, $pi, $width, $color) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	position: absolute;
+
+    &__side{
+        position: absolute;
+        height: ( 2 * $pi * ($base / 2) ) / $sides ;
+        width: $width;
+        background-color: darken($color, 15);
+
+        @for $var from 1 to ($sides + 1) {
+            &:nth-of-type(#{$var}){ transform: rotateX( $var * $degree / $sides ) translateZ($base / 2); }
+        }
+        @for $var from 1 to 20 {
+            &:nth-of-type(#{$var}){ background-color: darken($color, $var * 1); }
+        }
+        @for $var from 1 to 20 {
+            &:nth-last-of-type(#{$var}){ background-color: darken($color, $var * 1); }
+        }
+    }
+    &__top,
+    &__bottom{
+        position: absolute;
+        width: $base;
+        height: $base;
+        border-radius: 50%;
+        transform: rotateY(90deg) translateZ( $width / 2 );
+    }
+    &__bottom{ transform: rotateY(90deg) translateZ( $width / -2 );}
+}
+@mixin cube($width, $height, $depth) {
+    &__front{ @include cube-front($width, $height, $depth); }
+    &__back{ @include cube-back($width, $height, $depth); }
+    &__right{ @include cube-right($width, $height, $depth); }
+    &__left{ @include cube-left($width, $height, $depth); }
+    &__top{ @include cube-top($width, $height, $depth);}
+    &__bottom{ @include cube-bottom($width, $height, $depth); }
+}
+//----------------------
+@mixin cube-front($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: bottom left;
+    transform: rotateX(-90deg) translateZ( -($height - ($depth * 2) ) );
+}
+@mixin cube-back($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-$width) translateY(-$height) ;
+}
+@mixin cube-right($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ($width) translateX(-$depth * 2) translateY(-$height);
+}
+@mixin cube-left($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-$height);
+}
+@mixin cube-top($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: translateZ($height) ;
+}
+@mixin cube-bottom($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: rotateY(180deg) translateX(-$width);
+}
+@mixin face-ani($animation, $time, $side, $width-el, $height-el, $depth-el) {
+
+    animation: #{$animation} #{$time} infinite ease;
+
+    @keyframes #{$animation} {
+        0%, 15%, 45%, 60%, 62%, 68%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-bottom" { @include cube-bottom($width-el, $height-el, $depth-el); }
+
+        }
+        20%, 40%, 58%, 64%, 70%, 100%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-bottom" { @include cube-bottom($width-el, $height-el, $depth-el); }
+        }
+    }
+}
+@mixin cube-color($color) {
+    &__front{ background-color: darken($color, 5); }
+    &__back{ background-color: darken($color, 10) }
+    &__right{ background-color: darken($color, 10) }
+    &__left{ background-color: darken($color, 20); }
+    &__top{ background-color: $color; }
+    &__bottom{ background-color: darken($color, 20);}
+}
+/***********************/
+/***********************/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    transform-style: preserve-3d;
+
+	user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    font-family: 'Share Tech', sans-serif;
+    color: white;
+}
+/***********************/
+/***********************/
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+
+    font-weight: bolder;
+    overflow: hidden;
+	cursor: pointer;
+    background-color: $bg-1;
+}
+.face{ position: absolute; }
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/***********************/
+/***********************/
+.main{
+    position: absolute;
+    width: 36 * $unit;
+    height: 36 * $unit;
+    transform:
+        perspective(400 * $unit)
+        rotateX(66deg)
+        rotateZ(40deg)
+        translateZ(-14 * $unit)
+    ;
+}
+.shadows{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: $bg-2;
+    box-shadow: 0 0 1 * $unit .5 * $unit $bg-2;
+}
+.shadow{
+    position: absolute;
+    background-color: $bg-2;
+    filter: blur(.5 * $unit);
+
+    &-01{
+        left: 100%;
+        width: 5.75 * $unit;
+        height: 100%;
+        transform-origin: bottom left;
+        transform: skewY(-60deg);
+    }
+    &-02{
+        bottom: 100%;
+        width: 100%;
+        height: 10 * $unit;
+        transform-origin: bottom left;
+        transform: skewX(-30deg);
+    }
+}
+.light{
+    position: absolute;
+    width: 5 * $unit;
+    height: 10 * $unit;
+    top: 37 * $unit;
+
+    background-image: linear-gradient(to bottom, rgba($red-2, .45), rgba($red-3, .1) 70%, rgba($red-3, .05));
+    filter: blur(1 * $unit);
+
+    &-01{ left: 5 * $unit; }
+    &-02{
+        left: 15 * $unit;
+        width: 6 * $unit;
+    }
+    &-03{ left: 26 * $unit; }
+    &-04{
+        top: 18 * $unit;
+        left: 36 * $unit;
+        width: 8 * $unit;
+        height: 16 * $unit;
+
+        transform-origin: bottom left;
+        transform: rotateZ(-45deg);
+        border-radius: 50%;
+        background-image: linear-gradient(to bottom, rgba($blue-1, .45), rgba($blue-2, .1) 70%, rgba($blue-2, .05));
+        box-shadow: 0 0 2 * $unit 2 * $unit  rgba($blue-2, .02);
+    }
+    &-05{
+        top: -11 * $unit;
+        left: 5 * $unit;
+        background-image: linear-gradient(to top, rgba($red-2, .45), rgba($red-3, .1) 70%, rgba($red-3, .05));
+    }
+    &-06{
+        top: -11 * $unit;
+        left: 15 * $unit;
+        width: 6 * $unit;
+        background-image: linear-gradient(to top, rgba($red-2, .45), rgba($red-3, .1) 70%, rgba($red-3, .05));
+    }
+    &-07{
+        top: -11 * $unit;
+        left: 26 * $unit;
+        background-image: linear-gradient(to top, rgba($red-2, .45), rgba($red-3, .1) 70%, rgba($red-3, .05));
+    }
+}
+.reflex{
+    position: absolute;
+    filter: blur(.5 * $unit);
+
+    &-01{
+        top: 100%;
+        width: 100%;
+        height: 2 * $unit;
+
+        transform-origin: top left;
+        transform: skewX(45deg);
+        background-image: linear-gradient(to bottom, rgba(darken($bg-2, 2), .85), rgba($bg-2, .4));
+    }
+    &-02{
+        top: 100%;
+        width: 39 * $unit;
+        height: 9 * $unit;
+
+        transform-origin: top left;
+        transform: skewX(42deg);
+        background-image: linear-gradient(to bottom, rgba($blue-2, .05), transparent);
+        border-left:  2 * $unit solid rgba(darken($bg-2, 2), .1);
+        border-right:  2 * $unit solid rgba(darken($bg-2, 2), .1);
+    }
+    &-03{
+        bottom: 0;
+        left: 100%;
+        width: 8 * $unit;
+        height: 100%;
+
+        transform-origin: bottom left;
+        transform: skewY(45deg);
+        background-image: linear-gradient(to right, rgba($blue-2, .05), transparent);
+        border-top:  2 * $unit solid rgba(darken($bg-2, 2), .1);
+        border-bottom:  2 * $unit solid rgba(darken($bg-2, 2), .1);
+    }
+    &-04{
+        top: 100%;
+        left: 0;
+        width: 100%;
+        height: 20 * $unit;
+
+        transform-origin: top left;
+        transform: skewX(-25deg);
+        background-image: linear-gradient(to bottom, rgba($green-5, .2) , transparent);
+    }
+}
+/***********************/
+/***********************/
+.floor-bottom,
+.floor-top{
+    $width-el: 36 * $unit;
+    $height-el: .5 * $unit;
+    $depth-el: 18 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.floor-bottom{
+    &__front{
+        background-color: $green-5;
+        background-image: linear-gradient(to right, transparent 0 4 * $unit, rgba($red-1, .1)  , transparent 11 * $unit 14 * $unit , rgba($red-1, .1),  transparent 22 * $unit 25 * $unit, rgba($red-1, .1), transparent 32 * $unit);
+    }
+    &__back{ background-color: $green-5; }
+    &__left{ background-color: $green-5; }
+    &__right{
+        background-color: $green-5;
+        background-image: linear-gradient(to right, transparent 10%, rgba($blue-1, .05) 20%, transparent 50%);
+    }
+    &__top{
+        background-color: $green-5;
+
+        background-image:
+            linear-gradient(to right, rgba(lighten($red-1, 10), .85), rgba($red-1, .85) 2%, rgba($red-1, .4) 5%, rgba($red-2, .35) 30% 70%, rgba($red-1, .4) 95%, rgba($red-1, .85), rgba(lighten($red-1, 10), .85) ),
+            linear-gradient(to right, rgba(lighten($red-1, 10), .85), rgba($red-1, .85) 2%, rgba($red-1, .4) 5%, rgba($red-2, .35) 30% 70%, rgba($red-1, .4) 95%, rgba($red-1, .85), rgba(lighten($red-1, 10), .85) ),
+            linear-gradient(to right, rgba(lighten($red-1, 10), .85), rgba($red-1, .85) 2%, rgba($red-1, .4) 5%, rgba($red-2, .35) 30% 70%, rgba($red-1, .4) 95%, rgba($red-1, .85), rgba(lighten($red-1, 10), .85) ),
+            radial-gradient(transparent 70%, rgba($red-1, .5));
+
+        background-position:
+            26 * $unit  0%,
+            15 * $unit  0%,
+            5 * $unit  0%,
+            0 0
+        ;
+        background-size:
+            5 * $unit 100%,
+            6 * $unit 100%,
+            5 * $unit 100%,
+            100% 100%
+        ;
+        background-repeat: no-repeat;
+
+    }
+    &__bottom{ background-color: $bg-2; }
+}
+.floor-top{
+    transform: translateZ(2 * $unit);
+
+    &__front{
+        background-color: $green-5;
+        background-image: linear-gradient(to right, transparent 0 4 * $unit, rgba($red-1, .05)  , transparent 11 * $unit 14 * $unit , rgba($red-1, .05),  transparent 22 * $unit 25 * $unit, rgba($red-1, .05), transparent 32 * $unit);
+    }
+    &__back{ background-color: $green-5; }
+    &__left{ background-color: $green-5; }
+    &__right{
+        background-color: $green-5;
+        background-image: linear-gradient(to right, transparent 10%, rgba($blue-1, .05) 20%, transparent 50%);
+    }
+    &__top{
+        background-color: darken($green-3, 1);
+        background-image:
+            linear-gradient(rgba($light-3, .155) .1 * $unit, transparent .1 * $unit),
+            linear-gradient(to right, rgba($light-3, .155) .1 * $unit, transparent .1 * $unit)
+        ;
+        background-size: 1.5 * $unit 1.5 * $unit;
+
+        &::after{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+
+            background-image:
+                linear-gradient(to right, transparent, rgba($blue-1, .035) 40% 60%, transparent),
+                radial-gradient(circle, transparent 68%, rgba($green-4, .85)),
+                linear-gradient(to bottom, rgba(darken($green-5, 5), .75), rgba($green-5, .5) 17%, transparent 40%),
+                linear-gradient(to bottom, rgba($green-5, .65), transparent 25%),
+                linear-gradient(to right, rgba(darken($green-5, 5), .35) 10%, rgba($green-5, .5) 12%, transparent 20%),
+                linear-gradient(to right, rgba($green-5, .5), transparent 25%)
+            ;
+        }
+
+        overflow: hidden;
+
+        .lightft{
+            position: absolute;
+
+            &-01{
+                bottom: -2 * $unit;
+                right:  5 * $unit;
+                width: 9 * $unit;
+                height: 18 * $unit;
+                transform-origin: top left;
+                transform: rotateZ(-45deg);
+
+                border-radius: 50%;
+                background-image: radial-gradient(rgba($blue-1, .15), rgba($blue-2, .1));
+                box-shadow: 0 0 2 * $unit 5 * $unit  rgba($blue-2, .075);
+                filter: blur(.5 * $unit);
+            }
+            &-02{
+                bottom: 10 * $unit;
+                left:  3 * $unit;
+                width: 12 * $unit;
+                height: 9 * $unit;
+                transform-origin: top left;
+                transform: skewX(45deg);
+
+                border-radius: 50%;
+                background-image: radial-gradient(rgba($light-1, .1), rgba($light-1, .05), transparent);
+                filter: blur(1.5 * $unit);
+            }
+            &-03{
+                bottom: 2 * $unit;
+                left:  5 * $unit;
+                width: 1 * $unit;
+                height: 20 * $unit;
+
+                background-image: linear-gradient(to right, rgba($blue-1, .4), rgba($blue-1, .2));
+                filter: blur(.75 * $unit);
+            }
+            &-04{
+                top: 10.5 * $unit;
+                left:  3 * $unit;
+                width: 21 * $unit;
+                height: 7 * $unit;
+
+                background-image: linear-gradient(to bottom, rgba($green-5, .85), rgba($green-5, .6) 40%, rgba($green-5, .3));
+                filter: blur(.5 * $unit);
+            }
+            &-05{
+                top: 2 * $unit;
+                right:  0;
+                width: 11 * $unit;
+                height: 10 * $unit;
+
+                background-image: linear-gradient(to bottom, rgba($green-5, .9), rgba($green-5, .8) 40%, rgba($green-5, .2));
+                filter: blur(.75 * $unit);
+
+            }
+            &-06{
+                top: 5 * $unit;
+                right: 4 * $unit;
+                width: 5 * $unit;
+                height: 14 * $unit;
+
+                transform-origin: top left;
+                transform: skewX(45deg);
+                background-image: linear-gradient(to bottom, rgba($neon, .15), transparent);
+                filter: blur(.5 * $unit);
+            }
+            &-07{
+                bottom: 3.25 * $unit;
+                left: 16 * $unit;
+                width: 2 * $unit;
+                height: 2 * $unit;
+
+                transform-origin: bottom left;
+                transform: skewY(47deg);
+                background-color: rgba($blue-1, .075);
+                filter: blur(.4 * $unit);
+
+            }
+            &-08{
+                bottom: 9 * $unit;
+                left: 2.5 * $unit;
+                width: 15 * $unit;
+                height: 7.5 * $unit;
+
+                transform-origin: bottom left;
+                transform: skewY(47deg);
+                background-image: linear-gradient(to right, rgba(darken($light-3, 15), .075) 80%, transparent );
+                filter: blur(.75 * $unit);
+
+            }
+            &-09{
+                bottom: 0 * $unit;
+                left: 2 * $unit;
+                width: 34 * $unit;
+                height: 16.75 * $unit;
+
+                transform-origin: top left;
+                background-image: linear-gradient(to bottom, rgba($green-5, .075), rgba($green-5, .7));
+                filter: blur(.25 * $unit);
+            }
+            &-10{
+                top: 14 * $unit;
+                left: 24.25 * $unit;
+                width: 2 * $unit;
+                height: 16.75 * $unit;
+
+                transform-origin: top left;
+                transform: skewX(45deg);
+                background-image: linear-gradient(to bottom, rgba($green-5, .25), rgba($green-5, .025));
+                filter: blur(.125 * $unit);
+            }
+            &-11{
+                top: 12 * $unit;
+                left: 3.25 * $unit;
+                width: 8 * $unit;
+                height: 6 * $unit;
+
+                transform-origin: top left;
+                transform: skewY(47deg);
+                background-image: linear-gradient(to right, rgba($neon, .1),rgba($neon, .025) 80%, transparent);
+                filter: blur(.125 * $unit);
+
+            }
+            &-12{
+                top: 2.25 * $unit;
+                right: 4.5 * $unit;
+                height: 22 * $unit;
+                width: 4 * $unit;
+
+                border-right: .75 * $unit solid rgba($neon, .115);
+                border-bottom: .75 * $unit solid rgba($neon, .115);
+
+                &::after{
+                    content: '';
+                    position: absolute;
+                    top: 103.5%;
+                    width: 100%;
+                    height: 100%;
+                    border-left: .75 * $unit solid rgba($neon, .115);
+                }
+            }
+        }
+    }
+    &__bottom{
+        background-color: $green-5;
+        background-image:
+            linear-gradient(to right, rgba(lighten($red-1, 10), .85), rgba($red-1, .85) 2%, rgba($red-1, .35) 5%, rgba($red-2, .3) 30% 70%, rgba($red-1, .35) 95%, rgba($red-1, .85), rgba(lighten($red-1, 10), .85) ),
+            linear-gradient(to right, rgba(lighten($red-1, 10), .85), rgba($red-1, .85) 2%, rgba($red-1, .35) 5%, rgba($red-2, .3) 30% 70%, rgba($red-1, .35) 95%, rgba($red-1, .85), rgba(lighten($red-1, 10), .85) ),
+            linear-gradient(to right, rgba(lighten($red-1, 10), .85), rgba($red-1, .85) 2%, rgba($red-1, .35) 5%, rgba($red-2, .3) 30% 70%, rgba($red-1, .35) 95%, rgba($red-1, .85), rgba(lighten($red-1, 10), .85) ),
+            radial-gradient(transparent 70%, rgba($red-1, .5));
+
+        background-position:
+            26 * $unit  0%,
+            15 * $unit  0%,
+            5 * $unit  0%,
+            0 0
+        ;
+        background-size:
+            5 * $unit 100%,
+            6 * $unit 100%,
+            5 * $unit 100%,
+            100% 100%
+        ;
+        background-repeat: no-repeat;
+    }
+}
+.floor-a,
+.floor-b,
+.floor-c,
+.floor-d{
+    $width-el: 5 * $unit;
+    $height-el: 1.5 * $unit;
+    $depth-el: 18 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 0;
+    transform: translateZ(.5 * $unit);
+}
+.floor-a{
+    left: 0;
+
+    &__front{ background-color: $green-5; }
+    &__back{ background-color: $green-5; }
+    &__left{ background-color: $green-5; }
+    &__right{
+        background-color: $green-5;
+        background-image:
+            linear-gradient(to top, rgba(lighten($red-1, 20), .5), rgba($red-1, .1) 50%),
+            linear-gradient(to bottom, rgba(lighten($red-1, 20), .25), rgba($red-1, .1) 30%),
+            radial-gradient(transparent 70%, rgba($red-1, .5)),
+            linear-gradient(to bottom, rgba($red-1, .75), rgba($red-2, .75) 40%, rgba($red-3, .75));
+        background-repeat: no-repeat;
+    }
+    &__top{ background-color: $green-5; }
+    &__bottom{ background-color: $green-5; }
+}
+
+.floor-b{
+    left: 10 * $unit;
+
+    &__front{ background-color: $green-5; }
+    &__back{ background-color: $green-5; }
+    &__left{
+        background-color: $green-5;
+        background-image:
+            linear-gradient(to top, rgba(lighten($red-1, 20), .25), rgba($red-1, .1) 30%),
+            linear-gradient(to bottom, rgba(lighten($red-1, 20), .25), rgba($red-1, .1) 30%),
+            radial-gradient(transparent 70%, rgba($red-1, .5)),
+            linear-gradient(to bottom, rgba($red-1, .75), rgba($red-2, .75) 40%, rgba($red-3, .75));
+        background-repeat: no-repeat;
+    }
+    &__right{
+        background-color: $green-5;
+        background-image:
+            linear-gradient(to top, rgba(lighten($red-1, 20), .45), rgba($red-1, .2) 20%),
+            linear-gradient(to bottom, rgba(lighten($red-1, 20), .25), rgba($red-1, .1) 30%),
+            radial-gradient(transparent 70%, rgba($red-1, .5)),
+            linear-gradient(to bottom, rgba($red-1, .75), rgba($red-2, .75) 40%, rgba($red-3, .75));
+        background-repeat: no-repeat;
+    }
+    &__top{ background-color: $green-5; }
+    &__bottom{ background-color: $green-5; }
+}
+.floor-c{
+    left: 21 * $unit;
+
+    &__front{ background-color: $green-5; }
+    &__back{ background-color: $green-5; }
+    &__left{
+        background-color: $green-5;
+        background-image:
+            linear-gradient(to top, rgba(lighten($red-1, 20), .25), rgba($red-1, .1) 30%),
+            linear-gradient(to bottom, rgba(lighten($red-1, 20), .25), rgba($red-1, .1) 30%),
+            radial-gradient(transparent 70%, rgba($red-1, .5)),
+            linear-gradient(to bottom, rgba($red-1, .75), rgba($red-2, .75) 40%, rgba($red-3, .75));
+        background-repeat: no-repeat;
+    }
+    &__right{
+        background-color: $green-5;
+        background-image:
+            linear-gradient(to top, rgba(lighten($red-1, 20), .25), rgba($red-1, .1) 30%),
+            linear-gradient(to bottom, rgba(lighten($red-1, 20), .25), rgba($red-1, .1) 30%),
+            radial-gradient(transparent 70%, rgba($red-1, .5)),
+            linear-gradient(to bottom, rgba($red-1, .75), rgba($red-2, .75) 40%, rgba($red-3, .75));
+        background-repeat: no-repeat;
+    }
+    &__top{ background-color: $green-5; }
+    &__bottom{ background-color: $green-5; }
+}
+.floor-d{
+    left: 31 * $unit;
+
+    &__front{ background-color: $green-5; }
+    &__back{ background-color: $green-5; }
+    &__left{
+        background-color: $green-5;
+        background-image:
+            linear-gradient(to top, rgba(lighten($red-1, 20), .25), rgba($red-1, .1) 30%),
+            linear-gradient(to bottom, rgba(lighten($red-1, 20), .25), rgba($red-1, .1) 30%),
+            radial-gradient(transparent 70%, rgba($red-1, .5)),
+            linear-gradient(to bottom, rgba($red-1, .75), rgba($red-2, .75) 40%, rgba($red-3, .75));
+        background-repeat: no-repeat;
+    }
+    &__right{
+        background-color: $green-5;
+        background-image: linear-gradient(to right, transparent 10%, rgba($blue-1, .05) 20%, transparent 50%);
+    }
+    &__top{ background-color: $green-5; }
+    &__bottom{ background-color: $green-5; }
+}
+.wall-left{
+    $width-el: 2 * $unit;
+    $height-el: 26 * $unit;
+    $depth-el: 18 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateZ(2.5 * $unit);
+
+    &__front{ background-image: linear-gradient(to bottom, $green-3, $green-5); }
+    &__back{ background-color: $green-5; }
+    &__left{ background-color: $green-5; }
+    &__right{
+        background-color: $green-3;
+        background-image:
+            linear-gradient(to bottom, $neon, $light-3 ),
+            linear-gradient(to right, rgba($green-5, .1) 55%, rgba($green-5, .65) 95%, rgba($green-5, .85)),
+            linear-gradient(to bottom, rgba($green-5, .5), $green-2 20%, $green-3 90%, rgba($green-5, .5)),
+            linear-gradient(to left, $green-2, $green-3)
+        ;
+
+        background-position:
+            0 0,
+            0 100%,
+            0 0,
+            0 0
+        ;
+        background-size:
+            22.25% 4%,
+            11% 90%,
+            100% 100%,
+            100% 100%
+        ;
+        background-repeat: no-repeat;
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+    }
+    &__top{
+        background-color: $green-5;
+        border-left: .1 * $unit solid rgba($light-1, .1);
+        border-top: .1 * $unit solid rgba($light-1, .1);
+
+    }
+    &__bottom{ background-color: $green-5; }
+}
+.wall-left0{
+    $width-el: 1 * $unit;
+    $height-el: 2 * $unit;
+    $depth-el: 17 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 2 * $unit;
+    left: 2 * $unit;
+    transform: translateZ(25.5 * $unit);
+
+    &__front{ background-color: darken($green-3, 1); }
+    &__back{ background-color: $green-3; }
+    &__left{ background-color: $green-3; }
+    &__right{
+        background-color: $green-4;
+        background-image: linear-gradient(to left, rgba($light-1, .075), rgba($light-2, .075), transparent 30%);
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+
+    }
+    &__top{
+        background-color: $green-5;
+        background-image: linear-gradient(to right, rgba($neon, .4), rgba($neon, .2));
+    }
+    &__bottom{ background-color: $green-5; }
+}
+.wall-left1{
+    $width-el: 1 * $unit;
+    $height-el: 1 * $unit;
+    $depth-el: 13 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 2 * $unit;
+    left: 2 * $unit;
+    transform: translateZ(27.5 * $unit);
+
+    &__front{
+        background-color: $green-4;
+        background-image: linear-gradient(to right, rgba($neon, .4), rgba($neon, .2));
+
+    }
+    &__back{ background-color: $green-3; }
+    &__left{
+        background-color: red;
+    }
+    &__right{
+        background-color: $green-4;
+        background-image: linear-gradient(to left, rgba($light-1, .075), rgba($light-2, .075), transparent 38%);
+
+    }
+    &__top{ background-color: $green-5; }
+    &__bottom{ background-color: $green-5; }
+}
+.wall-left2{
+    $width-el: .5 * $unit;
+    $height-el: 23 * $unit;
+    $depth-el: 16 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 0;
+    left: 2 * $unit;
+    transform: translateZ(2.5 * $unit);
+
+    &__front{
+        background-color: $green-5;
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+    }
+    &__back{ background-color: $green-3; }
+    &__left{ background-color: $green-3; }
+    &__right{
+        background-color: $green-3;
+        background-image:
+            linear-gradient(-45deg, rgba($green-5, .5) 63%, transparent 65%),
+            linear-gradient(to bottom, rgba(darken($green-4, 5), .6), transparent 12% 68%, rgba(darken($green-4, 5), .6)),
+        ;
+        background-position:
+            0% 100%,
+            0 0,
+            0 0
+        ;
+        background-size:
+            100% 20.5 * $unit,
+            100% 100%,
+            100% 100%
+        ;
+        background-repeat: no-repeat;
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+
+        .lightl2l{
+            position: absolute;
+            filter: blur(.75 * $unit);
+
+            &-01{
+                right: 1 * $unit;
+                width: 10 * $unit;
+                height: 4 * $unit;
+                background-image: radial-gradient(rgba($light-1, .9), rgba($light-2, .5), transparent);
+            }
+            &-02{
+                top: 6 * $unit;
+                right: 2 * $unit;
+                width: 100%;
+                height: 17 * $unit;
+                background-image: linear-gradient(to left, rgba(lighten($light-3, 6), .5), rgba($light-3, .35) 20%, rgba($light-3, .25), rgba($light-3, .025));
+            }
+            &-03{
+                right: 8 * $unit;
+                width: 8 * $unit;
+                height: 4 * $unit;
+                background-image: radial-gradient(rgba($light-1, .25), rgba($light-2, .1), transparent);
+                border-radius: 50%;
+            }
+            &-04{
+                right: 10 * $unit;
+                width: 14 * $unit;
+                height: 4 * $unit;
+                background-image: linear-gradient(to left, rgba($light-1, .2), rgba($light-2, .1) 80%, transparent);
+            }
+
+        }
+    }
+    &__top{
+        background-color: $green-4;
+        background-image:
+            radial-gradient(transparent 70%, rgba($green-5, .5)),
+            linear-gradient(to right, rgba($light-1, .2), transparent 30% 80%,  rgba($green-5, .5));
+
+    }
+    &__bottom{ background-color: $green-5; }
+}
+.wall-back{
+    $width-el: 34 * $unit;
+    $height-el: 26 * $unit;
+    $depth-el: 1 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translateZ(2.5 * $unit);
+
+    &__front{
+        background-image:
+            linear-gradient(to bottom, $neon, $light-3 ),
+            linear-gradient(45deg, rgba($green-5, .45) 37%, transparent 37%),
+            linear-gradient(to bottom, $green-3, $green-5)
+        ;
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+        background-size:
+            15.5% 4%,
+            9% 100%,
+            100% 100%
+        ;
+        background-position:
+            3% 0,
+            100% 100%,
+            0 0
+        ;
+        background-repeat: no-repeat;
+    }
+    &__back{ background-color: $green-5; }
+    &__left{ background-color: $green-5; }
+    &__right{ background-image: linear-gradient(to bottom, $green-4, $green-5); }
+    &__top{
+        background-color: $green-5;
+        border-top: .1 * $unit solid rgba($light-1, .1);
+    }
+    &__bottom{ background-color: $green-5; }
+}
+.wall-back0{
+    $width-el: 33 * $unit;
+    $height-el: 2 * $unit;
+    $depth-el: .5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 2 * $unit;
+    right: 0;
+    transform: translateZ(25.5 * $unit);
+
+
+    &__front{
+        background-image: linear-gradient(to bottom, $green-2, $green-3);
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+    }
+    &__back{ background-color: $green-3; }
+    &__left{ background-color: $green-3; }
+    &__right{ background-color: darken($green-4, 1); }
+    &__top{
+        background-color: $green-5;
+        background-image: linear-gradient(to bottom, rgba($neon, .4), rgba($neon, .25));
+    }
+    &__bottom{ background-color: $green-5; }
+}
+.wall-back1{
+    $width-el: 28 * $unit;
+    $height-el: 1 * $unit;
+    $depth-el: .5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 2 * $unit;
+    right: 0;
+    transform: translateZ(27.5 * $unit);
+
+
+    &__front{ background-image: linear-gradient(to bottom, $green-2, $green-2); }
+    &__back{ background-color: $green-3; }
+    &__left{
+        background-color: $green-3;
+        background-image: linear-gradient(to right, rgba($neon, .4), rgba($neon, .2));
+    }
+    &__right{ background-color: darken($green-4, 1); }
+    &__top{ background-color: $green-5; }
+    &__bottom{ background-color: $green-5; }
+}
+.wall-back2{
+    $width-el: 30.5 * $unit;
+    $height-el: 23 * $unit;
+    $depth-el: .25 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 2 * $unit;
+    right: 2.75 * $unit;
+    transform: translateZ(2.5 * $unit);
+
+    &__front{
+        background-color: $green-3;
+        background-image:
+            linear-gradient(to right, rgba($light-3, .25), transparent 20% 80%, rgba($light-3, .25)),
+            linear-gradient(to bottom, rgba($light-3, .5), rgba($light-3, .25)),
+            linear-gradient(45deg, rgba($green-5, .6) 69%, transparent 71%),
+            linear-gradient(to bottom, rgba($green-5, .4), transparent 10% 90%, rgba($green-5, .4)),
+            linear-gradient(to bottom, $green-3, $green-5)
+        ;
+        background-size:
+            73% 74%,
+            73% 74%,
+            25% 82%,
+            100% 100%,
+            100% 100%
+        ;
+        background-position:
+            0 100%,
+            0 100%,
+            100% 100%,
+            0 0,
+            0 0
+        ;
+        background-repeat: no-repeat;
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+
+        .lightb2b{
+            position: absolute;
+            filter: blur(.75 * $unit);
+
+            &-01{
+                left: -.5 * $unit;
+                width: 10 * $unit;
+                height: 4 * $unit;
+                background-image: radial-gradient(rgba($light-1, .9), rgba($light-2, .5), transparent);
+                border-top-right-radius: 50%;
+                border-bottom-right-radius: 50%;
+            }
+            &-02{
+                left: 6 * $unit;
+                width: 8 * $unit;
+                height: 4 * $unit;
+                background-image: radial-gradient(rgba($light-1, .25), rgba($light-2, .1), transparent);
+                border-radius: 50%;
+            }
+        }
+
+    }
+    &__back{ background-color: $green-3; }
+    &__left{ background-image: linear-gradient(to bottom, $green-5, darken($green-5, 10)); }
+    &__right{
+        background-image: linear-gradient(to bottom, $green-5, darken($green-5, 10));
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+    }
+    &__top{
+        background-color: $green-4;
+        background-image:
+            radial-gradient(transparent 70%, rgba($green-5, .5)),
+            linear-gradient(to bottom, rgba($light-1, .2), transparent 30% 80%,  rgba($green-5, .5))
+        ;
+
+    }
+    &__bottom{ background-color: $green-5; }
+}
+.door{
+    position: absolute;
+    bottom: 0;
+    left: 5 * $unit;
+    width: 7.5 * $unit;
+    height: 17.5 * $unit;
+    background-color: $green-4;
+    z-index: 2;
+    background-image:
+        linear-gradient(-45deg, rgba(darken($green-5, 10), .35) 53%, transparent 56%),
+        linear-gradient(rgba($blue-1, .05) .1 * $unit, transparent .1 * $unit),
+        linear-gradient(to right, rgba($blue-1, .05) .1 * $unit, transparent .1 * $unit)
+    ;
+    background-size:
+        100% 100%,
+        1 * $unit 1 * $unit,
+        1 * $unit 1 * $unit
+    ;
+    background-repeat:
+        no-repeat,
+        repeat,
+        repeat
+    ;
+    border: .25 * $unit solid rgba($light-3, .9);
+    border-bottom: none;
+    box-shadow: inset 0 0 2 * $unit rgba($blue-1, .125);
+}
+.door-left{
+    $width-el: .5 * $unit;
+    $height-el: 18 * $unit;
+    $depth-el: .25 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 27 * $unit;
+    left: 2.5 * $unit;
+    transform: translateZ(2 * $unit);
+
+    &__front{ background-color: $green-5; }
+    &__back{
+        background-color: $green-5;
+        background-image: linear-gradient(to right, rgba($blue-1, .3), rgba($blue-1, .1));
+    }
+    &__left{ background-color: $green-5; }
+    &__right{
+        background-color: $green-4;
+        background-image: linear-gradient(to top, rgba($green-5, .85), rgba($light-1, .15), rgba($light-1, .05));
+    }
+    &__top{ background-color: $green-5; }
+    &__bottom{ background-color: $green-5; }
+}
+.door-right{
+    $width-el: .5 * $unit;
+    $height-el: 18 * $unit;
+    $depth-el: .25 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 19 * $unit;
+    left: 2.5 * $unit;
+    transform: translateZ(2 * $unit);
+
+    &__front{
+        background-color: $green-5;
+        background-image: linear-gradient(to right, rgba($blue-1, .2), rgba($blue-1, .1));
+    }
+    &__back{ background-color: $green-5; }
+    &__left{ background-color: $green-5; }
+    &__right{
+        background-color: $green-4;
+        background-image: linear-gradient(to top, rgba($green-5, .85),  rgba($light-1, .1));
+    }
+    &__top{ background-color: $green-5; }
+    &__bottom{ background-color: $green-5; }
+}
+.door-top{
+    $width-el: .5 * $unit;
+    $height-el: .5 * $unit;
+    $depth-el: 4.25 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 19 * $unit;
+    left: 2.5 * $unit;
+    transform: translateZ(20 * $unit);
+
+    &__front{ background-color: $green-5; }
+    &__back{
+        background-color: $green-5;
+        background-image: linear-gradient(to right, rgba($blue-1, .2), rgba($blue-1, .1));
+    }
+    &__left{ background-color: $green-5; }
+    &__right{
+        background-color: $green-4;
+        background-image: linear-gradient(to left, rgba($light-1, .15), rgba($light-1, .05));
+    }
+    &__top{
+        background-color: $green-5;
+        background-image: linear-gradient(to bottom, rgba($light-1, .275), rgba($light-1, .1));
+    }
+    &__bottom{ background-color: $green-5; }
+}
+.control{
+    $width-el: .5 * $unit;
+    $height-el: 2.25 * $unit;
+    $depth-el: .85 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 28.75 * $unit;
+    left: 2.5 * $unit;
+    transform: translateZ(13 * $unit);
+
+    &__front{ background-color: $green-4; }
+    &__back{ background-color: $green-4; }
+    &__left{ background-color: $green-4; }
+    &__right{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: .1 * $unit;
+        padding: .25 * $unit;
+
+        background-color: $green-3;
+        background-image: linear-gradient(to right, rgba($blue-1, .125), rgba($blue-1, .35));
+
+        .screen{
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(4, 1fr);
+            gap: .1 * $unit;
+
+            &__button{
+                width: 100%;
+                height: 100%;
+                background-color: lighten($blue-1, 15);
+                box-shadow:  0 0 .5 * $unit rgba($blue-1, .25);
+
+                &--orange{ background-color: $orange; }
+                &--yellow{ background-color: $yellow; }
+                &--red{ background-color: $red-1; }
+            }
+        }
+
+    }
+    &__top{ background-color: $green-3; }
+    &__bottom{ background-color: $green-4; }
+}
+.bed{
+    $width-el: 23 * $unit;
+    $height-el: 2 * $unit;
+    $depth-el: 6 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 2.5 * $unit;
+    left: 2.5 * $unit;
+    transform: translateZ(19.5 * $unit);
+
+    &__front{
+        background-color: $green-4;
+        background-image:
+            linear-gradient(to top, rgba($blue-1, .2), rgba($blue-1, .05) ),
+            linear-gradient(to bottom, rgba($white-1, .1), transparent 80%)
+        ;
+    }
+    &__back{ background-color: $green-5; }
+    &__left{ background-color: $green-5; }
+    &__right{
+        background-color: $green-5;
+        background-image:
+            linear-gradient(to top, rgba($blue-1, .1), rgba($blue-1, .05) ),
+            linear-gradient(to bottom, rgba($white-1, .1), transparent 80%)
+        ;
+
+        &::before{
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 5 * $unit;
+            height: 100%;
+            background-image: linear-gradient(to left, rgba($neon, .1), transparent);
+        }
+    }
+    &__top{
+        background-color: $green-3;
+        background-image: linear-gradient(to right, rgba($white-1, .1), rgba($white-1, .1));
+    }
+    &__bottom{
+        background-color: $green-4;
+        background-image:
+            linear-gradient(to right, rgba($light-3, .75), transparent 30% 70%, rgba($light-3, .75)),
+            linear-gradient(to right, rgba($light-3, .5), transparent),
+            linear-gradient(to bottom, rgba($light-3, .5), rgba($light-3, .25))
+        ;
+
+        &::before{
+            content: '';
+            position: absolute;
+            top: 6 * $unit;
+            right: .125 * $unit;
+            width: 12 * $unit;
+            height: 6 * $unit;
+            border-top: .75 * $unit solid rgba($neon, .1);
+            border-left: .75 * $unit solid rgba($neon, .1);
+        }
+    }
+}
+.mattress{
+    $width-el: 22.5 * $unit;
+    $height-el: 1 * $unit;
+    $depth-el: 5.75 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 2.5 * $unit;
+    left: 2.5 * $unit;
+    transform: translateZ(21.5 * $unit);
+
+    &__front{
+        background-color: $white-2;
+        background-image: linear-gradient(to right, transparent 25%, $green-2 25%, darken($green-2, 10));
+    }
+    &__back{ background-color: $white-3; }
+    &__left{ background-color: $white-3; }
+    &__right{ background-color: darken($green-3, 5); }
+    &__top{
+        background-color: $white-1;
+        background-image:linear-gradient(to right, transparent 25%, $green-1 25%, darken($green-1, 15));
+
+        &::after{
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 75%;
+            height: 100%;
+            background-image: linear-gradient(45deg, rgba($green-1, .5) 50%, transparent 50%);
+            background-size: 1 * $unit 1 * $unit;
+        }
+    }
+    &__bottom{ background-color: $white-3; }
+}
+.stairs{
+    $width-el: 1 * $unit;
+    $height-el: 17 * $unit;
+    $depth-el: 4.5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 2.5 * $unit;
+    left: 24.5 * $unit;
+    transform: translateZ(2.5 * $unit);
+
+    &__front{
+        background-color: $green-4;
+        background-image:
+            linear-gradient(to bottom, rgba($blue-1, .425), rgba($blue-1, .15) 30%, rgba($blue-1, .025)),
+            linear-gradient(to top, rgba($green-5, .5), transparent 30%)
+        ;
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+    }
+    &__back{ background-color: $green-5; }
+    &__left{
+        background-color: $green-5;
+        background-image:
+            linear-gradient(to right, rgba($light-3, .75), transparent),
+            linear-gradient(to bottom, rgba($light-3, .5), rgba($light-3, .25))
+        ;
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+    }
+    &__right{
+        background-color: $green-5;
+        background-image: linear-gradient(to bottom, rgba($blue-1, .02), rgba($blue-1, .02));
+        border-bottom: .2 * $unit solid rgba($light-3, .9);
+
+        &::before{
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 5 * $unit;
+            height: 8.5 * $unit;
+            background-image: radial-gradient(rgba($neon, .05), transparent);
+            filter: blur(.35 * $unit);
+        }
+
+    }
+    &__top{ background-color: $green-3; }
+    &__bottom{ background-color: $green-4; }
+}
+.column{
+    $width-el: 1 * $unit;
+    $height-el: 17.25 * $unit;
+    $depth-el: .5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 13.35 * $unit;
+    left: 24.5 * $unit;
+    transform: translateZ(2.25 * $unit);
+
+    &__front{
+        background-color: $green-4;
+        background-image:
+            linear-gradient(to bottom, rgba($blue-1, .425), rgba($blue-1, .15) 30%, rgba($blue-1, .025)),
+            linear-gradient(to top, rgba($green-5, .5), transparent 30%);
+    }
+    &__back{ background-color: $green-5; }
+    &__left{
+        background-color: $green-5;
+        background-image: linear-gradient(to bottom, rgba($light-3, .5), rgba($light-3, .25));
+    }
+    &__right{
+        background-color: $green-5;
+        background-image:
+            linear-gradient(to bottom, rgba($blue-1, .05) , transparent),
+            linear-gradient(to top, rgba($green-5, .5), transparent 30%);
+    }
+    &__top{ background-color: $green-3; }
+    &__bottom{ background-color: $green-4; }
+}
+.step{
+    $width-el: .5 * $unit;
+    $height-el: 1.5 * $unit;
+    $depth-el: 3.5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 3.5 * $unit;
+    left: 25.51 * $unit;
+
+    &__front{
+        background-color: $green-5;
+        background-image: linear-gradient(to bottom, rgba($blue-1, .125), rgba($blue-1, .125));
+        border-left: .1 * $unit solid rgba($blue-1, .9);
+        border-right: .1 * $unit solid rgba($blue-1, .9);
+    }
+    &__back{
+        background-color: $green-5;
+        background-image: linear-gradient(to bottom, rgba($blue-1, .125), rgba($blue-1, .125));
+        border-left: .1 * $unit solid rgba($blue-1, .9);
+        border-right: .1 * $unit solid rgba($blue-1, .9);
+    }
+    &__left{
+        background-color: $green-5;
+        box-shadow: 0 0 .5 * $unit  rgba($blue-1, .2);
+    }
+    &__right{
+        background-color: $green-5;
+        background-image:linear-gradient(to bottom, rgba($blue-1, .025), rgba($blue-1, .025));
+    }
+    &__top{
+        background-color: $green-5;
+        background-image: linear-gradient(to bottom, rgba($blue-1, .35), rgba($blue-1, .35));
+        border-left: .1 * $unit solid rgba($blue-1, .9);
+        border-right: .1 * $unit solid rgba($blue-1, .9);
+
+    }
+    &__bottom{
+        background-color: $green-5;
+        background-image: linear-gradient(to bottom, rgba($blue-1, .125), rgba($blue-1, .125));
+
+        border-left: .1 * $unit solid rgba($blue-1, .9);
+        border-right: .1 * $unit solid rgba($blue-1, .9);
+
+    }
+}
+
+.step{
+    &:nth-of-type(1){ transform: translateZ(17 * $unit); }
+    &:nth-of-type(2){ transform: translateZ(14.5 * $unit); }
+    &:nth-of-type(3){ transform: translateZ(12 * $unit); }
+    &:nth-of-type(4){ transform: translateZ(9.5 * $unit);}
+    &:nth-of-type(5){ transform: translateZ(7 * $unit);}
+    &:nth-of-type(6){ transform: translateZ(4.5 * $unit);}
+}
+.kitchen-bottom{
+    $width-el: 21.75 * $unit;
+    $height-el: 8 * $unit;
+    $depth-el: .5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 2.5 * $unit;
+    left: 2.5 * $unit;
+
+    transform: translateZ(2.25 * $unit);
+
+    &__front{
+        background-color: $gray-3;
+        background-image: linear-gradient(to bottom, rgba($light-3, .65), rgba($light-3, .1));
+    }
+    &__back{ background-color: $green-4; }
+    &__left{ background-color: $green-4; }
+    &__right{ background-color: $green-4; }
+    &__top{
+        background-color: $bg-1;
+        background-image:
+            linear-gradient(to right,rgba($light-3, .4), rgba($light-3, .2) 2%, transparent 11%),
+            linear-gradient(to bottom, rgba($light-3, .125), rgba($light-3, .075))
+        ;
+        border-left: .2 * $unit solid rgba($light-3, .9);
+        border-right: .2 * $unit solid rgba($light-3, .9);
+        border-top: .2 * $unit solid rgba($light-3, .9);
+
+    }
+    &__bottom{ background-color: $green-4; }
+}
+.kitchen-top{
+    $width-el: 21.75 * $unit;
+    $height-el: 8 * $unit;
+    $depth-el: .5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 10 * $unit;
+    left: 2.5 * $unit;
+    transform: translateZ(2.25 * $unit);
+
+
+    &__front{
+        background-color: $bg-1;
+        background-image:
+            linear-gradient(to right, transparent 0 15%, rgba($neon, .025) 30%, transparent 40%),
+            linear-gradient(45deg, rgba($light-3, .01) 50%, transparent 70%),
+            repeating-linear-gradient(to bottom, transparent 0, transparent .9 * $unit, darken(black, 12) .9 * $unit, darken(black, 5) 1 * $unit, darken(black, 5) 1.1 * $unit),
+            linear-gradient(to top, rgba($bg-1, .5), transparent 30%),
+            linear-gradient(to right,rgba($light-3, .3), rgba($light-3, .1) 2%, transparent 11%),
+            linear-gradient(to bottom, rgba($light-3, .125), rgba($light-3, .075))
+        ;
+        border-left: .2 * $unit solid rgba($light-3, .9);
+        border-right: .2 * $unit solid rgba($light-3, .9);
+
+    }
+    &__back{
+        background-color: $gray-3;
+        background-image: linear-gradient(to bottom, rgba($light-3, .5), rgba($light-3, .1));
+    }
+    &__left{ background-color: $green-4; }
+    &__right{ background-color: $green-4; }
+    &__top{
+        background-color: $bg-1;
+        background-image:
+            linear-gradient(to right,rgba($light-3, .4), rgba($light-3, .2) 2%, transparent 11%),
+            linear-gradient(to bottom, rgba($light-3, .075), rgba($light-3, .075))
+        ;
+        border-left: .2 * $unit solid rgba($light-3, .9);
+        border-right: .2 * $unit solid rgba($light-3, .9);
+
+    }
+    &__bottom{ background-color: $green-4; }
+}
+.kitchen-left{
+    $width-el: 7 * $unit;
+    $height-el: 8 * $unit;
+    $depth-el: 3.25 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 3.5 * $unit;
+    left: 2.5 * $unit;
+    transform: translateZ(2.25 * $unit);
+
+    &__front{ background-color: $green-2; }
+    &__back{ background-color: $green-4; }
+    &__left{ background-color: $green-4; }
+    &__right{
+        background-color: $gray-2;
+        background-image: linear-gradient(to bottom, rgba($light-3, .5), rgba($light-3, .1));
+    }
+    &__top{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+        padding: 1 * $unit;
+        gap: .65 * $unit;
+
+        background-color: $bg-1;
+        background-image:
+            linear-gradient(to right,rgba($light-3, .4), rgba($light-3, .1) 10%, transparent 30%),
+            linear-gradient(to bottom, rgba($light-3, .15), rgba($light-3, .1))
+        ;
+        border-left: .2 * $unit solid rgba($light-3, .9);
+
+        .circle-k{
+            width: 1.4 * $unit;
+            height: 1.4 * $unit;
+
+            background-color: black;
+            border:  .15 * $unit solid rgba($neon, .5);
+            outline:  .15 * $unit solid rgba($neon, .75);
+            outline-offset: .2 * $unit;
+            border-radius: 50%;
+
+        }
+    }
+    &__bottom{ background-color: $green-4; }
+}
+.kitchen-right{
+    $width-el: 7 * $unit;
+    $height-el: 8 * $unit;
+    $depth-el: 3.25 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 3.5 * $unit;
+    left: 17.25 * $unit;
+    transform: translateZ(2.25 * $unit);
+
+
+    &__front{ background-color: $green-2; }
+    &__back{ background-color: $green-4; }
+    &__left{
+        background-color: $gray-2;
+        background-image: linear-gradient(to bottom, rgba($light-3, .5), rgba($light-3, .1));
+    }
+    &__right{ background-color: $green-4; }
+    &__top{
+        background-color: $bg-1;
+        background-image: linear-gradient(to bottom, rgba($light-3, .15), rgba($light-3, .1));
+        border-right: .2 * $unit solid rgba($light-3, .9);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1 * $unit;
+
+        .circle-k{
+            width: 4 * $unit;
+            height: 4.5 * $unit;
+
+            background-color: rgba(black, .5);
+            border:  .15 * $unit solid rgba($neon, .5);
+            outline:  .15 * $unit solid rgba($neon, .75);
+            outline-offset: .2 * $unit;
+            border-radius: 10%;
+
+        }
+    }
+    &__bottom{ background-color: $green-4; }
+}
+.kitchen-center{
+    $width-el: 7.75 * $unit;
+    $height-el: 6 * $unit;
+    $depth-el: 3.25 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 3.5 * $unit;
+    left: 9.5 * $unit;
+    transform: translateZ(2.25 * $unit);
+
+
+    &__front{ background-color: $green-2; }
+    &__back{ background-color: $green-4; }
+    &__left{ background-color: $green-4; }
+    &__right{ background-color: $green-4; }
+    &__top{
+        background-color: $gray-1;
+        background-image:
+            linear-gradient(to bottom, rgba($light-3, .15), rgba($light-3, .15)),
+            linear-gradient(to bottom, rgba($light-3, .15), rgba($light-3, .1))
+        ;
+    }
+    &__bottom{ background-color: $green-4; }
+}
+@keyframes sun {
+    to { transform: rotateZ(90deg);}
+}
+.block-a{
+    $width-el: 5 * $unit;
+    $height-el: 11 * $unit;
+    $depth-el: .125 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 2.55 * $unit;
+    right: 4 * $unit;
+    transform: translateZ(11.25 * $unit);
+
+    &__front{
+        background-color: $neon;
+        padding: .5 * $unit;
+        box-shadow: 0 0 1 * $unit rgba($neon, .15);
+
+        background-image:
+            repeating-linear-gradient(to bottom, transparent 0 .35 * $unit, rgba($blue-2, .01) .35 * $unit .7 * $unit),
+            linear-gradient(45deg, rgba(darken($neon, 5), .5) 52%, transparent 54%)
+        ;
+        span{
+            text-transform: uppercase;
+            font-size: 1 * $unit;
+            color: black;
+        }
+        svg{
+            position: absolute;
+            bottom: .5 * $unit;
+            right: .5 * $unit;
+            width: 2 * $unit;
+            height: 2 * $unit;
+
+            animation: sun 8000ms steps(4, start) infinite;
+        }
+    }
+    &__back{
+        background-color: black;
+        box-shadow: 0 0 1 * $unit rgba($blue-1, .35);
+    }
+    &__left{ background-color: $blue-1; }
+    &__right{ background-color: $blue-1; }
+    &__top{ background-color: $blue-1; }
+    &__bottom{ background-color: $blue-1; }
+}
+.block-b{
+    $width-el: .25 * $unit;
+    $height-el: 6.5 * $unit;
+    $depth-el: 3 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 12 * $unit;
+    left: 2.55 * $unit;
+    transform: translateZ(3.5 * $unit);
+
+    &__front{ background-color: $green-5; }
+    &__back{ background-color: $green-1; }
+    &__left{
+        background-color: $green-4;
+        box-shadow: 0 0 1 * $unit rgba($light-3, .5);
+
+    }
+    &__right{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background-color: darken($green-3, 5);
+        background-image:linear-gradient(to left, rgba($light-3, .35), rgba($light-3, .2));
+
+        &::before{
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            background-image: repeating-linear-gradient($neon 0 .1 * $unit, darken($neon, 10) .3 * $unit, transparent .3 * $unit .6 * $unit);
+        }
+    }
+    &__top{
+        background-color: $green-1;
+        background-image: linear-gradient(to left, rgba($light-3, .55), rgba($light-3, .35));
+    }
+    &__bottom{ background-color: $green-5; }
+}
