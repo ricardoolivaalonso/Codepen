@@ -1,0 +1,954 @@
+$unit: 1.75vmin;
+$unit-s: .5vmin;
+
+$bg-1: #2F3295;
+$bg-2: darken($bg-1, 12);
+
+$picade-1: #2c292f;
+$picade-2: darken(#2A2631, 2);
+$picade-3: darken(#1A191C, 2);
+$picade-4: darken(#151514, 2);
+
+$cyan: darken(#50a3aa, 8);
+$yellow: darken(#d4aa55, 8);
+$orange: darken(#E56667, 8);
+$red: #f7696d;
+$gray: #888888;
+$neon: #b5f4f4;
+$light: #f0466d;
+
+//
+/***********************/
+@mixin cylinder($base, $sides, $degree, $pi, $width, $color) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	position: absolute;
+
+    &__side{
+        position: absolute;
+        height: ( 2 * $pi * ($base / 2) ) / $sides ;
+        width: $width;
+        background-color: darken($color, 15);
+
+        @for $var from 1 to ($sides + 1) {
+			&:nth-of-type(#{$var}) {
+				transform: rotateX($var * $degree / $sides) translateZ($base / 2);
+				background-color: $color;
+			}
+		}
+        @for $var from 1 to 10 {
+            &:nth-of-type(#{$var}){ background-color: darken($color, $var * 4); }
+        }
+        @for $var from 1 to 10 {
+            &:nth-last-of-type(#{$var}){ background-color: darken($color, $var * 4); }
+        }
+    }
+    &__top,
+    &__bottom{
+        position: absolute;
+        width: $base;
+        height: $base;
+        border-radius: 50%;
+        transform: rotateY(90deg) translateZ( $width / 2 );
+    }
+    &__bottom{ transform: rotateY(90deg) translateZ( $width / -2 );}
+}
+
+@mixin sphere($base, $sides, $degree, $pi, $width, $y, $color) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	position: absolute;
+
+    &__side{
+        position: absolute;
+        height: ( 2 * $pi * ($base / 2) ) / $sides ;
+        width: $width;
+        background-color: darken($color, 15);
+
+        @for $var from 1 to ($sides + 1) {
+			&:nth-of-type(#{$var}) {
+				transform: rotateX($var * $degree / $sides) translateZ($base / 2) rotateY($y) ;
+			}
+		}
+        @for $var from 1 to 7 {
+            &:nth-of-type(#{$var}){ background-color: darken($color, $var * 3); }
+        }
+
+        @for $var from 1 to 7 {
+            &:nth-last-of-type(#{$var}){ background-color: darken($color, $var * 3); }
+        }
+    }
+
+}
+@mixin cube($width, $height, $depth) {
+    &__front{ @include cube-front($width, $height, $depth); }
+    &__back{ @include cube-back($width, $height, $depth); }
+    &__right{ @include cube-right($width, $height, $depth); }
+    &__left{ @include cube-left($width, $height, $depth); }
+    &__top{ @include cube-top($width, $height, $depth);}
+    &__bottom{ @include cube-bottom($width, $height, $depth); }
+}
+//----------------------
+@mixin cube-front($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: bottom left;
+    transform: rotateX(-90deg) translateZ( -($height - ($depth * 2) ) );
+}
+@mixin cube-back($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-$width) translateY(-$height) ;
+}
+@mixin cube-right($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ($width) translateX(-$depth * 2) translateY(-$height);
+}
+@mixin cube-left($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-$height);
+}
+@mixin cube-top($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: translateZ($height) ;
+}
+@mixin cube-bottom($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: rotateY(180deg) translateX(-$width);
+}
+@mixin face-ani($animation, $time, $side, $width-el, $height-el, $depth-el) {
+
+    animation: #{$animation} #{$time} infinite ease;
+
+    @keyframes #{$animation} {
+        0%, 15%, 45%, 60%, 62%, 68%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-bottom" { @include cube-bottom($width-el, $height-el, $depth-el); }
+
+        }
+        20%, 40%, 58%, 64%, 70%, 100%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-bottom" { @include cube-bottom($width-el, $height-el, $depth-el); }
+        }
+    }
+}
+@mixin cube-color($color) {
+    &__front{ background-color: darken($color, 5); }
+    &__back{ background-color: darken($color, 10) }
+    &__right{ background-color: darken($color, 10) }
+    &__left{ background-color: darken($color, 20); }
+    &__top{ background-color: $color; }
+    &__bottom{ background-color: darken($color, 20);}
+}
+/***********************/
+/***********************/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    transform-style: preserve-3d;
+
+	user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    font-family: 'Press Start 2P', cursive;
+}
+/***********************/
+/***********************/
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+
+    font-weight: bolder;
+    overflow: hidden;
+	cursor: pointer;
+    background-color: $bg-1;
+}
+.face{ position: absolute; }
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/***********************/
+/***********************/
+.main{
+    position: absolute;
+    width: 28 * $unit;
+    height: 28 * $unit;
+    transform:
+        perspective(400 * $unit)
+        rotateX(70deg)
+        rotateZ(40deg)
+        translateZ(-17 * $unit)
+    ;
+    transition: transform 550ms ease-out;
+}
+.shadows{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    filter: blur(.5 * $unit);
+    transform: translateZ(-.1 * $unit);
+}
+.shadow{
+    position: absolute;
+
+    &-1,
+    &-2{
+        top: -5%;
+        left: -5%;
+        width: 125%;
+        height: 110%;
+        background-color: $bg-2;
+    }
+    &-2{ background-color:rgba($light, .05); }
+    &-3,
+    &-4{
+        top: -5%;
+        left: -5%;
+        width: 190%;
+        height: 60%;
+        transform-origin: top left;
+        transform: skewY(-10deg);
+        background-image: linear-gradient(-45deg, transparent 20%, $bg-2 20%);
+    }
+    &-4{ background-image: linear-gradient(-45deg, transparent 20%, rgba($light, .05) 20%); }
+    &-5{
+        top: -2%;
+        left: -2%;
+        width: 104%;
+        height: 104%;
+        background-color: darken($bg-2, 12);
+    }
+    &-6{
+        top: -4%;
+        left: -4%;
+        width: 108%;
+        height: 108%;
+        border: .75 * $unit solid rgba($neon, .35);
+    }
+}
+// ==========================
+.a{
+    $width-el: 28 * $unit;
+    $height-el: 8 * $unit;
+    $depth-el: 14 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    &__front{
+        background-image:
+            linear-gradient(to right, rgba($light, .25), rgba($light, .15) 5%, transparent 30% 80%, rgba($picade-4, .5)),
+            linear-gradient(to top, darken($picade-1, 10), $picade-1 )
+        ;
+        border-bottom: .25 * $unit solid $neon;
+    }
+    &__back{
+        &::before{
+            content: '';
+            position: absolute;
+            top: -2.45 * $unit;
+            width: 100%;
+            height: 10.5 * $unit;
+            background-image: linear-gradient(to bottom, $picade-4, darken($picade-4, 10));
+            border-bottom: .25 * $unit solid $neon;
+        }
+    }
+    &__left{
+        &::before{
+            content: '';
+            position: absolute;
+            top: -2.45 * $unit;
+            width: 100%;
+            height: 10.5 * $unit;
+            background-image:
+                linear-gradient(5deg,  rgba($light,.1) 81.5%, transparent 81.5%),
+                linear-gradient(5deg,  darken($picade-1, 6) 20%, $picade-1 81.5%, transparent 81.5%)
+            ;
+            border-bottom: .25 * $unit solid $neon;
+        }
+    }
+    &__right{
+        &::before{
+            content: '';
+            position: absolute;
+            top: -2.45 * $unit;
+            width: 100%;
+            height: 10.5 * $unit;
+            background-image: linear-gradient(-5deg, darken($picade-3, 5), $picade-3 81.5%, transparent 81.5%);
+            border-bottom: .25 * $unit solid $neon;
+        }
+    }
+    &__top{
+        &::before{
+            content: '';
+            position: absolute;
+            transform-origin: bottom left;
+            transform: rotateX(-5deg);
+            width: 100%;
+            height: 100%;
+            background-color: $picade-2;
+            background-image: url("mario.png");
+            background-repeat: no-repeat;
+            background-size: 38 * $unit 19 * $unit;
+            background-position: center 100%;
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            transform-origin: bottom left;
+            transform: rotateX(-5deg);
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(-75deg, transparent 0 60%, rgba($neon, .065) 65%, rgba($neon, .15) 80%, transparent 85% 100%),
+                linear-gradient(to right, rgba($light, .5), rgba($light, .2) 5%, transparent 25% 80%, rgba($picade-4, .3))
+            ;
+        }
+
+    }
+    &__bottom{ background-color: $bg-2; }
+}
+.b{
+    $width-el: 28 * $unit;
+    $height-el: 20 * $unit;
+    $depth-el: 6 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 0;
+
+    transform: translateZ(10.4 * $unit);
+
+    &__front{
+        &::before{
+            content: '';
+            position: absolute;
+            width: 100%;
+            top: -.5 * $unit;
+            height: 22 * $unit;
+
+            transform-origin: bottom left;
+            transform: rotateX(12deg);
+            background-color: $picade-2;
+            background-image:
+                url("smw.png"),
+                linear-gradient(to bottom, lighten($picade-2, 6), darken($picade-2, 3))
+            ;
+            background-size:
+                80% 75%,
+                100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+
+        }
+
+        &::after{
+            content: '';
+            position: absolute;
+            width: 100%;
+            top: -.5 * $unit;
+            height: 22 * $unit;
+
+            transform-origin: bottom left;
+            transform: rotateX(12deg);
+
+            background-image:
+                linear-gradient(-75deg, transparent 0 50%, rgba($neon, .05) 55%, rgba($neon, .145) 70%, transparent 75% 100%),
+                linear-gradient(to right, rgba($light, .2), rgba($light, .1) 5%, transparent 25% 80%, rgba($picade-4, .3))
+            ;
+        }
+    }
+    &__back{ background-color: $picade-4; }
+    &__left{
+        &::before{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 21 * $unit;
+            background-image:
+                linear-gradient(78deg,  rgba($light, .1) 73%, transparent 73%),
+                linear-gradient(78deg,  $picade-1 73%, transparent 73%)
+            ;
+        }
+    }
+    &__right{
+        &::before{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 21 * $unit;
+            background-image: linear-gradient(-78deg, $picade-3 73%, transparent 73%);
+        }
+    }
+    &__top{
+        // background-image: linear-gradient($picade-2 62%, transparent 62%);
+    }
+    &__bottom{
+
+        &::before{
+            content: '';
+            position: absolute;
+            transform-origin: top left;
+            transform: rotateX(5deg);
+            width: 100%;
+            height: 100%;
+            background: pink;
+        }
+    }
+}
+.c{
+    $width-el: 28 * $unit;
+    $height-el: 6 * $unit;
+    $depth-el: 4.9 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+    top: 0;
+
+    transform: translateZ(29 * $unit);
+
+    &__front{
+        &::before{
+            content: '';
+            position: absolute;
+            top: -1.75 * $unit;
+            width: 100%;
+            height: 100%;
+            transform-origin: top left;
+            background-color: $picade-2;
+            background-image: url("mario.png");
+            background-repeat: no-repeat;
+            background-size: 40 * $unit 20 * $unit;
+            background-position: center 37% ;
+
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            top: -1.75 * $unit;
+            transform-origin: bottom left;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(-75deg, transparent 0 40%, rgba($neon, .025) 55%, rgba($neon, .1) 70%, transparent 80% 100%),
+                linear-gradient(to right, rgba($light, .5), rgba($light, .2) 5%, transparent 25% 80%, rgba($picade-4, .3));
+            border: .3 * $unit solid $neon;
+            box-shadow: 0 0 1 * $unit rgba($neon, .25);
+        }
+
+    }
+    &__back{ background-image: linear-gradient(to bottom, lighten($picade-4, 6), $picade-4); }
+    &__left{
+        &::before{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-origin: top left;
+            transform: skewY(-10deg);
+            background-image:
+                linear-gradient(to bottom, rgba($light, .1), rgba($light, .05)),
+                linear-gradient(to bottom, lighten($picade-1, 6), $picade-1)
+            ;
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            right: 2 * $unit;
+            width: 4 * $unit;
+            height: 3 * $unit;
+            background-image: repeating-linear-gradient(to bottom, $picade-3 0 .5 * $unit, transparent .5 * $unit 1 * $unit);
+            transform: skewY(-10deg);
+        }
+
+    }
+    &__right{
+        &::before{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-origin: top right;
+            transform: skewY(10deg);
+            background-image: linear-gradient(to bottom, lighten($picade-3, 6), $picade-3);
+        }
+        &::after{
+            content: '';
+            position: absolute;
+            left: 2 * $unit;
+            width: 4 * $unit;
+            height: 3 * $unit;
+            background-image: repeating-linear-gradient(to bottom, $picade-4 0 .5 * $unit, transparent .5 * $unit 1 * $unit);
+            transform: skewY(10deg);
+        }
+    }
+    &__top{
+        &::before{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 10 * $unit;
+            transform: rotateX(10deg);
+            transform-origin: top left;
+            background-image:
+                linear-gradient(to top, rgba($light, .05), transparent),
+                linear-gradient(to top, lighten($picade-2, 6), $picade-2)
+            ;
+        }
+    }
+    &__bottom{
+        &::before{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 10 * $unit;
+            transform: rotateX(-10deg);
+            transform-origin: top left;
+            background-image: linear-gradient(to top, darken($picade-3, 6), $picade-3);
+
+        }
+
+    }
+}
+.d,
+.e{
+    $width-el: 1 * $unit;
+    $height-el: 22  * $unit;
+    $depth-el: .35 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+
+    transform: translateZ(9.25 * $unit) rotateX(12deg);
+
+    &__front{
+        background-color: $neon;
+        border-left: .375 * $unit solid $picade-2;
+        border-right: .375 * $unit solid $picade-2;
+    }
+    // &__back{ background-color: $neon; }
+    &__left{
+        background-color: $picade-1;
+        background-image: linear-gradient(to left, rgba($light, .1) 73%, rgba($light, .1) 73%);
+    }
+    &__right{ background-color: $picade-3; }
+    &__top{ background-color: $neon}
+    &__bottom{ background-color: $neon; }
+}
+.d{
+    bottom: 15.25 * $unit;
+    left: .25 * $unit;
+}
+.e{
+    bottom: 15.25 * $unit;
+    right: .25 * $unit;
+}
+// ==========================
+// ==========================
+.cylinder{
+    position: absolute;
+    width: 1 * $unit;
+    height: 1 * $unit;
+    top: 18.25 * $unit;
+    left: 5.25 * $unit;
+
+    transform: translateZ(8 * $unit) rotateZ(-135deg);
+
+    .circle{
+        $sides: 16;
+        $degree: 360deg;
+        $width: 3 * $unit;
+
+        width: 1 * $unit;
+        height: 1 * $unit;
+        position: absolute;
+
+        &-a{
+            $base: 1 * $unit;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $gray);
+
+        }
+
+    }
+}
+.buttons{
+    position: absolute;
+    width: 11 * $unit;
+    height: 8.5 * $unit;
+    top: 16.25 * $unit;
+    right: 4 * $unit;
+
+    transform: translateZ(8.75 * $unit) rotateX(-5deg);
+
+    .button:nth-of-type(1){
+        top: 5 * $unit;
+        left: 1.5 * $unit;
+    }
+    .button:nth-of-type(4){
+        top: 9 * $unit;
+        left: 1.5 * $unit;
+    }
+    .button:nth-of-type(2){
+        top: 4.5 * $unit;
+        left: 5.5 * $unit;
+    }
+    .button:nth-of-type(5){
+        top: 8.5 * $unit;
+        left: 5.5 * $unit;
+    }
+    .button:nth-of-type(3){
+        top: 4 * $unit;
+        left: 9.5 * $unit;
+    }
+    .button:nth-of-type(6){
+        top: 8 * $unit;
+        left: 9.5 * $unit;
+    }
+
+}
+.button{
+    transform: rotateZ(-135deg);
+    position: absolute;
+
+    .circle{
+        $sides: 16;
+        $degree: 360deg;
+        $width: .5 * $unit;
+
+        width: 3 * $unit;
+        height: 3 * $unit;
+        position: absolute;
+        border-radius: 50%;
+
+        outline: .3 * $unit solid $picade-4;
+        background-color: $picade-4;
+
+        &-a{
+            $base: 3 * $unit;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $cyan);
+
+            &__bottom{
+                background-color: $cyan;
+                border: .15 * $unit solid $neon;
+            }
+
+        }
+
+    }
+}
+
+.button:nth-of-type(2),
+.button:nth-of-type(5){
+    .circle{
+        $sides: 16;
+        $degree: 360deg;
+        $width: .75 * $unit;
+
+        &-a{
+            $base: 3 * $unit;
+            $pi: 3.5;
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $yellow);
+
+            &__bottom{
+                background-color: $yellow;
+            }
+        }
+    }
+}
+.button:nth-of-type(3),
+.button:nth-of-type(6){
+    .circle{
+        $sides: 16;
+        $degree: 360deg;
+        $width: .75 * $unit;
+
+        &-a{
+            $base: 3 * $unit;
+            $pi: 3.5;
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $orange);
+
+            &__bottom{
+                background-color: $orange;
+            }
+        }
+    }
+}
+.init{
+    position: absolute;
+    width: 3 * $unit;
+    height: 3 * $unit;
+    top: 26.5 * $unit;
+    right: 4 * $unit;
+    transform: rotateX(-90deg)  translateY(-3 * $unit);
+
+    .icircle{
+        $sides: 16;
+        $degree: 360deg;
+        $width: .6 * $unit;
+
+        width: 3 * $unit;
+        height: 3 * $unit;
+        position: absolute;
+        border-radius: 50%;
+
+        outline: .3 * $unit solid darken($picade-4, 10);
+        background-color: $picade-4;
+
+        &-a{
+            $base: 3 * $unit;
+            $pi: 3.5;
+
+            position: absolute;
+            width: $width;
+            height: $base;
+            transform: rotateY(90deg) translateX(-50%);
+
+            @include cylinder($base, $sides, $degree, $pi, $width, $picade-1);
+
+            &__bottom{
+                background-color: $picade-2;
+            }
+
+        }
+
+    }
+}
+
+.sphere{
+    width: 20 * $unit-s;
+    height: 20 * $unit-s;
+
+    $sides: 12;
+    $degree: 360deg;
+    $width: 2 * $unit-s;
+    position: absolute;
+    top: 16 * $unit;
+    left: 3 * $unit;
+    transform: translateZ(11 * $unit) rotateZ(-135deg);
+
+    &-shadow{
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        background-color: $picade-4;
+        border-radius: 50%;
+        transform: translateZ(-2.1 * $unit)  rotateZ(135deg) rotateX(-5deg);
+
+        background-image: linear-gradient(-75deg, rgba($neon, .1) 0 40%, transparent );
+    }
+
+    &::before,
+    &::after{
+        content: '';
+        position: absolute;
+        width: 3 * $unit-s;
+        height: 3 * $unit-s;
+        background-image: linear-gradient(-90deg, darken($red, 5), darken($red, 10));
+        border-radius: 50%;
+
+        transform:  translateZ(-.49 * $unit-s);
+    }
+
+    &::after{
+        transform:  translateZ(14.45 * $unit-s);
+        background-color: $red;
+    }
+
+    &-bottom{
+        $base: 4.75 * $unit-s;
+        $pi: 4.5;
+        $y: 70deg;
+
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(.12 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+        &__side{ clip-path: polygon(0 0, 100% 27%, 100% 73%, 0% 100%);}
+
+    }
+    &-bt{
+        $base: 7.9 * $unit-s;
+        $pi: 3.85;
+        $y: 60deg;
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-.675 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+        &__side{ clip-path: polygon(0 0, 100% 16%, 100% 86%, 0% 100%);}
+    }
+    &-a{
+        $base: 10.6 * $unit-s;
+        $pi: 3.73;
+        $y: 45deg;
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-1.75 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+        &__side{ clip-path: polygon(0 0, 100% 13%, 100% 87%, 0% 100%);}
+
+    }
+    &-b{
+        $base: 12.85 * $unit-s;
+        $pi: 3.6;
+        $y: 25deg;
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-3.35 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+        &__side{ clip-path: polygon(0 0, 100% 8%, 100% 92%, 0% 100%);}
+
+    }
+    &-c{
+        $base: 14.25 * $unit-s;
+        $pi: 3.45;
+        $y: 15deg;
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-5.125 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+        &__side{ clip-path: polygon(0 0, 100% 5%, 100% 95%, 0% 100%);}
+
+    }
+    // ======
+    // ======
+    &-d{
+        $base: 14.75 * $unit-s;
+        $pi: 3.3;
+        $y: 0deg;
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-7 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+    }
+    // ======
+    // ======
+    &-e{
+        $base: 14.25 * $unit-s;
+        $pi: 3.45;
+        $y: -15deg;
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-8.9 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+        &__side{ clip-path: polygon(0 5%, 100% 0%, 100% 100%, 0% 95%);}
+
+    }
+    &-f{
+        $base: 12.85 * $unit-s;
+        $pi: 3.6;
+        $y: -25deg;
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-10.7 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+        &__side{ clip-path: polygon(0 8%, 100% 0%, 100% 100%, 0% 92%);}
+
+    }
+    &-g{
+        $base: 10.6 * $unit-s;
+        $pi: 3.73;
+        $y: -45deg;
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-12.3 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+        &__side{ clip-path: polygon(0 13%, 100% 0%, 100% 100%, 0% 87%);}
+
+    }
+    &-tp{
+        $base: 7.9 * $unit-s;
+        $pi: 3.85;
+        $y: -60deg;
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-13.35 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+        &__side{ clip-path: polygon(0 14%, 100% 0%, 100% 100%, 0% 86%);}
+
+    }
+    &-top{
+        $base: 4.75 * $unit-s;
+        $pi: 4.5;
+        $y: -70deg;
+
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-14.125 * $unit-s);
+
+        @include sphere($base, $sides, $degree, $pi, $width, $y, $red);
+        &__side{ clip-path: polygon(0 28%, 100% 0, 100% 100%, 0 73%);}
+
+    }
+}
