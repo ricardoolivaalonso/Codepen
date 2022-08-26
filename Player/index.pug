@@ -1,0 +1,131 @@
+doctype html
+html(lang='en')
+    head
+        meta(name="viewport" content="width=device-width, user-scalable=no")
+        link(rel="stylesheet" type="text/css" href="main.css")    
+    body
+        audio#a
+            source( src="audio.mp3", type="audio/mpeg" )
+        div.main#h.flex
+            div.shadows 
+                div.shadow.shadow-1
+                div.shadow.shadow-2
+                div.shadow.shadow-3
+            div.waves#lgh.is-wave-playing
+                div.wave
+                div.wave
+                div.wave
+                div.wave
+                div.wave
+                div.wave
+                div.wave
+                
+            div.a
+                div.a__front.face 
+                div.a__back.face 
+                div.a__right.face 
+                div.a__left.face 
+                div.a__top.face 
+                div.a__bottom.face 
+            div.b
+                div.b__front.face 
+                div.b__back.face 
+                div.b__right.face 
+                div.b__left.face 
+                div.b__top.face 
+                div.b__bottom.face 
+            div.c
+                div.c__front.face 
+                div.c__back.face 
+                div.c__right.face 
+                div.c__left.face 
+                div.c__top.face 
+                div.c__bottom.face 
+            div.d
+                div.d__front.face 
+                div.d__back.face 
+                div.d__right.face 
+                div.d__left.face 
+                div.d__top.face 
+                    div.d-shadow#tsh
+                div.d__bottom.face 
+            div.e
+                div.e__front.face 
+                div.e__back.face 
+                div.e__right.face 
+                div.e__left.face 
+                div.e__top.face 
+                div.e__bottom.face 
+            div.f
+                div.f__front.face 
+                div.f__back.face 
+                div.f__right.face 
+                div.f__left.face 
+                div.f__top.face 
+                div.f__bottom.face 
+            div.g
+                div.g__front.face 
+                div.g__back.face 
+                div.g__right.face 
+                div.g__left.face 
+                div.g__top.face 
+                div.g__bottom.face 
+            div.h#cas
+                div.h__front.face 
+                div.h__back.face 
+                div.h__right.face 
+                div.h__left.face 
+                div.h__top.face 
+                //- div.h__bottom.face 
+            div.i
+                div.i__front.face 
+                div.i__back.face 
+                div.i__right.face 
+                div.i__left.face 
+                div.i__top.face 
+                div.i__bottom.face 
+            div.j
+                div.j__front.face 
+                div.j__back.face 
+                div.j__right.face 
+                div.j__left.face 
+                div.j__top.face 
+                div.j__bottom.face 
+            div.k
+                div.k__front.face 
+                div.k__back.face 
+                div.k__right.face 
+                div.k__left.face 
+                div.k__top.face 
+                div.k__bottom.face 
+                
+            div.buttons
+                - let n = 1
+                while n <= 6
+                    div.button
+                        div.button-a
+                            div.button-a__front.face 
+                            div.button-a__back.face 
+                            div.button-a__right.face 
+                            div.button-a__left.face 
+                            div.button-a__top.face 
+                            div.button-a__bottom.face 
+                        div.button-b
+                            div.button-b__front.face 
+                            div.button-b__back.face 
+                            div.button-b__right.face 
+                            div.button-b__left.face 
+                            div.button-b__top.face 
+                            div.button-b__bottom.face 
+                    - n++
+                
+            div.circle.flex
+                div.circle-a sa
+                    - let i = 0
+                    while i < 36
+                        div.circle-a__side
+                        - i++
+                    div.circle-a__bottom
+                    div.circle-a__top
+                        
+        script(src="main.js")

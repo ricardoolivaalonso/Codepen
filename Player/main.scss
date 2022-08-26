@@ -1,0 +1,875 @@
+$unit: 1.75vmin;
+$button: #ffae75;
+$button-2: #8fff75;
+
+$bg-1: #fffff9;
+$bg-2: #bda094;
+
+$a1: #e7dbe5;
+$a2: #d1c7cf;
+$a3: #c1b3be;
+
+$b1: #504424;
+$b2: #3d341c;
+$b3: #2f2815;
+
+$c1: #b08871;
+$c2: #96725d;
+$c3: #7e5d4a;
+
+$d1: #7c746e;
+$d2: #736860;
+$d3: #635850;
+
+
+$cs1: #4e4945;
+$cs2: #3d3936;
+$cs3: #2a2725;
+//
+/***********************/
+@mixin cylinder($base, $sides, $degree, $pi, $width, $color) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	position: absolute;
+
+    &__side{
+        position: absolute;
+        height: ( 2 * $pi * ($base / 2) ) / $sides ;
+        width: $width;
+        background-color: darken($color, 15);
+
+        @for $var from 1 to ($sides + 1) {
+			&:nth-of-type(#{$var}) {
+				transform: rotateX($var * $degree / $sides) translateZ($base / 2);
+				background-color: $color;
+
+				border-left: .1 * $unit solid lighten($a1, 5);
+				border-right: .1 * $unit solid darken($a3, 5);
+			}
+		}
+
+    }
+    &__top,
+    &__bottom{
+        position: absolute;
+        width: $base;
+        height: $base;
+        border-radius: 50%;
+        transform: rotateY(90deg) translateZ( $width / 2 );
+    }
+    &__bottom{ transform: rotateY(90deg) translateZ( $width / -2 );}
+}
+
+@mixin sphere($base, $sides, $degree, $pi, $width, $y, $color) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	position: absolute;
+
+    &__side{
+        position: absolute;
+        height: ( 2 * $pi * ($base / 2) ) / $sides ;
+        width: $width;
+        background-color: darken($color, 15);
+
+        @for $var from 1 to ($sides + 1) {
+			&:nth-of-type(#{$var}) {
+				transform: rotateX($var * $degree / $sides) translateZ($base / 2) rotateY($y) ;
+			}
+		}
+        @for $var from 1 to 7 {
+            &:nth-of-type(#{$var}){ background-color: darken($color, $var * 3); }
+        }
+
+        @for $var from 1 to 7 {
+            &:nth-last-of-type(#{$var}){ background-color: darken($color, $var * 3); }
+        }
+    }
+
+}
+@mixin cube($width, $height, $depth) {
+    &__front{ @include cube-front($width, $height, $depth); }
+    &__back{ @include cube-back($width, $height, $depth); }
+    &__right{ @include cube-right($width, $height, $depth); }
+    &__left{ @include cube-left($width, $height, $depth); }
+    &__top{ @include cube-top($width, $height, $depth);}
+    &__bottom{ @include cube-bottom($width, $height, $depth); }
+}
+//----------------------
+@mixin cube-front($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: bottom left;
+    transform: rotateX(-90deg) translateZ( -($height - ($depth * 2) ) );
+}
+@mixin cube-back($width, $height, $depth) {
+    width: $width;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateX(-90deg) rotateY(180deg) translateX(-$width) translateY(-$height) ;
+}
+@mixin cube-right($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(90deg) rotateZ(-90deg) translateZ($width) translateX(-$depth * 2) translateY(-$height);
+}
+@mixin cube-left($width, $height, $depth) {
+    width: $depth * 2;
+    height: $height;
+    transform-origin: top left;
+    transform: rotateY(-90deg) rotateZ(90deg) translateY(-$height);
+}
+@mixin cube-top($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: translateZ($height) ;
+}
+@mixin cube-bottom($width, $height, $depth) {
+    width: $width;
+    height: $depth * 2;
+    transform-origin: top left;
+    transform: rotateY(180deg) translateX(-$width);
+}
+@mixin face-ani($animation, $time, $side, $width-el, $height-el, $depth-el) {
+
+    animation: #{$animation} #{$time} infinite ease;
+
+    @keyframes #{$animation} {
+        0%, 15%, 45%, 60%, 62%, 68%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-el, $depth-el); }
+            @else if $side == "cube-bottom" { @include cube-bottom($width-el, $height-el, $depth-el); }
+
+        }
+        20%, 40%, 58%, 64%, 70%, 100%{
+            @if $side == "cube-front" { @include cube-front($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-back" { @include cube-back($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-right" { @include cube-right($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-left" { @include cube-left($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-top" { @include cube-top($width-el, $height-finish, $depth-el); }
+            @else if $side == "cube-bottom" { @include cube-bottom($width-el, $height-el, $depth-el); }
+        }
+    }
+}
+@mixin cube-color($color) {
+    &__front{ background-color: darken($color, 5); }
+    &__back{ background-color: darken($color, 10) }
+    &__right{ background-color: darken($color, 10) }
+    &__left{ background-color: darken($color, 20); }
+    &__top{ background-color: $color; }
+    &__bottom{ background-color: darken($color, 20);}
+}
+/***********************/
+/***********************/
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+    transform-style: preserve-3d;
+
+	user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+    font-family: cursive;
+}
+/***********************/
+/***********************/
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+
+    overflow: hidden;
+	cursor: grab;
+    background-color: $bg-1;
+}
+.face{ position: absolute; }
+.flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/***********************/
+/***********************/
+.main{
+    position: absolute;
+    width: 40 * $unit;
+    height: 28 * $unit;
+    transform:
+        perspective(400 * $unit)
+        rotateX(60deg)
+        rotateZ(40deg)
+        translateZ(-6 * $unit)
+    ;
+    transition: transform 350ms ease-out;
+
+}
+
+// ==========================
+// ==========================
+.shadows{
+	position: absolute;
+	top: 0;
+	left: -2%;
+	width: 102%;
+	height: 100%;
+	transform: translateZ(-.1 * $unit);
+
+	background-color: darken($bg-2, 12);
+}
+.shadow{
+	position: absolute;
+
+	&-1{
+		top: 100%;
+		width: 100%;
+		height: 4 * $unit;
+		transform-origin: top left;
+		transform: skewX(-5deg);
+		background-image: linear-gradient(to bottom, darken($bg-2, 12), darken($bg-2, 5), $bg-2 40%);
+	}
+
+	&-2{
+		left: 100%;
+		width: 1 * $unit;
+		height: 100%;
+		transform-origin: top left;
+		transform: skewY(40deg);
+		background-image: linear-gradient(to right, darken($bg-2, 12), darken($bg-2, 0));
+	}
+}
+
+.waves{
+	position: absolute;
+	top: 112%;
+	left: 0;
+	display: grid;
+	grid-auto-flow: column;
+	width: 100%;
+	height: 100%;
+}
+
+.is-wave-playing{
+	display: none;
+}
+
+.wave{
+	height: 0 * $unit;
+	width: 4 * $unit;
+	background-color: $bg-2;
+
+	@for $i from 2 through 6 {
+	 	&:nth-of-type(#{$i}) {
+			animation: wave 500ms ease-in alternate infinite #{$i * 100 }ms;
+		}
+	}
+
+	&:nth-of-type(1),
+	&:nth-of-type(7) {
+		height: 0 * $unit;
+		animation: wave-2 600ms ease-in alternate infinite 4250ms;
+	}
+}
+@keyframes wave {
+    0%, 100%{height: 4 * $unit; }
+    24%{ height: 6 * $unit; }
+    25%, 30%{ height: 6.5 * $unit; }
+    55%, 60%{ height: 4.5 * $unit; }
+    61%, 65%{ height: 6.6 * $unit; }
+    80%, 82%{ height: 3.5 * $unit; }
+    83%, 90%{ height: 3 * $unit; }
+    95%{ height: 3.25 * $unit; }
+}
+@keyframes wave-2 {
+    0%, 50%{height: 0 * $unit; }
+    75%, 100%{ height: 5 * $unit; }
+}
+// ==========================
+// ==========================
+.a{
+    $width-el: 38 * $unit;
+    $height-el: 1  * $unit;
+    $depth-el: 13.5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	top: .5 * $unit;
+	left: 0;
+
+    &__front{ background-image: linear-gradient(to bottom, darken($a2, 25), darken($a2, 8) ); }
+    &__back{ background-image: linear-gradient(to bottom, darken($a1, 20), darken($a1, 8)); }
+    &__left{ background-image: linear-gradient(to bottom, darken($a2, 25), darken($a2, 8)); }
+    &__right{ background-image: linear-gradient(to bottom, darken($a3, 10), $a3); }
+    &__top{ background-color: $a1; }
+    &__bottom{
+		background-color: darken($a3, 10);
+		box-shadow: 0 0 .75 * $unit .5 * $unit darken($bg-2, 35);
+	}
+}
+.b{
+    $width-el: 40 * $unit;
+    $height-el: 3  * $unit;
+    $depth-el: 14 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	top: 0;
+	left: 0;
+	transform: translateZ(1 * $unit);
+
+	&__front{
+		background-image: linear-gradient(to top, darken($b2, 5), $b2);
+		border-top: .2 * $unit solid lighten($b1, 5);
+		border-bottom: .2 * $unit solid darken($b3, 1);
+
+		&::after{
+			content: '';
+			position: absolute;
+			top: 55%;
+			left: 50%;
+			transform: translateX(-50%) translateY(-50%);
+			width: 4.5 * $unit;
+			height: 1.25 * $unit;
+			background-image: linear-gradient(to right, darken($b3, 10), darken($b3, 25), darken($b3, 10));
+		}
+	}
+	&__back{
+		background-image: linear-gradient(to bottom, darken($b2, 5), $b2);
+		border-top: .2 * $unit solid lighten($b1, 5);
+		border-bottom: .2 * $unit solid darken($b2, 1);
+	}
+	&__left{
+		background-image: linear-gradient(to top, darken($b2, 5), $b2);
+		border-top: .2 * $unit solid lighten($b1, 5);
+		border-bottom: .2 * $unit solid darken($b2, 5);
+
+	}
+	&__right{
+		background-image: linear-gradient(to top, darken($b3, 5), $b3);
+		border-top: .2 * $unit solid lighten($b2, 5);
+		border-bottom: .2 * $unit solid darken($b3, 10);
+
+	}
+	&__top{ background-color: darken($b3, 4); }
+	&__bottom{ background-color: darken($b3, 10); }
+}
+.c{
+    $width-el: 21.9 * $unit;
+    $height-el: 1  * $unit;
+    $depth-el: 13.8 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	top: .1 * $unit;
+	left: .1 * $unit;
+	transform: translateZ(4.1 * $unit);
+
+	&__front{
+		background-image: linear-gradient(to top, darken($c2, 15), $c2);
+		border-top: .15 * $unit solid lighten($c1, 5);
+		border-bottom: .15 * $unit solid darken($c3, 2);
+	}
+	&__back{
+		background-image: linear-gradient(to top, darken($c2, 15), $c2);
+		border-top: .15 * $unit solid lighten($c1, 5);
+		border-bottom: .15 * $unit solid darken($c3, 2);
+	}
+	&__left{
+		background-image: linear-gradient(to top, darken($c2, 20), $c2);
+		border-top: .15 * $unit solid lighten($c1, 5);
+		border-bottom: .15 * $unit solid darken($c3, 2);
+	}
+	&__right{ background-color: darken($c3, 20); }
+	&__top{
+		background-color: $c1;
+		background-image: linear-gradient(to bottom, lighten($c1, 3), $c1, darken($c1, 3));
+		border-top: .2 * $unit solid lighten($c1, 20);
+
+		&::after{
+			content: '';
+			display: inline-block;
+			width: 100%;
+			height: 100%;
+			padding: 1.15 * $unit 1 * $unit;
+
+			background-image:
+	                linear-gradient( 90deg, transparent 0%, transparent 50%, $c1 50%, $c1 100%),
+	                linear-gradient( 0deg, darken($c3, 30)  0%, darken($c3, 10) 50%, $c1 50%, $c1 100%);
+
+	        background-size: 1.4 * $unit 1.05 * $unit;
+			background-clip: content-box;
+
+		}
+	}
+	&__bottom{ background-color: darken($c3, 15);}
+}
+
+.d{
+    $width-el: 11.9 * $unit;
+    $height-el: 1  * $unit;
+    $depth-el: 3.9 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	bottom: .2 * $unit;
+	left: 22.2 * $unit;
+	transform: translateZ(4.1 * $unit);
+
+	&__front{
+		background-image: linear-gradient(to top, darken($d2, 15), $d2);
+		border-top: .15 * $unit solid lighten($d1, 5);
+		border-bottom: .15 * $unit solid darken($d3, 2);
+	}
+	&__back{
+		background-image: linear-gradient(to bottom, darken($d1, 10), $d1);
+	}
+	&__left{
+		background-image: linear-gradient(to top, darken($d2, 10), $d2);
+
+	}
+	&__right{
+		background-color: darken($d3, 15);
+
+	}
+	&__top{
+		background-color: $d1;
+		background-image: linear-gradient(to bottom, darken($d1, 5), darken($d1, 5));
+
+
+	}
+	&__bottom{
+		background-color: darken($d3, 15);
+	}
+}
+
+.d-shadow{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 3 * $unit;
+	background-image: linear-gradient(12deg, transparent 50%, darken($d3, 5) 50%);
+	transition: height 100ms linear;
+}
+.is-tape-close{
+	height: 0;
+	transition: height 100ms linear;
+}
+
+
+
+.e{
+    $width-el: 11.9 * $unit;
+    $height-el: .75  * $unit;
+    $depth-el: .5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	bottom: 8 * $unit;
+	left: 22.2 * $unit;
+	transform: translateZ(4.1 * $unit);
+
+	&__front{
+		background-color: darken($d3, 30);
+	}
+	&__back{
+		background-color: darken($d3, 10);
+	}
+	&__left{
+		background-color: darken($d3, 30);
+	}
+	&__right{
+		background-color: darken($d3, 30);
+	}
+	&__top{
+		background-color: darken($d3, 5);
+	}
+	&__bottom{
+		background-color: darken($d3, 30);
+
+	}
+}
+
+
+
+.f{
+    $width-el: 11.9 * $unit;
+    $height-el: .75  * $unit;
+    $depth-el: .5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	top: 0;
+	left: 22.2 * $unit;
+	transform: translateZ(4.1 * $unit);
+
+	&__front{
+		background-color: darken($d3, 20);
+	}
+	&__back{
+		background-image: linear-gradient(to bottom, $d3, darken($d3, 10));
+		border-top: .2 * $unit solid lighten($d1, 5);
+	}
+	&__left{
+		background-color: darken($d3, 30);
+	}
+	&__right{
+		background-color: darken($d3, 30);
+
+	}
+	&__top{
+		background-color: darken($d1, 8);
+	}
+	&__bottom{
+		background-color: darken($d3, 30);
+
+	}
+}
+
+
+
+.g{
+    $width-el: 11 * $unit;
+    $height-el: .5  * $unit;
+    $depth-el: 8.5 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	bottom: 9.5 * $unit;
+	left: 22.6 * $unit;
+	transform: translateZ(4.1 * $unit);
+
+	&__front{
+		background-color: darken($cs3, 30);
+	}
+	&__back{
+		background-color: darken($cs3, 30);
+	}
+	&__left{
+		background-color: darken($cs3, 30);
+	}
+	&__right{
+		background-color: darken($cs3, 30);
+	}
+	&__top{
+		background-color: $cs1;
+		background-image: linear-gradient(to bottom, darken($cs1, 15), darken($cs1, 15));
+
+		&::before{
+			content: 'TOTO - 1978';
+			position: absolute;
+			width: 13 * $unit;
+			height: 1.75 * $unit;
+
+			transform-origin: top left;
+			transform: rotateZ(90deg);
+
+			top: 2 * $unit;
+			left: 4 * $unit;
+
+			font-size: 1 * $unit;
+			text-align: center;
+			line-height: 2;
+			background-color: $a1;
+			color: black;
+		}
+
+		&::after{
+			content: '';
+			position: absolute;
+			top: 3 * $unit;
+			right: 2 * $unit;
+
+			width: 2.5 * $unit;
+			height: 2.5 * $unit;
+			border-radius: 50%;
+			background-color: $a3;
+
+			box-shadow: 0 8 * $unit  0 $a3;
+		}
+	}
+
+	&__bottom{
+		background-color: darken($cs3, 30);
+	}
+}
+
+.h{
+    $width-el: 11.9 * $unit;
+    $height-el: .25  * $unit;
+    $depth-el: 10 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	bottom: 8 * $unit;
+	left: 22.2 * $unit;
+	transform-origin: top left;
+	transform: translateZ(4.85 * $unit) rotateY(-12deg);
+	transition: transform 100ms linear;
+
+	&__front{
+		background-image: linear-gradient(to top, rgba(darken($d2, 10), .85), rgba($d2, .85));
+	}
+	&__back{
+		background-image: linear-gradient(to top, rgba(darken($d2, 10), .85), rgba($d2, .85));
+	}
+	&__left{
+		background-image: linear-gradient(to top, rgba(darken($d2, 10), .85), rgba($d2, .85));
+
+	}
+	&__right{
+		background-color: rgba(darken($d3, 15), .8);
+
+	}
+	&__top{
+		background-image: linear-gradient(to bottom, rgba($d1, .85), rgba(darken($d1, 5), .85) );
+		border: .2 * $unit solid lighten($d1, 2);
+		overflow: hidden;
+
+		&::after{
+			content: '';
+			position: absolute;
+			top: 20%;
+			width: 100%;
+			height: 5 * $unit;
+
+			transform-origin: top left;
+			transform: skewY(35deg);
+			background-color: rgba($a1, .1);
+			filter: blur(.75 * $unit);
+		}
+	}
+	&__bottom{
+		background-color: darken($d3, 15);
+	}
+}
+
+.is-radio-playing{
+	transform: translateZ(4.85 * $unit) rotateY(0deg);
+	transition: transform 100ms linear;
+}
+
+.i{
+    $width-el: 5.5 * $unit;
+    $height-el: 1  * $unit;
+    $depth-el: 3.9 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	bottom: .2 * $unit;
+	left: 34.3 * $unit;
+	transform: translateZ(4.1 * $unit);
+
+	&__front{
+		background-image: linear-gradient(to top, darken($a2, 40), $a2);
+		border-top: .15 * $unit solid lighten($a1, 5);
+	}
+    &__back{ background-color: darken($a3, 40); }
+    &__left{ background-color: darken($a3, 40); }
+    &__right{
+		background-image: linear-gradient(to top, darken($a3, 30), $a3);
+		border-top: .15 * $unit solid lighten($a1, 5);
+	}
+    &__top{ background-color: darken($a1, 5); }
+    &__bottom{
+		background-color: darken($a3, 10);
+	}
+}
+
+
+.j{
+    $width-el: 2.75 * $unit;
+    $height-el: 1  * $unit;
+    $depth-el: 9 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	bottom: 8 * $unit;
+	left: 34.3 * $unit;
+	transform: translateZ(4.1 * $unit);
+
+	&__front{ background-image: $a2; }
+	&__back{ background-color: $a1; }
+	&__left{ background-color: darken($a3, 40); }
+	&__right{ background-color: darken($a3, 30); }
+	&__top{
+		background-image: linear-gradient(to bottom, $a1, darken($a1, 5));
+	}
+	&__bottom{
+		background-color: darken($a3, 30);
+	}
+}
+
+
+.k{
+    $width-el: 5.5 * $unit;
+    $height-el: 1  * $unit;
+    $depth-el: 1 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+	top: .2 * $unit;
+	left: 34.3 * $unit;
+	transform: translateZ(4.1 * $unit);
+
+	&__front{ background-color: darken($a3, 40); }
+    &__back{
+		background-image: linear-gradient(to top, darken($a1, 20), $a1);
+		border-top: .2 * $unit solid lighten($a1, 5);
+	}
+    &__left{ background-color: darken($a3, 40); }
+    &__right{
+		background-image: linear-gradient(to top, darken($a3, 30), $a3);
+		border-top: .2 * $unit solid lighten($a1, 5);
+	}
+    &__top{ background-color: $a1; }
+    &__bottom{
+		background-color: darken($a3, 10);
+	}
+}
+
+.buttons {
+	position: absolute;
+	top: 2.35 * $unit;
+	right: 0;
+	transform: translateZ(4.1 * $unit);
+
+	width: 2.8 * $unit;
+	height: 17.6 * $unit;
+	display: grid;
+	gap: .05 * $unit;
+}
+
+.button{
+	position: relative;
+	width: 3 * $unit;
+	height: 2.6 * $unit;
+	transform-origin: top left;
+	transform: rotateY(-2deg);
+
+	&:nth-of-type(1){
+		.button-b .button-b__top{
+			background-color: $button;
+			border: none;
+			cursor: pointer;
+
+			animation: button 750ms linear infinite alternate;
+		}
+	}
+
+}
+@keyframes button{
+	to{ background-color: darken($button, 10);}
+}
+
+.button-a{
+    $width-el: 2.25 * $unit;
+    $height-el: .7  * $unit;
+    $depth-el: 1.35 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+
+	&__front{ background-color: darken($a3, 40); }
+    &__back{ background-color: darken($a3, 40); }
+    &__left{ background-color: darken($a3, 40); }
+    &__right{ background-image: linear-gradient(to bottom, darken($a3, 30), darken($a3, 10)); }
+    &__top{ background-color: darken($a3, 40); }
+    &__bottom{
+		background-color: darken($a3, 40);
+	}
+}
+.button-b{
+    $width-el: 2.6 * $unit;
+    $height-el: .25  * $unit;
+    $depth-el: 1.35 * $unit;
+
+    @include cube($width-el, $height-el, $depth-el);
+    width: $width-el;
+    height: $depth-el * 2;
+    position: absolute;
+
+	transform: translateZ(.75 * $unit);
+
+	&__front{ background-color: darken($a3, 30); }
+	&__back{ background-color: darken($a3, 30); }
+	&__left{ background-color: darken($a3, 40); }
+	&__right{ background-image: linear-gradient(to bottom, darken($a3, 5), darken($a3, 0)); }
+	&__top{
+		background-color: $a1;
+		border: .2 * $unit solid lighten($a1, 7);
+	}
+	&__bottom{
+		background-color: darken($a3, 10);
+	}
+}
+.is-button-pressed{
+	transform-origin: top left;
+	transform: rotateY(5deg);
+
+}
+
+
+.circle{
+    $sides: 36;
+    $degree: 360deg;
+    $width: .7 * $unit;
+
+    width: 5 * $unit;
+    height: 5 * $unit;
+
+    position: absolute;
+	top: 86%;
+	transform: translateZ(2 * $unit);
+
+    &-a{
+        $base: 5 * $unit;
+        $pi: 3.5;
+
+        position: absolute;
+        width: $width;
+        height: $base;
+        transform: rotateY(90deg) translateX(-50%);
+
+        @include cylinder($base, $sides, $degree, $pi, $width, darken($a3, 7));
+
+        &__bottom{
+			background-color: $a2;
+			border: .1 * $unit solid lighten($a1, 5);
+		}
+        &__top{ background-color: $a3; }
+    }
+
+}
