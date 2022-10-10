@@ -1,0 +1,130 @@
+doctype html
+html(lang='en')
+    head
+        meta(name="viewport" content="width=device-width, user-scalable=no")
+        link(rel="stylesheet" type="text/css" href="main.css")  
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nosifer&display=swap" rel="stylesheet"> 
+    body
+        div.main
+            div.slider.slider-01
+                div.layer.layer-01
+                    div.moon
+                    div.tree.tree-01
+                    div.tree.tree-02
+                    div.tree.tree-03
+                    div.tree.tree-04
+                    div.tree.tree-05
+            //- ===============
+            div.slider.slider-tree  
+                - var n = 0
+                while n < 2
+                    div.layer.layer-tree
+                        div.tree.tree-01
+                        div.tree.tree-02
+                        div.tree.tree-03
+                    - n++
+                      
+            //- ===============
+            div.slider.slider-02
+                - var n = 0
+                while n < 2
+                    div.layer.layer-02
+                        div.tree.tree-01
+                        div.tree.tree-02
+                        div.tree.tree-03
+                        div.tree.tree-04
+                        div.tree.tree-05
+                        div.tree.tree-06
+                        div.tree.tree-cta
+                        div.owl
+                            div.head
+                            div.body
+                        div.house
+                            div.fireplace
+                    - n++
+            //- ===============
+            div.slider.slider-03   
+                - var n = 0
+                while n < 2     
+                    div.layer.layer-03
+                        div.stone
+                        div.ground
+                        div.bush.bush-01
+                        div.bush.bush-02
+                        div.bush.bush-03
+                        div.bush.bush-04
+                        div.bush.bush-05
+                        div.bush.bush-06
+                        div.bush.bush-07
+                        
+                    - n++
+            //- ===============            
+            div.slider.slider-tree02  
+                - var n = 0
+                while n < 2
+                    div.layer.layer-tree02
+                        div.tree.tree-01
+                            div.leaf
+                            div.leaf
+                            div.leaf
+                            div.leaf
+                            div.leaf
+                        div.tree.tree-02
+                    - n++        
+            //- ===============            
+            div.ghost    
+            div.light    
+            div.fl.fl-small
+                div.f.f-01
+                div.f.f-02
+                div.f.f-03
+                div.f.f-04
+            
+            //- =============== 
+            div.slider.slider-05     
+                - var n = 0
+                while n < 2       
+                    div.layer.layer-05 
+                        div.ground
+                        div.tree.tree-01
+                            div.leaf
+                            div.leaf
+                            div.leaf
+                            div.leaf
+                            div.leaf
+                        div.bush.bush-00
+                        div.tree.tree-02
+                        div.tree.tree-03
+                        div.bush.bush-01
+                        div.bush.bush-02
+                        div.bush.bush-03
+                        div.bush.bush-04
+                        div.stone
+                        div.bush.bush-05
+                        div.bush.bush-06
+                        div.smt
+                        div.owl
+                            div.head
+                            div.body
+                    - n++
+            div.fl.fl-big
+                div.f.f-01
+                div.f.f-02            
+            a.fog
+            a.start#start.is-start-hidden
+                h1 start
+                div.fl.fl-small
+                    div.f.f-01
+                    div.f.f-02
+                    div.f.f-03
+                    div.f.f-04
+                div.fl.fl-big
+                    div.f.f-01
+                    div.f.f-02
+            audio#a
+                source(src="forest.mp3", type="audio/mpeg")
+        
+        script(src="main.js")
+                    

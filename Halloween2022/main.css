@@ -1,0 +1,1528 @@
+:root {
+  --bg1: #101974;
+  --bg2: #131e86;
+}
+
+/***********************/
+/***********************/
+*, *::after, *::before {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  font-family: "Nosifer", cursive;
+  color: #ffffff;
+}
+
+/***********************/
+/***********************/
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background-color: #131e86;
+}
+
+.main {
+  width: 120vmin;
+  height: 90vmin;
+  background-image: -webkit-gradient(linear, left bottom, left top, from(var(--bg1)), to(var(--bg2)));
+  background-image: linear-gradient(to top, var(--bg1), var(--bg2));
+  overflow: hidden;
+  -webkit-animation: colors linear 12000ms infinite;
+          animation: colors linear 12000ms infinite;
+}
+
+@-webkit-keyframes colors {
+  0%, 50%, 52%, 54%, 100% {
+    --bg1: #131e86;
+  }
+  51%, 53% {
+    --bg1: #222d93;
+  }
+}
+
+@keyframes colors {
+  0%, 50%, 52%, 54%, 100% {
+    --bg1: #131e86;
+  }
+  51%, 53% {
+    --bg1: #222d93;
+  }
+}
+.start {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: all 2000ms;
+  transition: all 2000ms;
+  background-color: #131e86;
+  cursor: pointer;
+}
+.start h1 {
+  font-size: 9vmin;
+  text-transform: capitalize;
+  -webkit-animation: start 500ms linear infinite alternate;
+          animation: start 500ms linear infinite alternate;
+}
+
+@-webkit-keyframes start {
+  to {
+    opacity: 0.5;
+  }
+}
+
+@keyframes start {
+  to {
+    opacity: 0.5;
+  }
+}
+.is-start-visible {
+  opacity: 0;
+}
+
+.is-start-hidden {
+  display: none;
+}
+
+.fog {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-box-shadow: inset 0 0 6vmin 6.75vmin #131e86;
+          box-shadow: inset 0 0 6vmin 6.75vmin #131e86;
+  cursor: none;
+}
+
+.layer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.tree {
+  position: absolute;
+  bottom: 0;
+}
+
+.owl {
+  position: absolute;
+  width: 6vmin;
+  height: 9vmin;
+  -webkit-transform-origin: bottom;
+          transform-origin: bottom;
+}
+.owl .head {
+  position: absolute;
+  width: 4.5vmin;
+  height: 4.5vmin;
+  border-radius: 50%;
+  background-color: #14146f;
+  -webkit-animation: head 4000ms linear infinite alternate;
+          animation: head 4000ms linear infinite alternate;
+}
+.owl .head::before, .owl .head::after {
+  content: "";
+  position: absolute;
+  top: 40%;
+  width: 0.75vmin;
+  height: 0.75vmin;
+  border-radius: 100% 0% 100% 0%/100% 0% 100% 0%;
+  background-color: #999999;
+  -webkit-animation: owl linear 10000ms infinite;
+          animation: owl linear 10000ms infinite;
+}
+.owl .head::before {
+  left: 22%;
+  border-radius: 0% 100% 0% 100%/0% 100% 0% 100%;
+}
+.owl .head::after {
+  right: 22%;
+  border-radius: 100% 0% 100% 0%/100% 0% 100% 0%;
+}
+.owl .body {
+  position: absolute;
+  width: 6vmin;
+  height: 6vmin;
+  bottom: 0;
+  border-radius: 56% 44% 63% 37%/45% 100% 0% 55%;
+  background-color: #14146f;
+}
+
+@-webkit-keyframes owl {
+  0%, 50%, 54%, 58%, 82%, 100% {
+    background-color: #999999;
+  }
+  52%, 56%, 60%, 80% {
+    background-color: #14146f;
+  }
+}
+
+@keyframes owl {
+  0%, 50%, 54%, 58%, 82%, 100% {
+    background-color: #999999;
+  }
+  52%, 56%, 60%, 80% {
+    background-color: #14146f;
+  }
+}
+@-webkit-keyframes head {
+  0%, 47% {
+    -webkit-transform: rotateZ(0);
+            transform: rotateZ(0);
+  }
+  53%, 100% {
+    -webkit-transform: rotateZ(45deg);
+            transform: rotateZ(45deg);
+  }
+}
+@keyframes head {
+  0%, 47% {
+    -webkit-transform: rotateZ(0);
+            transform: rotateZ(0);
+  }
+  53%, 100% {
+    -webkit-transform: rotateZ(45deg);
+            transform: rotateZ(45deg);
+  }
+}
+/***********************/
+/***********************/
+.moon {
+  position: absolute;
+  top: 8.25vmin;
+  left: 24vmin;
+  width: 6.75vmin;
+  height: 6.75vmin;
+  overflow: hidden;
+  background-image: radial-gradient(circle at 100% 25%, transparent 50%, #ffffff 50%);
+  border-radius: 50%;
+}
+
+.layer-01 .tree {
+  width: 4.5vmin;
+  height: 100%;
+  background-color: #131c81;
+  -webkit-clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+          clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+}
+.layer-01 .tree-01 {
+  left: 9.9vmin;
+}
+.layer-01 .tree-02 {
+  left: 33.3vmin;
+}
+.layer-01 .tree-03 {
+  left: 45vmin;
+}
+.layer-01 .tree-04 {
+  left: 74.25vmin;
+}
+.layer-01 .tree-05 {
+  left: 91.5vmin;
+}
+
+.slider-tree {
+  width: 300%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -webkit-filter: blur(0.3vmin);
+          filter: blur(0.3vmin);
+}
+
+.layer-tree {
+  width: 150%;
+  -webkit-animation: layer 32000ms linear infinite;
+          animation: layer 32000ms linear infinite;
+}
+
+.layer-tree .tree {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: #17218e;
+  position: absolute;
+}
+.layer-tree .tree::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 17%;
+  top: 15vmin;
+  border-top-left-radius: 3vmin;
+  border-top-right-radius: 3vmin;
+  background-image: linear-gradient(91deg, transparent 20%, #131c81 20%), linear-gradient(-91deg, transparent 20%, #131c81 20%);
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: 0 0, 100% 0;
+}
+.layer-tree .tree::after {
+  content: "";
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  width: 17%;
+  height: 10%;
+  border-radius: 50%;
+  background-color: #1b26a4;
+}
+.layer-tree .tree-01,
+.layer-tree .tree-02 {
+  height: 27vmin;
+  width: 18vmin;
+  bottom: 33vmin;
+  left: 75vmin;
+  border-radius: 50% 50% 48% 52%/60% 60% 40% 40%;
+}
+.layer-tree .tree-02 {
+  left: 135vmin;
+  height: 24vmin;
+  width: 18vmin;
+}
+.layer-tree .tree-03 {
+  height: 33vmin;
+  width: 21vmin;
+  bottom: 33vmin;
+  left: 3vmin;
+  border-radius: 50% 50% 48% 52%/60% 60% 40% 40%;
+}
+.layer-tree .tree-03::after {
+  content: "";
+  position: absolute;
+  left: 40%;
+  top: 50%;
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+  width: 9vmin;
+  height: 9vmin;
+  background-color: #131c81;
+  -webkit-clip-path: polygon(26% 59%, 42% 79%, 79% 79%, 100% 60%, 100% 100%, 44% 100%, 2% 100%, 0 77%);
+          clip-path: polygon(26% 59%, 42% 79%, 79% 79%, 100% 60%, 100% 100%, 44% 100%, 2% 100%, 0 77%);
+}
+
+.slider-02 {
+  width: 300%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+}
+
+.layer-02 {
+  width: 150%;
+  -webkit-animation: layer 12000ms linear infinite;
+          animation: layer 12000ms linear infinite;
+}
+
+.layer-02 .house {
+  position: absolute;
+  width: 30vmin;
+  height: 15vmin;
+  bottom: 21vmin;
+  left: 129vmin;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(2.55vmin, #f81744), color-stop(2.55vmin, transparent), color-stop(3.3vmin, #f81744)), -webkit-gradient(linear, left top, right top, color-stop(70%, #101a7e), color-stop(70%, #14146f));
+  background-image: linear-gradient(to right, #f81744 2.55vmin, transparent 2.55vmin 3.3vmin, #f81744 3.3vmin), linear-gradient(to right, #101a7e 70%, #14146f 70%);
+  background-size: 6vmin 3.75vmin, 100% 100%;
+  background-position: 40% 30%, 0 0;
+  background-repeat: no-repeat;
+  -webkit-animation: windows 5000ms linear infinite alternate;
+          animation: windows 5000ms linear infinite alternate;
+}
+.layer-02 .house::after, .layer-02 .house::before {
+  content: "";
+  position: absolute;
+  top: -6vmin;
+  height: 6vmin;
+}
+.layer-02 .house::after {
+  width: 70%;
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+  -webkit-transform: skewX(-36deg);
+          transform: skewX(-36deg);
+  background-color: #101a7e;
+}
+.layer-02 .house::before {
+  right: 0;
+  width: 50%;
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  -webkit-transform: skewX(36deg);
+          transform: skewX(36deg);
+  background-color: #14146f;
+}
+.layer-02 .house .fireplace {
+  position: absolute;
+  bottom: 100%;
+  width: 3vmin;
+  height: 9vmin;
+  left: 6vmin;
+  background-color: #101a7e;
+}
+.layer-02 .house .fireplace::before {
+  content: "";
+  position: absolute;
+  width: 3vmin;
+  height: 6vmin;
+  border-radius: 50%;
+  background-color: #101a7e;
+  -webkit-animation: fireplace 1000ms linear infinite;
+          animation: fireplace 1000ms linear infinite;
+  -webkit-filter: blur(0.225vmin);
+          filter: blur(0.225vmin);
+}
+@-webkit-keyframes windows {
+  0%, 45%, 55%, 65%, 100% {
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(2.55vmin, #f81744), color-stop(2.55vmin, transparent), color-stop(3.3vmin, #f81744)), -webkit-gradient(linear, left top, right top, color-stop(70%, #101a7e), color-stop(70%, #14146f));
+    background-image: linear-gradient(to right, #f81744 2.55vmin, transparent 2.55vmin 3.3vmin, #f81744 3.3vmin), linear-gradient(to right, #101a7e 70%, #14146f 70%);
+  }
+  50%, 60% {
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(2.55vmin, #73031a), color-stop(2.55vmin, transparent), color-stop(3.3vmin, #8b041f)), -webkit-gradient(linear, left top, right top, color-stop(70%, #101a7e), color-stop(70%, #14146f));
+    background-image: linear-gradient(to right, #73031a 2.55vmin, transparent 2.55vmin 3.3vmin, #8b041f 3.3vmin), linear-gradient(to right, #101a7e 70%, #14146f 70%);
+  }
+}
+@keyframes windows {
+  0%, 45%, 55%, 65%, 100% {
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(2.55vmin, #f81744), color-stop(2.55vmin, transparent), color-stop(3.3vmin, #f81744)), -webkit-gradient(linear, left top, right top, color-stop(70%, #101a7e), color-stop(70%, #14146f));
+    background-image: linear-gradient(to right, #f81744 2.55vmin, transparent 2.55vmin 3.3vmin, #f81744 3.3vmin), linear-gradient(to right, #101a7e 70%, #14146f 70%);
+  }
+  50%, 60% {
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(2.55vmin, #73031a), color-stop(2.55vmin, transparent), color-stop(3.3vmin, #8b041f)), -webkit-gradient(linear, left top, right top, color-stop(70%, #101a7e), color-stop(70%, #14146f));
+    background-image: linear-gradient(to right, #73031a 2.55vmin, transparent 2.55vmin 3.3vmin, #8b041f 3.3vmin), linear-gradient(to right, #101a7e 70%, #14146f 70%);
+  }
+}
+@-webkit-keyframes fireplace {
+  to {
+    -webkit-transform: translateY(-9vmin) scaleY(2);
+            transform: translateY(-9vmin) scaleY(2);
+    opacity: 0.1;
+  }
+}
+@keyframes fireplace {
+  to {
+    -webkit-transform: translateY(-9vmin) scaleY(2);
+            transform: translateY(-9vmin) scaleY(2);
+    opacity: 0.1;
+  }
+}
+.layer-02 .tree {
+  height: 100%;
+  width: 6.75vmin;
+  background-image: linear-gradient(90.5deg, transparent 20%, #101a7e 20%), linear-gradient(-90.5deg, transparent 20%, #101a7e 20%);
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: 0 0, 100% 0;
+}
+.layer-02 .tree::before, .layer-02 .tree::after {
+  content: "";
+  position: absolute;
+  background-color: #101a7e;
+}
+.layer-02 .tree::before {
+  left: 1.5vmin;
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+  -webkit-transform: rotateZ(-30deg);
+          transform: rotateZ(-30deg);
+}
+.layer-02 .tree::after {
+  right: 1.5vmin;
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  -webkit-transform: rotateZ(30deg);
+          transform: rotateZ(30deg);
+}
+.layer-02 .tree-01 {
+  left: 9vmin;
+}
+.layer-02 .tree-01::before {
+  bottom: 27vmin;
+  width: 3vmin;
+  height: 12vmin;
+  -webkit-clip-path: polygon(3% 3%, 0 44%, 39% 66%, 100% 100%, 100% 62%, 79% 31%, 68% 52%);
+          clip-path: polygon(3% 3%, 0 44%, 39% 66%, 100% 100%, 100% 62%, 79% 31%, 68% 52%);
+}
+.layer-02 .tree-01::after {
+  bottom: 39vmin;
+  width: 3vmin;
+  height: 15vmin;
+  -webkit-clip-path: polygon(45% 48%, 0 70%, 0 100%, 72% 80%, 100% 62%, 100% 54%, 75% 0);
+          clip-path: polygon(45% 48%, 0 70%, 0 100%, 72% 80%, 100% 62%, 100% 54%, 75% 0);
+}
+.layer-02 .tree-02 {
+  left: 33.3vmin;
+  width: 7.5vmin;
+}
+.layer-02 .tree-02::before {
+  bottom: 36vmin;
+  width: 3vmin;
+  height: 6vmin;
+  -webkit-clip-path: polygon(0 16%, 0 39%, 100% 100%, 100% 82%, 100% 62%, 99% 42%, 18% 16%);
+          clip-path: polygon(0 16%, 0 39%, 100% 100%, 100% 82%, 100% 62%, 99% 42%, 18% 16%);
+}
+.layer-02 .tree-03 {
+  left: 66vmin;
+  width: 6.375vmin;
+}
+.layer-02 .tree-03::after {
+  bottom: 39vmin;
+  width: 3vmin;
+  height: 15vmin;
+  -webkit-clip-path: polygon(0 100%, 30% 100%, 60% 95%, 69% 91%, 80% 77%, 92% 61%, 95% 45%, 94% 28%, 85% 24%, 70% 34%, 54% 56%, 28% 65%, 14% 75%, 0% 79%);
+          clip-path: polygon(0 100%, 30% 100%, 60% 95%, 69% 91%, 80% 77%, 92% 61%, 95% 45%, 94% 28%, 85% 24%, 70% 34%, 54% 56%, 28% 65%, 14% 75%, 0% 79%);
+}
+.layer-02 .tree-04 {
+  left: 90vmin;
+  width: 7.05vmin;
+}
+.layer-02 .tree-04::before {
+  bottom: 39vmin;
+  width: 3vmin;
+  height: 9vmin;
+  -webkit-clip-path: polygon(0 100%, 30% 100%, 66% 77%, 92% 61%, 95% 45%, 94% 28%, 70% 59%, 45% 17%, 0 39%);
+          clip-path: polygon(0 100%, 30% 100%, 66% 77%, 92% 61%, 95% 45%, 94% 28%, 70% 59%, 45% 17%, 0 39%);
+}
+.layer-02 .tree-04::after {
+  bottom: 30vmin;
+  width: 3vmin;
+  height: 18vmin;
+  -webkit-clip-path: polygon(8% 65%, 100% 100%, 100% 85%, 100% 6%, 75% 17%, 28% 6%, 60% 45%, 26% 37%, 33% 59%);
+          clip-path: polygon(8% 65%, 100% 100%, 100% 85%, 100% 6%, 75% 17%, 28% 6%, 60% 45%, 26% 37%, 33% 59%);
+}
+.layer-02 .tree-05 {
+  left: 117vmin;
+  width: 7.05vmin;
+}
+.layer-02 .tree-05::before {
+  bottom: 27vmin;
+  width: 3vmin;
+  height: 24vmin;
+  -webkit-clip-path: polygon(0% 75%, 35% 95%, 77% 99%, 96% 86%, 72% 76%, 27% 62%);
+          clip-path: polygon(0% 75%, 35% 95%, 77% 99%, 96% 86%, 72% 76%, 27% 62%);
+}
+.layer-02 .tree-06 {
+  left: 164.25vmin;
+}
+.layer-02 .tree-06::before {
+  bottom: 27vmin;
+  width: 3vmin;
+  height: 12vmin;
+  -webkit-clip-path: polygon(0% 75%, 35% 95%, 77% 99%, 96% 86%, 72% 76%, 27% 62%);
+          clip-path: polygon(0% 75%, 35% 95%, 77% 99%, 96% 86%, 72% 76%, 27% 62%);
+}
+.layer-02 .tree-cta {
+  left: 44.25vmin;
+  height: 65%;
+  background-image: linear-gradient(93deg, transparent 25%, #14146f 25%), linear-gradient(-93deg, transparent 25%, #14146f 25%);
+}
+.layer-02 .tree-cta::before {
+  bottom: 42vmin;
+  width: 12vmin;
+  height: 12vmin;
+  -webkit-transform: rotateZ(0);
+          transform: rotateZ(0);
+  background-color: #14146f;
+  -webkit-clip-path: polygon(0 100%, 49% 100%, 88% 100%, 93% 73%, 98% 29%, 98% 0, 87% 14%, 85% 35%, 71% 21%, 71% 35%, 76% 49%, 68% 70%, 0 68%);
+          clip-path: polygon(0 100%, 49% 100%, 88% 100%, 93% 73%, 98% 29%, 98% 0, 87% 14%, 85% 35%, 71% 21%, 71% 35%, 76% 49%, 68% 70%, 0 68%);
+}
+.layer-02 .tree-cta::after {
+  right: 4.5vmin;
+  bottom: 42vmin;
+  width: 12vmin;
+  height: 6vmin;
+  background-color: #14146f;
+  -webkit-clip-path: polygon(0 100%, 49% 100%, 100% 100%, 100% 69%, 100% 0, 68% 23%, 54% 53%, 22% 67%, 0 73%);
+          clip-path: polygon(0 100%, 49% 100%, 100% 100%, 100% 69%, 100% 0, 68% 23%, 54% 53%, 22% 67%, 0 73%);
+}
+.layer-02 .owl {
+  bottom: 46.5vmin;
+  left: 39vmin;
+  -webkit-transform: scale(0.75);
+          transform: scale(0.75);
+}
+
+.slider-03 {
+  width: 300%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+}
+
+.layer-03 {
+  width: 150%;
+  -webkit-animation: layer 8000ms linear infinite;
+          animation: layer 8000ms linear infinite;
+}
+
+.layer-03 .ground {
+  width: 100%;
+  height: 90%;
+  -webkit-clip-path: polygon(0% 65%, 25% 71%, 42% 62%, 65% 66%, 82% 67%, 100% 65%, 100% 100%, 0 100%);
+          clip-path: polygon(0% 65%, 25% 71%, 42% 62%, 65% 66%, 82% 67%, 100% 65%, 100% 100%, 0 100%);
+  background-color: #14146f;
+}
+.layer-03 .stone {
+  position: absolute;
+  width: 9vmin;
+  height: 9vmin;
+  left: 0vmin;
+  bottom: 27vmin;
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  -webkit-transform: rotateZ(-10deg);
+          transform: rotateZ(-10deg);
+  -webkit-clip-path: polygon(10% 25%, 35% 25%, 35% 0%, 65% 0%, 65% 25%, 90% 25%, 90% 50%, 65% 50%, 65% 100%, 35% 100%, 35% 50%, 10% 50%);
+          clip-path: polygon(10% 25%, 35% 25%, 35% 0%, 65% 0%, 65% 25%, 90% 25%, 90% 50%, 65% 50%, 65% 100%, 35% 100%, 35% 50%, 10% 50%);
+  background-color: #14146f;
+}
+.layer-03 .bush {
+  position: absolute;
+  height: 4.5vmin;
+  width: 4.5vmin;
+  background-color: #14146f;
+}
+.layer-03 .bush-01 {
+  left: 15vmin;
+  bottom: 25.5vmin;
+  border-radius: 30% 70% 100% 0%/70% 100% 0% 30%;
+  -webkit-clip-path: polygon(11% 36%, 40% 30%, 66% 24%, 86% 24%, 98% 55%, 100% 100%, 0 100%);
+          clip-path: polygon(11% 36%, 40% 30%, 66% 24%, 86% 24%, 98% 55%, 100% 100%, 0 100%);
+}
+.layer-03 .bush-02 {
+  left: 37.5vmin;
+  bottom: 22.5vmin;
+  height: 7.5vmin;
+  width: 9vmin;
+  -webkit-clip-path: polygon(100% 50%, 76% 42%, 45% 41%, 20% 45%, 6% 56%, 0% 66%, 0% 87%, 0 100%, 15% 100%, 30% 90%, 48% 92%, 60% 100%, 82% 100%, 100% 99%);
+          clip-path: polygon(100% 50%, 76% 42%, 45% 41%, 20% 45%, 6% 56%, 0% 66%, 0% 87%, 0 100%, 15% 100%, 30% 90%, 48% 92%, 60% 100%, 82% 100%, 100% 99%);
+}
+.layer-03 .bush-03 {
+  left: 135vmin;
+  bottom: 26.55vmin;
+  -webkit-clip-path: polygon(11% 36%, 40% 30%, 66% 24%, 86% 24%, 98% 55%, 100% 100%, 0 100%);
+          clip-path: polygon(11% 36%, 40% 30%, 66% 24%, 86% 24%, 98% 55%, 100% 100%, 0 100%);
+}
+.layer-03 .bush-04 {
+  left: 120vmin;
+  bottom: 21vmin;
+  height: 7.5vmin;
+  width: 9vmin;
+  background-color: #131c81;
+  -webkit-clip-path: polygon(24% 52%, 49% 61%, 53% 75%, 68% 73%, 85% 85%, 85% 100%, 44% 100%, 2% 100%, 7% 72%);
+          clip-path: polygon(24% 52%, 49% 61%, 53% 75%, 68% 73%, 85% 85%, 85% 100%, 44% 100%, 2% 100%, 7% 72%);
+}
+.layer-03 .bush-05 {
+  left: 24vmin;
+  bottom: 18vmin;
+  background-color: #131c81;
+  -webkit-clip-path: polygon(26% 59%, 49% 43%, 85% 53%, 100% 93%, 100% 100%, 44% 100%, 2% 100%, 0 77%);
+          clip-path: polygon(26% 59%, 49% 43%, 85% 53%, 100% 93%, 100% 100%, 44% 100%, 2% 100%, 0 77%);
+}
+.layer-03 .bush-06 {
+  width: 9vmin;
+  left: 54vmin;
+  bottom: 21vmin;
+  background-color: #131c81;
+  -webkit-clip-path: polygon(38% 52%, 78% 48%, 91% 64%, 100% 100%, 70% 100%, 30% 100%, 0 100%, 17% 49%);
+          clip-path: polygon(38% 52%, 78% 48%, 91% 64%, 100% 100%, 70% 100%, 30% 100%, 0 100%, 17% 49%);
+}
+.layer-03 .bush-07 {
+  left: 90vmin;
+  bottom: 18vmin;
+  height: 12vmin;
+  -webkit-clip-path: polygon(5% 63%, 29% 64%, 58% 72%, 92% 79%, 100% 94%, 48% 96%, 12% 87%);
+          clip-path: polygon(5% 63%, 29% 64%, 58% 72%, 92% 79%, 100% 94%, 48% 96%, 12% 87%);
+}
+
+.slider-tree02 {
+  width: 300%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+}
+
+.layer-tree02 {
+  width: 150%;
+  -webkit-animation: layer 7000ms linear infinite;
+          animation: layer 7000ms linear infinite;
+}
+
+.layer-tree02 {
+  width: 150%;
+}
+.layer-tree02 .tree {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 50% 50% 50% 50%/78% 75% 25% 22%;
+  background-color: #14269f;
+}
+.layer-tree02 .tree::after {
+  content: "";
+  position: absolute;
+  height: 110%;
+  width: 3vmin;
+  top: 13.65vmin;
+  border-radius: 3vmin;
+  background-image: linear-gradient(91deg, transparent 20%, #14146f 20%), linear-gradient(-91deg, transparent 20%, #14146f 20%);
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: 0 0, 100% 0;
+}
+.layer-tree02 .tree .leaf {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #14269f;
+}
+.layer-tree02 .tree .leaf:nth-of-type(1), .layer-tree02 .tree .leaf:nth-of-type(2) {
+  left: 50%;
+  bottom: -5%;
+  border-radius: 100% 0% 100% 0%/100% 0% 100% 0%;
+}
+.layer-tree02 .tree .leaf:nth-of-type(1) {
+  width: 80%;
+  height: 60%;
+}
+.layer-tree02 .tree .leaf:nth-of-type(1)::before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  width: 40%;
+  height: 30%;
+  border-radius: 100% 0% 100% 0%/100% 0% 100% 0%;
+  background-color: #172bb6;
+}
+.layer-tree02 .tree .leaf:nth-of-type(2) {
+  width: 70%;
+  height: 60%;
+  bottom: 30%;
+}
+.layer-tree02 .tree .leaf:nth-of-type(3), .layer-tree02 .tree .leaf:nth-of-type(4) {
+  right: 50%;
+  bottom: -5%;
+  border-radius: 0% 100% 0% 100%/0% 100% 0% 100%;
+}
+.layer-tree02 .tree .leaf:nth-of-type(3) {
+  width: 80%;
+  height: 60%;
+}
+.layer-tree02 .tree .leaf:nth-of-type(4) {
+  width: 70%;
+  height: 60%;
+  bottom: 30%;
+}
+.layer-tree02 .tree .leaf:nth-of-type(4)::before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  right: 20%;
+  width: 30%;
+  height: 20%;
+  border-radius: 0% 100% 0% 100%/0% 100% 0% 100%;
+  background-color: #172bb6;
+}
+.layer-tree02 .tree .leaf:nth-of-type(5) {
+  width: 70%;
+  height: 60%;
+  bottom: 60%;
+  border-radius: 50% 50% 50% 50%/78% 75% 25% 22%;
+}
+.layer-tree02 .tree-01 {
+  height: 30vmin;
+  width: 18vmin;
+  bottom: 33vmin;
+  left: 45vmin;
+}
+.layer-tree02 .tree-02 {
+  height: 28.5vmin;
+  width: 19.5vmin;
+  bottom: 33vmin;
+  left: 135vmin;
+}
+.layer-tree02 .tree-02::after {
+  width: 2.55vmin;
+}
+.layer-tree02 .tree-02::before {
+  content: "";
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  width: 25%;
+  height: 10%;
+  border-radius: 100% 0% 100% 0%/100% 0% 100% 0%;
+  background-color: #172bb6;
+}
+
+.ghost {
+  position: absolute;
+  height: 6.75vmin;
+  width: 6vmin;
+  bottom: 24vmin;
+  left: 60vmin;
+  background-image: radial-gradient(circle at -50% 60%, #628ff9, #185af6 70%, #152ec3 80%);
+  -webkit-clip-path: polygon(0% 100%, 0% 90%, 0% 77%, 0% 62%, 3% 50%, 10% 35%, 16% 26%, 23% 17%, 29% 14%, 43% 11%, 56% 12%, 70% 18%, 80% 25%, 86% 33%, 90% 45%, 92% 56%, 93% 68%, 95% 82%, 97% 91%, 98% 100%);
+          clip-path: polygon(0% 100%, 0% 90%, 0% 77%, 0% 62%, 3% 50%, 10% 35%, 16% 26%, 23% 17%, 29% 14%, 43% 11%, 56% 12%, 70% 18%, 80% 25%, 86% 33%, 90% 45%, 92% 56%, 93% 68%, 95% 82%, 97% 91%, 98% 100%);
+  -webkit-animation: ghost-01 500ms linear infinite alternate, ghost-02 250ms linear infinite alternate;
+          animation: ghost-01 500ms linear infinite alternate, ghost-02 250ms linear infinite alternate;
+}
+
+@-webkit-keyframes ghost-01 {
+  0%, 15% {
+    -webkit-transform: translateY(0) scaleZ(1) scaleX(1);
+            transform: translateY(0) scaleZ(1) scaleX(1);
+  }
+  85%, 100% {
+    -webkit-transform: translateY(-3.375vmin) scaleZ(0.7) scaleX(0.9);
+            transform: translateY(-3.375vmin) scaleZ(0.7) scaleX(0.9);
+  }
+}
+
+@keyframes ghost-01 {
+  0%, 15% {
+    -webkit-transform: translateY(0) scaleZ(1) scaleX(1);
+            transform: translateY(0) scaleZ(1) scaleX(1);
+  }
+  85%, 100% {
+    -webkit-transform: translateY(-3.375vmin) scaleZ(0.7) scaleX(0.9);
+            transform: translateY(-3.375vmin) scaleZ(0.7) scaleX(0.9);
+  }
+}
+@-webkit-keyframes ghost-02 {
+  to {
+    -webkit-clip-path: polygon(20% 100%, 10% 88%, 5% 78%, 4% 63%, 6% 50%, 11% 37%, 16% 28%, 22% 21%, 31% 15%, 44% 13%, 57% 14%, 68% 20%, 76% 26%, 81% 33%, 87% 42%, 89% 54%, 89% 66%, 86% 80%, 82% 89%, 72% 100%);
+            clip-path: polygon(20% 100%, 10% 88%, 5% 78%, 4% 63%, 6% 50%, 11% 37%, 16% 28%, 22% 21%, 31% 15%, 44% 13%, 57% 14%, 68% 20%, 76% 26%, 81% 33%, 87% 42%, 89% 54%, 89% 66%, 86% 80%, 82% 89%, 72% 100%);
+  }
+}
+@keyframes ghost-02 {
+  to {
+    -webkit-clip-path: polygon(20% 100%, 10% 88%, 5% 78%, 4% 63%, 6% 50%, 11% 37%, 16% 28%, 22% 21%, 31% 15%, 44% 13%, 57% 14%, 68% 20%, 76% 26%, 81% 33%, 87% 42%, 89% 54%, 89% 66%, 86% 80%, 82% 89%, 72% 100%);
+            clip-path: polygon(20% 100%, 10% 88%, 5% 78%, 4% 63%, 6% 50%, 11% 37%, 16% 28%, 22% 21%, 31% 15%, 44% 13%, 57% 14%, 68% 20%, 76% 26%, 81% 33%, 87% 42%, 89% 54%, 89% 66%, 86% 80%, 82% 89%, 72% 100%);
+  }
+}
+.light {
+  position: absolute;
+  bottom: 15vmin;
+  left: 51vmin;
+  width: 24vmin;
+  height: 24vmin;
+  border-radius: 50%;
+  background-color: rgba(131, 132, 209, 0.4);
+  -webkit-box-shadow: 0 0 3vmin 6vmin rgba(131, 132, 209, 0.4);
+          box-shadow: 0 0 3vmin 6vmin rgba(131, 132, 209, 0.4);
+  mix-blend-mode: color-dodge;
+  -webkit-animation: light 500ms linear infinite alternate;
+          animation: light 500ms linear infinite alternate;
+}
+
+@-webkit-keyframes light {
+  0%, 15% {
+    -webkit-transform: translateY(0) scaleX(1);
+            transform: translateY(0) scaleX(1);
+    -webkit-box-shadow: 0 0 3vmin 6vmin rgba(131, 132, 209, 0.4);
+            box-shadow: 0 0 3vmin 6vmin rgba(131, 132, 209, 0.4);
+  }
+  85%, 100% {
+    -webkit-transform: translateY(-3.375vmin) scaleX(0.9);
+            transform: translateY(-3.375vmin) scaleX(0.9);
+    -webkit-box-shadow: 0 0 4.5vmin 6vmin rgba(131, 132, 209, 0.4);
+            box-shadow: 0 0 4.5vmin 6vmin rgba(131, 132, 209, 0.4);
+  }
+}
+
+@keyframes light {
+  0%, 15% {
+    -webkit-transform: translateY(0) scaleX(1);
+            transform: translateY(0) scaleX(1);
+    -webkit-box-shadow: 0 0 3vmin 6vmin rgba(131, 132, 209, 0.4);
+            box-shadow: 0 0 3vmin 6vmin rgba(131, 132, 209, 0.4);
+  }
+  85%, 100% {
+    -webkit-transform: translateY(-3.375vmin) scaleX(0.9);
+            transform: translateY(-3.375vmin) scaleX(0.9);
+    -webkit-box-shadow: 0 0 4.5vmin 6vmin rgba(131, 132, 209, 0.4);
+            box-shadow: 0 0 4.5vmin 6vmin rgba(131, 132, 209, 0.4);
+  }
+}
+.slider-05 {
+  width: 300%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+}
+
+.layer-05 {
+  width: 150%;
+  -webkit-animation: layer 3000ms linear infinite;
+          animation: layer 3000ms linear infinite;
+}
+
+.layer-05 .ground {
+  width: 100%;
+  height: 50%;
+  -webkit-clip-path: polygon(0 70%, 23% 72%, 43% 62%, 56% 72%, 76% 78%, 100% 70%, 100% 100%, 0 100%);
+          clip-path: polygon(0 70%, 23% 72%, 43% 62%, 56% 72%, 76% 78%, 100% 70%, 100% 100%, 0 100%);
+  background-color: #14115f;
+}
+.layer-05 .tree {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: #14115f;
+}
+.layer-05 .tree::after {
+  content: "";
+  position: absolute;
+  height: 110%;
+  width: 4.5vmin;
+  top: 13.65vmin;
+  border-top-left-radius: 3vmin;
+  border-top-right-radius: 3vmin;
+  background-image: linear-gradient(92deg, transparent 35%, #130a53 35%), linear-gradient(-92deg, transparent 35%, #130a53 35%);
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: 0 0, 100% 0;
+}
+.layer-05 .tree .leaf {
+  position: absolute;
+  border-radius: 50%;
+  background-color: #14115f;
+}
+.layer-05 .tree .leaf:nth-of-type(1), .layer-05 .tree .leaf:nth-of-type(2) {
+  left: 50%;
+  bottom: -5%;
+  border-radius: 100% 0% 100% 0%/100% 50% 50% 0%;
+}
+.layer-05 .tree .leaf:nth-of-type(1) {
+  width: 80%;
+  height: 60%;
+}
+.layer-05 .tree .leaf:nth-of-type(1)::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  width: 30%;
+  height: 20%;
+  border-radius: 100% 0% 100% 0%/100% 0% 100% 0%;
+  background-color: #172bb6;
+}
+.layer-05 .tree .leaf:nth-of-type(2) {
+  width: 70%;
+  height: 60%;
+  bottom: 30%;
+}
+.layer-05 .tree .leaf:nth-of-type(3), .layer-05 .tree .leaf:nth-of-type(4) {
+  right: 50%;
+  bottom: -5%;
+  border-radius: 0% 100% 0% 100%/50% 100% 0% 50%;
+}
+.layer-05 .tree .leaf:nth-of-type(3) {
+  width: 80%;
+  height: 60%;
+}
+.layer-05 .tree .leaf:nth-of-type(4) {
+  width: 70%;
+  height: 60%;
+  bottom: 30%;
+}
+.layer-05 .tree .leaf:nth-of-type(4)::before {
+  content: "";
+  position: absolute;
+  top: 60%;
+  right: 20%;
+  width: 20%;
+  height: 10%;
+  border-radius: 0% 100% 0% 100%/0% 100% 0% 100%;
+  background-color: #172bb6;
+}
+.layer-05 .tree .leaf:nth-of-type(5) {
+  width: 70%;
+  height: 50%;
+  bottom: 60%;
+  border-radius: 50% 50% 50% 50%/78% 75% 25% 22%;
+}
+.layer-05 .tree .leaf:nth-of-type(5)::before {
+  content: "";
+  position: absolute;
+  top: 20%;
+  right: 40%;
+  width: 15%;
+  height: 10%;
+  border-radius: 50%;
+  background-color: #172bb6;
+}
+.layer-05 .tree-01 {
+  height: 45vmin;
+  width: 24vmin;
+  bottom: 24vmin;
+  left: 75vmin;
+  border-radius: 50% 50% 50% 50%/78% 75% 25% 22%;
+}
+.layer-05 .tree-02,
+.layer-05 .tree-03 {
+  height: 100%;
+  width: 6vmin;
+  bottom: 6vmin;
+  left: -1.5vmin;
+  background-color: #130a53;
+}
+.layer-05 .tree-02::after {
+  content: "";
+  position: absolute;
+  left: 3vmin;
+  width: 18vmin;
+  height: 9vmin;
+  background-color: #130a53;
+  -webkit-clip-path: polygon(0 43%, 33% 68%, 54% 74%, 71% 65%, 85% 46%, 90% 79%, 100% 80%, 99% 98%, 90% 99%, 78% 92%, 59% 100%, 43% 97%, 20% 100%, 0 81%);
+          clip-path: polygon(0 43%, 33% 68%, 54% 74%, 71% 65%, 85% 46%, 90% 79%, 100% 80%, 99% 98%, 90% 99%, 78% 92%, 59% 100%, 43% 97%, 20% 100%, 0 81%);
+}
+.layer-05 .tree-03 {
+  left: 120vmin;
+  width: 3.75vmin;
+  bottom: 7.5vmin;
+}
+.layer-05 .tree-03::after {
+  content: none;
+}
+.layer-05 .bush {
+  position: absolute;
+  height: 6vmin;
+  width: 6vmin;
+  border-radius: 30% 70% 100% 0%/70% 100% 0% 30%;
+  background-color: #130a53;
+}
+.layer-05 .bush-01 {
+  left: 15vmin;
+  bottom: 12vmin;
+}
+.layer-05 .bush-02 {
+  left: 45vmin;
+  bottom: 12vmin;
+  width: 9vmin;
+}
+.layer-05 .bush-03 {
+  left: 120vmin;
+  bottom: 9vmin;
+}
+.layer-05 .bush-04,
+.layer-05 .bush-05 {
+  bottom: 9vmin;
+  border-radius: 50%;
+}
+.layer-05 .bush-04 {
+  left: 90vmin;
+  width: 15vmin;
+  height: 15vmin;
+  border-radius: 0;
+  -webkit-clip-path: polygon(24% 52%, 49% 61%, 67% 60%, 68% 73%, 85% 85%, 85% 100%, 44% 100%, 2% 100%, 7% 72%);
+          clip-path: polygon(24% 52%, 49% 61%, 67% 60%, 68% 73%, 85% 85%, 85% 100%, 44% 100%, 2% 100%, 7% 72%);
+}
+.layer-05 .bush-05 {
+  width: 9vmin;
+  height: 9vmin;
+  left: 135vmin;
+  bottom: 7.5vmin;
+  border-radius: 0;
+  -webkit-clip-path: polygon(0% 37%, 29% 24%, 59% 46%, 86% 54%, 97% 68%, 92% 97%, 45% 98%, 0 86%);
+          clip-path: polygon(0% 37%, 29% 24%, 59% 46%, 86% 54%, 97% 68%, 92% 97%, 45% 98%, 0 86%);
+}
+.layer-05 .bush-00,
+.layer-05 .bush-06 {
+  width: 15vmin;
+  height: 15vmin;
+  bottom: 6vmin;
+  background-color: #14115f;
+  border-radius: 100% 0% 100% 0%/100% 0% 100% 0%;
+}
+.layer-05 .bush-06 {
+  border-radius: 0;
+  left: 79.5vmin;
+  -webkit-clip-path: polygon(2% 73%, 12% 62%, 29% 73%, 44% 68%, 69% 84%, 81% 82%, 96% 84%, 89% 100%, 71% 100%, 20% 100%, 8% 98%);
+          clip-path: polygon(2% 73%, 12% 62%, 29% 73%, 44% 68%, 69% 84%, 81% 82%, 96% 84%, 89% 100%, 71% 100%, 20% 100%, 8% 98%);
+  background-color: #130a53;
+}
+.layer-05 .stone {
+  position: absolute;
+  width: 15vmin;
+  height: 15vmin;
+  left: 135vmin;
+  bottom: 10.5vmin;
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+  -webkit-transform: rotateZ(10deg);
+          transform: rotateZ(10deg);
+  -webkit-clip-path: polygon(10% 25%, 35% 25%, 35% 0%, 65% 0%, 65% 25%, 90% 25%, 90% 50%, 65% 50%, 65% 100%, 35% 100%, 35% 50%, 10% 50%);
+          clip-path: polygon(10% 25%, 35% 25%, 35% 0%, 65% 0%, 65% 25%, 90% 25%, 90% 50%, 65% 50%, 65% 100%, 35% 100%, 35% 50%, 10% 50%);
+  background-color: #14115f;
+  -webkit-animation: stone 6000ms linear infinite;
+          animation: stone 6000ms linear infinite;
+}
+.layer-05 .owl {
+  bottom: 75vmin;
+  left: 3vmin;
+}
+.layer-05 .owl .head,
+.layer-05 .owl .body {
+  background-color: #130a53;
+}
+.layer-05 .owl .head::before, .layer-05 .owl .head::after,
+.layer-05 .owl .body::before,
+.layer-05 .owl .body::after {
+  content: none;
+}
+.layer-05 .smt {
+  position: absolute;
+  bottom: 14.25vmin;
+  left: 57vmin;
+  width: 15vmin;
+  height: 15vmin;
+  background-color: #14115f;
+  -webkit-clip-path: polygon(0 100%, 10% 85%, 12% 73%, 14% 58%, 21% 41%, 33% 29%, 50% 20%, 70% 18%, 84% 20%, 93% 29%, 84% 28%, 67% 31%, 51% 42%, 45% 60%, 45% 76%, 55% 79%, 66% 78%, 81% 71%, 64% 91%, 45% 100%, 20% 100%);
+          clip-path: polygon(0 100%, 10% 85%, 12% 73%, 14% 58%, 21% 41%, 33% 29%, 50% 20%, 70% 18%, 84% 20%, 93% 29%, 84% 28%, 67% 31%, 51% 42%, 45% 60%, 45% 76%, 55% 79%, 66% 78%, 81% 71%, 64% 91%, 45% 100%, 20% 100%);
+}
+
+@-webkit-keyframes stone {
+  0%, 40%, 80%, 100% {
+    -webkit-transform: rotateZ(10deg) translateY(0);
+            transform: rotateZ(10deg) translateY(0);
+  }
+  50%, 70% {
+    -webkit-transform: rotateZ(10deg) translateY(9vmin);
+            transform: rotateZ(10deg) translateY(9vmin);
+  }
+}
+
+@keyframes stone {
+  0%, 40%, 80%, 100% {
+    -webkit-transform: rotateZ(10deg) translateY(0);
+            transform: rotateZ(10deg) translateY(0);
+  }
+  50%, 70% {
+    -webkit-transform: rotateZ(10deg) translateY(9vmin);
+            transform: rotateZ(10deg) translateY(9vmin);
+  }
+}
+@-webkit-keyframes layer {
+  from {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+  }
+  to {
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+  }
+}
+@keyframes layer {
+  from {
+    -webkit-transform: translateX(-100%);
+            transform: translateX(-100%);
+  }
+  to {
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+  }
+}
+.fl {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.fl-small .f {
+  position: absolute;
+  top: 15vmin;
+  left: 21vmin;
+  width: 0.3vmin;
+  height: 0.3vmin;
+  border-radius: 50%;
+  background-color: #ffffff;
+  -webkit-filter: blur(0.3vmin);
+          filter: blur(0.3vmin);
+}
+.fl-small .f-01 {
+  -webkit-animation: f-01 ease-in-out 10000ms infinite;
+          animation: f-01 ease-in-out 10000ms infinite;
+}
+.fl-small .f-02 {
+  -webkit-animation: f-02 ease-in 10000ms infinite;
+          animation: f-02 ease-in 10000ms infinite;
+}
+.fl-small .f-03 {
+  animation: f-01 ease-in-out 8000ms infinite reverse;
+}
+.fl-small .f-04 {
+  animation: f-02 ease-in 8000ms infinite reverse;
+}
+
+.fl-big .f {
+  position: absolute;
+  top: 30vmin;
+  left: 30vmin;
+  width: 0.75vmin;
+  height: 0.75vmin;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  -webkit-filter: blur(0.255vmin);
+          filter: blur(0.255vmin);
+}
+.fl-big .f-01 {
+  -webkit-animation: f-03 ease-in-out 16000ms infinite;
+          animation: f-03 ease-in-out 16000ms infinite;
+}
+.fl-big .f-02 {
+  animation: f-03 ease-in 16000ms infinite reverse;
+}
+
+@-webkit-keyframes f-01 {
+  0%, 100% {
+    -webkit-transform: translateX(3vmin) translateY(3vmin);
+            transform: translateX(3vmin) translateY(3vmin);
+  }
+  10% {
+    -webkit-transform: translateX(3vmin) translateY(3vmin);
+            transform: translateX(3vmin) translateY(3vmin);
+  }
+  20% {
+    -webkit-transform: translateX(36vmin) translateY(6vmin);
+            transform: translateX(36vmin) translateY(6vmin);
+  }
+  30% {
+    -webkit-transform: translateX(42vmin) translateY(12vmin);
+            transform: translateX(42vmin) translateY(12vmin);
+  }
+  40% {
+    -webkit-transform: translateX(54vmin) translateY(21vmin);
+            transform: translateX(54vmin) translateY(21vmin);
+  }
+  50% {
+    -webkit-transform: translateX(12vmin) translateY(24vmin);
+            transform: translateX(12vmin) translateY(24vmin);
+  }
+  60% {
+    -webkit-transform: translateX(36vmin) translateY(27vmin);
+            transform: translateX(36vmin) translateY(27vmin);
+  }
+  70% {
+    -webkit-transform: translateX(12vmin) translateY(15vmin);
+            transform: translateX(12vmin) translateY(15vmin);
+  }
+  80% {
+    -webkit-transform: translateX(36vmin) translateY(9vmin);
+            transform: translateX(36vmin) translateY(9vmin);
+  }
+  90% {
+    -webkit-transform: translateX(9vmin) translateY(9vmin);
+            transform: translateX(9vmin) translateY(9vmin);
+  }
+  98% {
+    -webkit-transform: translateX(3vmin) translateY(3vmin);
+            transform: translateX(3vmin) translateY(3vmin);
+  }
+}
+
+@keyframes f-01 {
+  0%, 100% {
+    -webkit-transform: translateX(3vmin) translateY(3vmin);
+            transform: translateX(3vmin) translateY(3vmin);
+  }
+  10% {
+    -webkit-transform: translateX(3vmin) translateY(3vmin);
+            transform: translateX(3vmin) translateY(3vmin);
+  }
+  20% {
+    -webkit-transform: translateX(36vmin) translateY(6vmin);
+            transform: translateX(36vmin) translateY(6vmin);
+  }
+  30% {
+    -webkit-transform: translateX(42vmin) translateY(12vmin);
+            transform: translateX(42vmin) translateY(12vmin);
+  }
+  40% {
+    -webkit-transform: translateX(54vmin) translateY(21vmin);
+            transform: translateX(54vmin) translateY(21vmin);
+  }
+  50% {
+    -webkit-transform: translateX(12vmin) translateY(24vmin);
+            transform: translateX(12vmin) translateY(24vmin);
+  }
+  60% {
+    -webkit-transform: translateX(36vmin) translateY(27vmin);
+            transform: translateX(36vmin) translateY(27vmin);
+  }
+  70% {
+    -webkit-transform: translateX(12vmin) translateY(15vmin);
+            transform: translateX(12vmin) translateY(15vmin);
+  }
+  80% {
+    -webkit-transform: translateX(36vmin) translateY(9vmin);
+            transform: translateX(36vmin) translateY(9vmin);
+  }
+  90% {
+    -webkit-transform: translateX(9vmin) translateY(9vmin);
+            transform: translateX(9vmin) translateY(9vmin);
+  }
+  98% {
+    -webkit-transform: translateX(3vmin) translateY(3vmin);
+            transform: translateX(3vmin) translateY(3vmin);
+  }
+}
+@-webkit-keyframes f-02 {
+  0%, 100% {
+    -webkit-transform: translateX(9vmin) translateY(3vmin);
+            transform: translateX(9vmin) translateY(3vmin);
+  }
+  10% {
+    -webkit-transform: translateX(12vmin) translateY(6vmin);
+            transform: translateX(12vmin) translateY(6vmin);
+  }
+  20% {
+    -webkit-transform: translateX(42vmin) translateY(15vmin);
+            transform: translateX(42vmin) translateY(15vmin);
+  }
+  30% {
+    -webkit-transform: translateX(36vmin) translateY(12vmin);
+            transform: translateX(36vmin) translateY(12vmin);
+  }
+  40% {
+    -webkit-transform: translateX(42vmin) translateY(6vmin);
+            transform: translateX(42vmin) translateY(6vmin);
+  }
+  50% {
+    -webkit-transform: translateX(75vmin) translateY(24vmin);
+            transform: translateX(75vmin) translateY(24vmin);
+  }
+  60% {
+    -webkit-transform: translateX(45vmin) translateY(27vmin);
+            transform: translateX(45vmin) translateY(27vmin);
+  }
+  70% {
+    -webkit-transform: translateX(12vmin) translateY(15vmin);
+            transform: translateX(12vmin) translateY(15vmin);
+  }
+  80% {
+    -webkit-transform: translateX(60vmin) translateY(18vmin);
+            transform: translateX(60vmin) translateY(18vmin);
+  }
+  90% {
+    -webkit-transform: translateX(9vmin) translateY(9vmin);
+            transform: translateX(9vmin) translateY(9vmin);
+  }
+  98% {
+    -webkit-transform: translateX(9vmin) translateY(18vmin);
+            transform: translateX(9vmin) translateY(18vmin);
+  }
+}
+@keyframes f-02 {
+  0%, 100% {
+    -webkit-transform: translateX(9vmin) translateY(3vmin);
+            transform: translateX(9vmin) translateY(3vmin);
+  }
+  10% {
+    -webkit-transform: translateX(12vmin) translateY(6vmin);
+            transform: translateX(12vmin) translateY(6vmin);
+  }
+  20% {
+    -webkit-transform: translateX(42vmin) translateY(15vmin);
+            transform: translateX(42vmin) translateY(15vmin);
+  }
+  30% {
+    -webkit-transform: translateX(36vmin) translateY(12vmin);
+            transform: translateX(36vmin) translateY(12vmin);
+  }
+  40% {
+    -webkit-transform: translateX(42vmin) translateY(6vmin);
+            transform: translateX(42vmin) translateY(6vmin);
+  }
+  50% {
+    -webkit-transform: translateX(75vmin) translateY(24vmin);
+            transform: translateX(75vmin) translateY(24vmin);
+  }
+  60% {
+    -webkit-transform: translateX(45vmin) translateY(27vmin);
+            transform: translateX(45vmin) translateY(27vmin);
+  }
+  70% {
+    -webkit-transform: translateX(12vmin) translateY(15vmin);
+            transform: translateX(12vmin) translateY(15vmin);
+  }
+  80% {
+    -webkit-transform: translateX(60vmin) translateY(18vmin);
+            transform: translateX(60vmin) translateY(18vmin);
+  }
+  90% {
+    -webkit-transform: translateX(9vmin) translateY(9vmin);
+            transform: translateX(9vmin) translateY(9vmin);
+  }
+  98% {
+    -webkit-transform: translateX(9vmin) translateY(18vmin);
+            transform: translateX(9vmin) translateY(18vmin);
+  }
+}
+@-webkit-keyframes f-03 {
+  0%, 100% {
+    -webkit-transform: translateX(9vmin) translateY(9vmin);
+            transform: translateX(9vmin) translateY(9vmin);
+  }
+  10% {
+    -webkit-transform: translateX(12vmin) translateY(36vmin);
+            transform: translateX(12vmin) translateY(36vmin);
+  }
+  20% {
+    -webkit-transform: translateX(42vmin) translateY(45vmin);
+            transform: translateX(42vmin) translateY(45vmin);
+  }
+  30% {
+    -webkit-transform: translateX(6vmin) translateY(42vmin);
+            transform: translateX(6vmin) translateY(42vmin);
+  }
+  40% {
+    -webkit-transform: translateX(42vmin) translateY(36vmin);
+            transform: translateX(42vmin) translateY(36vmin);
+  }
+  50% {
+    -webkit-transform: translateX(45vmin) translateY(54vmin);
+            transform: translateX(45vmin) translateY(54vmin);
+  }
+  60% {
+    -webkit-transform: translateX(54vmin) translateY(57vmin);
+            transform: translateX(54vmin) translateY(57vmin);
+  }
+  70% {
+    -webkit-transform: translateX(12vmin) translateY(45vmin);
+            transform: translateX(12vmin) translateY(45vmin);
+  }
+  80% {
+    -webkit-transform: translateX(60vmin) translateY(18vmin);
+            transform: translateX(60vmin) translateY(18vmin);
+  }
+  90% {
+    -webkit-transform: translateX(9vmin) translateY(9vmin);
+            transform: translateX(9vmin) translateY(9vmin);
+  }
+  98% {
+    -webkit-transform: translateX(9vmin) translateY(18vmin);
+            transform: translateX(9vmin) translateY(18vmin);
+  }
+}
+@keyframes f-03 {
+  0%, 100% {
+    -webkit-transform: translateX(9vmin) translateY(9vmin);
+            transform: translateX(9vmin) translateY(9vmin);
+  }
+  10% {
+    -webkit-transform: translateX(12vmin) translateY(36vmin);
+            transform: translateX(12vmin) translateY(36vmin);
+  }
+  20% {
+    -webkit-transform: translateX(42vmin) translateY(45vmin);
+            transform: translateX(42vmin) translateY(45vmin);
+  }
+  30% {
+    -webkit-transform: translateX(6vmin) translateY(42vmin);
+            transform: translateX(6vmin) translateY(42vmin);
+  }
+  40% {
+    -webkit-transform: translateX(42vmin) translateY(36vmin);
+            transform: translateX(42vmin) translateY(36vmin);
+  }
+  50% {
+    -webkit-transform: translateX(45vmin) translateY(54vmin);
+            transform: translateX(45vmin) translateY(54vmin);
+  }
+  60% {
+    -webkit-transform: translateX(54vmin) translateY(57vmin);
+            transform: translateX(54vmin) translateY(57vmin);
+  }
+  70% {
+    -webkit-transform: translateX(12vmin) translateY(45vmin);
+            transform: translateX(12vmin) translateY(45vmin);
+  }
+  80% {
+    -webkit-transform: translateX(60vmin) translateY(18vmin);
+            transform: translateX(60vmin) translateY(18vmin);
+  }
+  90% {
+    -webkit-transform: translateX(9vmin) translateY(9vmin);
+            transform: translateX(9vmin) translateY(9vmin);
+  }
+  98% {
+    -webkit-transform: translateX(9vmin) translateY(18vmin);
+            transform: translateX(9vmin) translateY(18vmin);
+  }
+}
