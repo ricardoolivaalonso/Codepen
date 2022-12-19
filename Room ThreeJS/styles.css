@@ -1,0 +1,53 @@
+*,
+*::after,
+*::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Montserrat", sans-serif;
+}
+/************/
+html,
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+
+	font-size: 11px;
+	font-family: "Montserrat", sans-serif;
+	user-select: none;
+	background-color: #182b31;
+}
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100vh;
+	position: relative;
+}
+.scene {
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	cursor: grab;
+}
+.title {
+	position: absolute;
+	top: 50px;
+	left: 50px;
+
+	font-size: 4rem;
+	font-size: clamp(1rem, 2.25vmax, 4rem);
+	font-weight: 200;
+	text-transform: capitalize;
+	letter-spacing: 0.1rem;
+	color: white;
+
+	@media (max-width: 640px) {
+		top: 25px;
+		left: 25px;
+	}
+}
